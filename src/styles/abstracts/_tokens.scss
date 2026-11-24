@@ -1,0 +1,20 @@
+// Paleta oficial (manual de marca v1.0, CONFIRMADO). Ningún otro color.
+$black: #050507;
+$evox: #7026e8;
+$electric: #9636ff;
+$soft: #b783ff;
+$white: #ffffff;
+$muted: #8e8998;
+// Tono de apoyo para texto largo sobre negro (PROPUESTA del manual).
+$body: #dcd6ea;
+
+// Puntos de quiebre (móvil primero).
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 960px,
+  xl: 1200px,
+  rail: 1360px,
+);
+
+$ease: cubic-bezier(0.2, 0.7, 0.2, 1);
