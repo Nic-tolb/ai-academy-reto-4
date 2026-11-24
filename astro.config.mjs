@@ -1,9 +1,16 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// La URL definitiva se ajusta al publicar (Fase 8).
+/**
+ * SITE_URL y BASE_PATH los define el flujo de publicación (GitHub Pages sirve el
+ * sitio en una subruta). En local y en las pruebas se usa la raíz.
+ */
+const site = process.env.SITE_URL ?? 'http://localhost:4321';
+const base = process.env.BASE_PATH ?? '/';
+
 export default defineConfig({
-  site: 'https://landing-ai-academy.vercel.app',
+  site,
+  base,
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto',
