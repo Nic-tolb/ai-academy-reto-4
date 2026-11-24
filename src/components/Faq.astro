@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+import maxExplicando from '../assets/brand/max-pose-explicando.png';
+import { FAQS } from '../data/content';
+import { LINKS } from '../data/links';
+import { phase } from '../data/phases';
+const p = phase('faqs');
+---
+
+<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="faq-title">
+  <span class="halo halo--bl" aria-hidden="true"></span>
+  <div class="wrap">
+    <SectionHead phase={p} titleId="faq-title">
+      <Fragment slot="title">Preguntas antes del <em>despegue</em>.</Fragment>
+    </SectionHead>
+
+    <div class="grid">
+      <div class="faq">
+        {
+          FAQS.map((f) => (
+            <details data-reveal>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+
+      <div class="side">
+        <Image src={maxExplicando} alt="Max, el astronauta de AI Academy, explicando" width={150} densities={[1, 2]} format="webp" class="max" />
+        <div class="card" data-reveal>
+          <span class="label">Empresas</span>
+          <h3>Diagnóstico con un asesor</h3>
+          <p>Identifiquen juntos las tareas donde la IA tendría más impacto en tu empresa.</p>
+          <a class="link" href={LINKS.diagnostico}>Ir al diagnóstico <Icon name="external" class="ext" /></a>
+        </div>
+        <div class="card" data-reveal>
+          <span class="label">Egresados</span>
+          <h3>Tu certificado</h3>
+          <p>¿Ya terminaste tu formación? Consulta y descarga tu certificado.</p>
+          <a class="link" href={LINKS.certificado}>Consultar certificado <Icon name="external" class="ext" /></a>
+        </div>
+        <p class="wa">
+          ¿Otra pregunta? <a class="link" href={LINKS.whatsapp} target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .grid {
+    display: grid;
+    gap: 48px;
+    @include up(lg) {
+      grid-template-columns: 7fr 5fr;
+    }
+  }
+  details {
+    border-top: 1px solid var(--line);
+    &:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+  }
+  summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    min-height: 44px;
+    padding: 18px 0;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    cursor: pointer;
+    border-radius: 8px;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::after {
+      content: '';
+      flex: none;
+      width: 10px;
+      height: 10px;
+      margin-right: 4px;
+      border-right: 2px solid var(--soft);
+      border-bottom: 2px solid var(--soft);
+      transform: rotate(45deg) translate(-2px, -2px);
+      transition: transform 0.2s var(--ease);
+    }
+    @include hover {
+      color: var(--soft);
+    }
+  }
+  details[open] summary::after {
+    transform: rotate(225deg);
+  }
+  details p {
+    padding: 0 0 22px;
+    max-width: 40rem;
+  }
+  .side {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+  .max {
+    width: 120px;
+    @include up(lg) {
+      width: 150px;
+    }
+  }
+  .link :global(.ext) {
+    display: inline;
+    width: 16px;
+    height: 16px;
+    vertical-align: -2px;
+  }
+  .wa {
+    color: var(--muted);
+  }
+</style>

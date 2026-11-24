@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import PhaseRail from '../components/PhaseRail.astro';
+import Hero from '../components/Hero.astro';
+import Urgency from '../components/Urgency.astro';
+import Cases from '../components/Cases.astro';
+import Tools from '../components/Tools.astro';
+import Benefits from '../components/Benefits.astro';
+import Missions from '../components/Missions.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import Liftoff from '../components/Liftoff.astro';
+import Footer from '../components/Footer.astro';
+import ActionBar from '../components/ActionBar.astro';
+---
+
+<Base
+  title="Campuslands AI Academy · Formación práctica en inteligencia artificial"
+  description="Formación en IA aplicada para empresas, equipos y profesionales. Cinco misiones: Ignition (4 h), Booster (8 h), Liftoff (12 h), Odyssey (personalizado) y Nebula (pregrabado)."
+>
+  <Header />
+  <PhaseRail />
+  <main id="main">
+    <Hero />
+    <Urgency />
+    <Cases />
+    <Tools />
+    <Benefits />
+    <Missions />
+    <Reviews />
+    <Faq />
+    <Liftoff />
+  </main>
+  <Footer />
+  <ActionBar />
+</Base>
+
+<style lang="scss" is:global>
+  main {
+    padding-top: calc(var(--header-h) + var(--phasebar-h));
+  }
+</style>

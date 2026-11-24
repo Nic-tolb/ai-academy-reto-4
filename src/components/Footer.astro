@@ -1,0 +1,98 @@
+---
+import Logo from './Logo.astro';
+import { LINKS } from '../data/links';
+import { NAV } from '../data/phases';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" data-footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="brand">
+        <Logo variant="vertical" width={160} />
+        <p>Transformamos la productividad de los equipos con una adopción de IA práctica, guiada y amigable.</p>
+      </div>
+      <nav aria-label="Pie de página">
+        <h2>Navegación</h2>
+        <ul>{NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+      </nav>
+      <div>
+        <h2>Contacto</h2>
+        <ul>
+          <li><a href={LINKS.whatsapp} target="_blank" rel="noopener">WhatsApp · Habla con un especialista</a></li>
+          <li><a href={LINKS.instagram} target="_blank" rel="noopener">Instagram · @ai.campuslands</a></li>
+          <li><a href={LINKS.diagnostico}>Diagnóstico</a></li>
+          <li><a href={LINKS.certificado}>Certificado</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>© {year} Campuslands AI Academy. Todos los derechos reservados.</p>
+      <ul aria-label="Legal">
+        <li><span title="Enlace pendiente de confirmar">Política de privacidad</span></li>
+        <li><span title="Enlace pendiente de confirmar">Términos</span></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  .footer {
+    padding-block: 64px 120px;
+    border-top: 1px solid var(--line);
+    @include up(xl) {
+      padding-bottom: 64px;
+    }
+  }
+  .grid {
+    display: grid;
+    gap: 40px;
+    @include up(lg) {
+      grid-template-columns: 5fr 3fr 4fr;
+    }
+  }
+  .brand {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    justify-items: start;
+    p {
+      max-width: 28rem;
+    }
+  }
+  h2 {
+    @include label;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  ul {
+    display: grid;
+    gap: 4px;
+  }
+  a {
+    display: inline-block;
+    padding: 6px 0;
+    color: var(--body);
+    text-decoration: none;
+    &:hover {
+      color: var(--white);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+  .legal {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.875rem;
+    ul {
+      display: flex;
+      gap: 20px;
+    }
+  }
+</style>

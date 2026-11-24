@@ -1,0 +1,28 @@
+---
+/** Íconos de trazo propios (sin librería externa). */
+interface Props {
+  name: 'whatsapp' | 'arrow' | 'external';
+  class?: string;
+}
+const { name, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    name === 'whatsapp' && (
+      <path d="M2.99 16.34a2 2 0 0 1 .1 1.17l-1.07 3.29a1 1 0 0 0 1.24 1.17l3.41-1a2 2 0 0 1 1.1.1 10 10 0 1 0-4.78-4.73" />
+    )
+  }
+  {name === 'arrow' && <path d="M5 12h14M13 6l6 6-6 6" />}
+  {name === 'external' && <path d="M7 17 17 7M9 7h8v8" />}
+</svg>

@@ -1,0 +1,59 @@
+---
+import SectionHead from './SectionHead.astro';
+import { TESTIMONIALS } from '../data/content';
+import { phase } from '../data/phases';
+const p = phase('resenas');
+---
+
+<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="rev-title">
+  <div class="wrap">
+    <SectionHead phase={p} titleId="rev-title">
+      <Fragment slot="title">Equipos que ya están en <em>órbita</em>.</Fragment>
+    </SectionHead>
+    <div class="quotes">
+      {
+        TESTIMONIALS.map((t) => (
+          <figure class="quote" data-reveal>
+            <blockquote>«{t.quote}»</blockquote>
+            <figcaption>
+              <strong>{t.name}</strong>
+              {t.role}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .quotes {
+    display: grid;
+    gap: 16px;
+    @include up(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .quote {
+    padding: 28px;
+    border-radius: 24px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    display: grid;
+    gap: 20px;
+    align-content: space-between;
+  }
+  blockquote {
+    font-size: 1.0625rem;
+    color: var(--white);
+    line-height: 1.55;
+  }
+  figcaption {
+    font-size: 0.875rem;
+    color: var(--muted);
+    strong {
+      display: block;
+      color: var(--white);
+      font-weight: 600;
+    }
+  }
+</style>

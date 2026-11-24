@@ -1,0 +1,302 @@
+---
+/**
+ * I-03 · «Configura tu misión». Lógica en src/lib/recommend.ts (probada con Vitest).
+ * Max acompaña con dos expresiones aprobadas: Analítico (preguntas) e Idea (solución).
+ */
+import { Image } from 'astro:assets';
+import maxAnalitico from '../assets/brand/max-expresion-analitico.png';
+import maxIdea from '../assets/brand/max-expresion-idea.png';
+import { LINKS } from '../data/links';
+
+const steps = [
+  {
+    id: 'formato',
+    title: '¿Cómo prefieres aprender?',
+    options: [
+      { value: 'vivo', label: 'En vivo, con un trainer', hint: 'Sesiones de 4, 8 o 12 horas, presenciales o virtuales' },
+      { value: 'ritmo', label: 'A mi ritmo, cuando pueda', hint: 'Contenido pregrabado con acceso 24/7' },
+    ],
+  },
+  {
+    id: 'quien',
+    title: '¿Quién se va a formar?',
+    options: [
+      { value: 'yo', label: 'Solo yo', hint: 'Quiero aplicarla en mi propio trabajo' },
+      { value: 'equipo', label: 'Mi equipo', hint: 'Varias personas con tareas parecidas' },
+      { value: 'medida', label: 'Mi empresa, con un programa a medida', hint: 'Herramientas, duración y casos según nuestra industria' },
+    ],
+  },
+  {
+    id: 'meta',
+    title: '¿Hasta dónde quieres llegar?',
+    options: [
+      { value: 'diario', label: 'Usar la IA a diario y entender su impacto', hint: 'Un asistente de IA para tu trabajo diario' },
+      { value: 'agentes', label: 'Prompts precisos y agentes para mi rol', hint: 'Resultados más finos y asistentes propios' },
+      { value: 'automatizar', label: 'Automatizar procesos con n8n', hint: 'Flujos automáticos aplicados a tu negocio' },
+    ],
+  },
+] as const;
+---
+
+<div class="rec" id="recommender" data-recommender data-inscripcion={LINKS.inscripcion} data-whatsapp={LINKS.whatsapp}>
+  <div class="head">
+    <div class="max" aria-hidden="true">
+      <Image src={maxAnalitico} alt="" width={96} densities={[1, 2]} format="webp" data-max="analitico" />
+      <Image src={maxIdea} alt="" width={96} densities={[1, 2]} format="webp" data-max="idea" hidden />
+    </div>
+    <div class="head-copy">
+      <span class="pill pill--ghost">Configura tu misión</span>
+      <h3>¿No sabes cuál elegir? Responde hasta 3 preguntas.</h3>
+    </div>
+    <ol class="progress" aria-hidden="true">
+      {steps.map(() => <li data-progress />)}
+    </ol>
+  </div>
+
+  <noscript>
+    <p class="noscript">Activa JavaScript para usar el recomendador, o revisa las misiones a la derecha.</p>
+  </noscript>
+
+  {
+    steps.map((s, i) => (
+      <fieldset class="step" data-step={s.id} hidden>
+        <legend tabindex="-1">
+          <span class="step-num">{i + 1}</span>
+          {s.title}
+        </legend>
+        <p class="meta">Pregunta {i + 1} de 3</p>
+        <div class="opts">
+          {s.options.map((o) => (
+            <button type="button" class="opt" data-value={o.value} aria-pressed="false">
+              <strong>{o.label}</strong>
+              <span>{o.hint}</span>
+            </button>
+          ))}
+        </div>
+      </fieldset>
+    ))
+  }
+
+  <div class="result" tabindex="-1" hidden data-result>
+    <p class="label">Tu misión recomendada</p>
+    <h4 data-r-name></h4>
+    <p class="r-meta" data-r-meta></p>
+    <div>
+      <p>Por qué encaja contigo:</p>
+      <ul class="reasons" data-r-reasons></ul>
+    </div>
+    <p class="alt" data-r-alt></p>
+    <div class="actions">
+      <a class="btn btn--primary" href={LINKS.inscripcion} data-r-cta>Inscríbete</a>
+      <a class="btn btn--secondary" href="#planes" data-r-see>Ver en el plan de vuelo</a>
+    </div>
+  </div>
+
+  <div class="nav" data-rec-nav hidden>
+    <button type="button" data-rec-back>← Anterior</button>
+    <button type="button" data-rec-restart>Volver a empezar</button>
+  </div>
+  <p class="sr-only" aria-live="polite" data-rec-live></p>
+</div>
+
+<style lang="scss">
+  .rec {
+    border-radius: 28px;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    padding: 24px;
+    display: grid;
+    gap: 24px;
+    background: linear-gradient(180deg, rgb(183 131 255 / 0.06), transparent 60%);
+    @include up(md) {
+      padding: 32px;
+    }
+    @include up(xl) {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+    }
+  }
+  .head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px 18px;
+    align-items: center;
+    h3 {
+      font-size: 1.375rem;
+      margin-top: 10px;
+    }
+  }
+  .max {
+    width: 72px;
+    @include up(md) {
+      width: 96px;
+    }
+  }
+  .progress {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 6px;
+    li {
+      height: 4px;
+      flex: 1;
+      border-radius: 4px;
+      background: var(--line);
+      transition: background-color 0.3s;
+      &:global(.is-done) {
+        background: var(--electric);
+      }
+      &:global(.is-skipped) {
+        background: transparent;
+        box-shadow: inset 0 0 0 1px var(--line);
+      }
+    }
+  }
+  .noscript {
+    color: var(--muted);
+  }
+  .step {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+    display: grid;
+    gap: 14px;
+    legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.125rem;
+      line-height: 1.3;
+      padding: 0;
+      margin-bottom: 14px;
+      &:focus {
+        outline: none;
+      }
+      &:focus-visible {
+        outline: 3px solid var(--soft);
+        outline-offset: 4px;
+      }
+    }
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .opts {
+    display: grid;
+    gap: 10px;
+  }
+  .opt {
+    display: grid;
+    gap: 2px;
+    text-align: left;
+    padding: 14px 18px;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    transition:
+      background-color 0.16s,
+      box-shadow 0.16s,
+      transform 0.16s var(--ease);
+    strong {
+      color: var(--white);
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    span {
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+    @include hover {
+      background: var(--card);
+      box-shadow: inset 0 0 0 1px var(--soft);
+    }
+    &:active {
+      transform: scale(0.99);
+    }
+    &[aria-pressed='true'] {
+      background: var(--card);
+      box-shadow: inset 0 0 0 2px var(--soft);
+    }
+    :global(.preset) {
+      margin-left: 6px;
+      color: var(--soft);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  }
+  .result {
+    display: grid;
+    gap: 16px;
+    scroll-margin-top: calc(var(--header-h) + var(--phasebar-h) + 24px);
+    &:focus {
+      outline: none;
+    }
+    .label {
+      @include label;
+      color: var(--soft);
+    }
+    h4 {
+      font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+  }
+  .r-meta {
+    color: var(--white);
+    font-weight: 600;
+  }
+  .reasons {
+    display: grid;
+    gap: 8px;
+    margin-top: 6px;
+    :global(li) {
+      position: relative;
+      padding-left: 24px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 0.62em;
+        width: 10px;
+        height: 2px;
+        background: var(--soft);
+      }
+    }
+  }
+  .alt {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    :global(a) {
+      color: var(--soft);
+    }
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .btn {
+      flex: 1 1 auto;
+    }
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    button {
+      color: var(--soft);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 8px 2px;
+      border-radius: 6px;
+      @include hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      &[hidden] + button {
+        margin-left: auto;
+      }
+    }
+  }
+</style>

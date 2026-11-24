@@ -1,0 +1,195 @@
+---
+/**
+ * I-04 · Exploración libre: antes/después por perfil.
+ * - Pestañas de perfil accesibles (flechas, Inicio, Fin).
+ * - Interruptor «Antes / Después»: el después entra con un barrido; también se
+ *   desliza con el dedo sobre la tarjeta. El texto siempre se lee completo.
+ * Sin JavaScript se ven ambos textos, uno debajo del otro.
+ */
+import SectionHead from './SectionHead.astro';
+import { CASES } from '../data/content';
+import { phase } from '../data/phases';
+const p = phase('casos-uso');
+---
+
+<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="cases-title">
+  <span class="halo halo--tr" aria-hidden="true"></span>
+  <div class="wrap">
+    <SectionHead phase={p} titleId="cases-title">
+      <Fragment slot="title">Del antes al <em>después</em>, con tareas reales.</Fragment>
+      Elige un perfil y desliza para ver el salto concreto en su día a día.
+    </SectionHead>
+
+    <div class="explorer" data-cases data-reveal>
+      <div class="tabs" role="tablist" aria-label="Perfiles">
+        {
+          CASES.map((c, i) => (
+            <button type="button" role="tab" id={`tab-${c.id}`} aria-controls={`panel-${c.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab>
+              {c.role}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        CASES.map((c, i) => (
+          <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`tab-${c.id}`} hidden={i !== 0} data-panel>
+            <div class="compare" data-compare>
+              <div class="side before">
+                <p class="tag">Antes</p>
+                <p class="text">{c.before}</p>
+              </div>
+              <div class="side after" data-after>
+                <p class="tag">Después</p>
+                <p class="text">{c.after}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+
+      <div class="switch" role="group" aria-label="Comparar" data-switch>
+        <button type="button" aria-pressed="true" data-state="before">Antes</button>
+        <button type="button" aria-pressed="false" data-state="after">Después <span aria-hidden="true">→</span></button>
+        <p class="swipe-hint" aria-hidden="true">o desliza la tarjeta</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .explorer {
+    display: grid;
+    gap: 20px;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter);
+    button {
+      flex: none;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      transition:
+        background-color 0.16s,
+        box-shadow 0.16s,
+        color 0.16s;
+      @include hover {
+        box-shadow: inset 0 0 0 1px var(--soft);
+      }
+      &[aria-selected='true'] {
+        background: var(--soft);
+        color: var(--black);
+        box-shadow: none;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Sin JS: los dos lados apilados.
+  .compare {
+    display: grid;
+    gap: 12px;
+  }
+  .side {
+    border-radius: 24px;
+    padding: 28px;
+    display: grid;
+    align-content: start;
+    gap: 14px;
+    @include up(md) {
+      padding: 40px;
+      min-height: 240px;
+    }
+  }
+  .before {
+    background: #171220; // = Soft Violet al 10 % sobre Black, en versión opaca para el barrido
+  }
+  .after {
+    background: var(--evox);
+  }
+  .tag {
+    @include label;
+    color: var(--soft);
+  }
+  .after .tag {
+    color: var(--white);
+  }
+  .text {
+    font-size: clamp(1.125rem, 1rem + 0.8vw, 1.625rem);
+    font-weight: 600;
+    line-height: 1.4;
+    max-width: 36ch;
+    color: var(--white);
+  }
+  .before .text {
+    color: var(--body);
+  }
+  .switch {
+    display: none;
+  }
+
+  // Con JS: ambos lados en la misma celda; el «después» barre de derecha a izquierda.
+  :global(.js-ready) {
+    .compare {
+      gap: 0;
+      touch-action: pan-y;
+      cursor: grab;
+      user-select: none;
+    }
+    .side {
+      grid-area: 1 / 1;
+    }
+    .after {
+      clip-path: inset(0 0 0 100% round 24px);
+      transition: clip-path 0.6s var(--ease);
+    }
+    .compare:global(.is-after) .after {
+      clip-path: inset(0 0 0 0 round 24px);
+    }
+    .switch {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js-ready) .after {
+      transition: none;
+    }
+  }
+  .switch button {
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    transition:
+      background-color 0.16s,
+      box-shadow 0.16s;
+    @include hover {
+      box-shadow: inset 0 0 0 1px var(--soft);
+    }
+    &[aria-pressed='true'] {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: none;
+    }
+    &[data-state='after'][aria-pressed='true'] {
+      background: var(--evox);
+      color: var(--white);
+    }
+  }
+  .swipe-hint {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+</style>

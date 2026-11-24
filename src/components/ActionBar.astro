@@ -1,0 +1,39 @@
+---
+/** Barra de acción móvil: Inscríbete + WhatsApp siempre a mano (V-01). */
+import Icon from './Icon.astro';
+import { LINKS } from '../data/links';
+---
+
+<div class="action-bar" data-action-bar inert>
+  <a class="btn btn--primary" href={LINKS.inscripcion}>Inscríbete</a>
+  <a class="icon-btn" href={LINKS.whatsapp} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp (se abre en otra pestaña)">
+    <Icon name="whatsapp" />
+  </a>
+</div>
+
+<style lang="scss">
+  .action-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 45;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    background: rgb(5 5 7 / 0.96);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    transform: translateY(calc(100% + 32px));
+    transition: transform 0.3s var(--ease);
+    &:global(.is-visible) {
+      transform: none;
+    }
+    .btn {
+      flex: 1;
+    }
+    @include up(xl) {
+      display: none;
+    }
+  }
+</style>

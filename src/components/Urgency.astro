@@ -1,0 +1,57 @@
+---
+import SectionHead from './SectionHead.astro';
+import { URGENCY } from '../data/content';
+import { phase } from '../data/phases';
+const p = phase('urgencia');
+---
+
+<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="urg-title">
+  <span class="halo halo--bl" aria-hidden="true"></span>
+  <div class="wrap">
+    <SectionHead phase={p} titleId="urg-title">
+      <Fragment slot="title">Cada semana sin IA aplicada cuesta <em>velocidad</em>.</Fragment>
+      Y competitividad. Esto es lo que pesa mientras esperas.
+    </SectionHead>
+    <ol class="reasons">
+      {
+        URGENCY.map((r) => (
+          <li data-reveal>
+            <h3>{r.title}</h3>
+            <p>{r.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style lang="scss">
+  .reasons {
+    display: grid;
+    counter-reset: r;
+    @include up(md) {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 48px;
+    }
+  }
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 20px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    &::before {
+      counter-increment: r;
+      content: counter(r, decimal-leading-zero);
+      grid-row: span 2;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 0.9;
+      color: var(--line-strong);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+  h3 {
+    font-size: var(--fs-h3);
+  }
+</style>

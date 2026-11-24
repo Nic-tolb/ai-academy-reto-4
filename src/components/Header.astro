@@ -1,0 +1,239 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { LINKS } from '../data/links';
+import { NAV, PHASES } from '../data/phases';
+---
+
+<header class="site-header" data-header>
+  <div class="wrap">
+    <div class="row">
+      <a class="home" href="#tripulacion" aria-label="Campuslands AI Academy, volver al inicio">
+        <Logo variant="horizontal" width={160} loading="eager" />
+      </a>
+
+      <nav class="nav" aria-label="Principal">
+        <ul>
+          {NAV.map((item) => <li><a href={item.href} data-nav-link>{item.label}</a></li>)}
+          <li><a href={LINKS.diagnostico}>Diagnóstico</a></li>
+          <li><a href={LINKS.certificado}>Certificado</a></li>
+        </ul>
+      </nav>
+
+      <div class="actions">
+        <a class="icon-btn icon-btn--sm" href={LINKS.whatsapp} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp (se abre en otra pestaña)">
+          <Icon name="whatsapp" />
+        </a>
+        <a class="btn btn--primary btn--sm" href={LINKS.inscripcion}>Inscríbete</a>
+      </div>
+
+      <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="sr-only" data-menu-label>Abrir menú</span>
+        <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+
+    <div class="phase-bar" aria-hidden="true">
+      <ol>{PHASES.map(() => <li data-phase-seg></li>)}</ol>
+      <p data-phase-label>{PHASES[0].code} · {PHASES[0].name}</p>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu" aria-label="Menú" data-menu hidden>
+  <ul>
+    {
+      NAV.map((item) => {
+        const p = PHASES.find((ph) => `#${ph.id}` === item.href);
+        return (
+          <li>
+            <a href={item.href}>
+              {item.label} <span>{p?.code}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+    <li><a href={LINKS.diagnostico}>Diagnóstico <span>↗</span></a></li>
+    <li><a href={LINKS.certificado}>Certificado <span>↗</span></a></li>
+  </ul>
+  <div class="menu-ctas">
+    <a class="btn btn--primary" href={LINKS.inscripcion}>Inscríbete</a>
+    <a class="btn btn--secondary" href={LINKS.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Hablar con un especialista</a>
+  </div>
+</nav>
+
+<style lang="scss">
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: rgb(5 5 7 / 0.97);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+    &:global(.is-scrolled) {
+      border-bottom-color: var(--line);
+    }
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: var(--header-h);
+  }
+  .home {
+    display: block;
+    flex: none;
+    border-radius: 8px;
+  }
+  .nav {
+    display: none;
+    margin-left: auto;
+    ul {
+      display: flex;
+      gap: 2px;
+    }
+    a {
+      position: relative;
+      display: block;
+      padding: 10px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--body);
+      text-decoration: none;
+      border-radius: 8px;
+      &::after {
+        content: '';
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        bottom: 4px;
+        height: 1px;
+        background: var(--soft);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.2s var(--ease);
+      }
+      &:hover {
+        color: var(--white);
+      }
+      &:hover::after,
+      &[aria-current='true']::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+  .actions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .icon-btn--sm {
+    width: 40px;
+    height: 40px;
+  }
+  .menu-toggle {
+    margin-left: auto;
+  }
+  .bars {
+    position: relative;
+    width: 18px;
+    height: 12px;
+    span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition:
+        transform 0.2s var(--ease),
+        opacity 0.2s;
+      &:nth-child(1) { top: 0; }
+      &:nth-child(2) { top: 5px; }
+      &:nth-child(3) { top: 10px; }
+    }
+  }
+  [aria-expanded='true'] .bars span {
+    &:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+    &:nth-child(2) { opacity: 0; }
+    &:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+  }
+
+  @include up(xl) {
+    .nav,
+    .actions {
+      display: flex;
+    }
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  // Barra de fases (móvil y escritorio mediano)
+  .phase-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: var(--phasebar-h);
+    padding-bottom: 6px;
+    ol {
+      display: flex;
+      gap: 3px;
+      flex: 1;
+    }
+    li {
+      flex: 1;
+      height: 3px;
+      border-radius: 3px;
+      background: var(--line);
+      transition: background-color 0.3s;
+      &:global(.is-past) { background: var(--line-strong); }
+      &:global(.is-active) { background: var(--electric); }
+    }
+    p {
+      @include label;
+      flex: none;
+      font-size: 0.6875rem;
+      letter-spacing: 0.12em;
+      color: var(--soft);
+      min-width: 10.5em;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    @include up(rail) {
+      display: none;
+    }
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: calc(var(--header-h) + var(--phasebar-h)) 0 0;
+    z-index: 49;
+    background: var(--black);
+    padding: 16px var(--gutter) 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    a:not(.btn) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1.125rem;
+      text-decoration: none;
+      span {
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+      }
+    }
+  }
+  .menu-ctas {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+  }
+</style>

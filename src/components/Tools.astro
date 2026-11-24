@@ -1,0 +1,220 @@
+---
+/**
+ * +01 · Instrumentos: las 14 herramientas como constelación filtrable.
+ * Cada estrella es un botón; la ficha se abre al tocarla (I-04, complemento).
+ * Sin JavaScript se muestra la lista completa con sus descripciones.
+ */
+import SectionHead from './SectionHead.astro';
+import { TOOLS, TOOL_GROUPS } from '../data/content';
+import { phase } from '../data/phases';
+const p = phase('herramientas');
+---
+
+<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="tools-title">
+  <div class="wrap">
+    <SectionHead phase={p} titleId="tools-title">
+      <Fragment slot="title">14 herramientas que vas a <em>usar</em>, no solo conocer.</Fragment>
+      Filtra por lo que quieres lograr y toca una herramienta para ver para qué sirve.
+    </SectionHead>
+
+    <div class="tools" data-tools>
+      <div class="filters" role="group" aria-label="Filtrar herramientas">
+        <button type="button" aria-pressed="true" data-filter="all">Todas <span>14</span></button>
+        {
+          TOOL_GROUPS.map((g) => (
+            <button type="button" aria-pressed="false" data-filter={g}>
+              {g} <span>{TOOLS.filter((t) => t.group === g).length}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="layout">
+        <ul class="constellation" aria-label="Herramientas">
+          {
+            TOOLS.map((t, i) => (
+              <li data-tool data-group={t.group} style={`--i:${i}`}>
+                <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="tool-card" data-tool-btn data-name={t.name} data-tagline={t.tagline} data-group-label={t.group}>
+                  <span class="star" aria-hidden="true" />
+                  <span class="tname">{t.name}</span>
+                </button>
+                <p class="nojs-tagline">{t.tagline}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <aside class="tool-card" id="tool-card" aria-live="polite" data-tool-card>
+          <p class="label" data-card-group>{TOOLS[0]?.group}</p>
+          <h3 data-card-name>{TOOLS[0]?.name}</h3>
+          <p data-card-tagline>{TOOLS[0]?.tagline}</p>
+          <p class="foot">En las misiones en vivo eliges las herramientas que más le sirven a tu trabajo.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .tools {
+    display: grid;
+    gap: 28px;
+  }
+  .filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter);
+    button {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      transition:
+        background-color 0.16s,
+        box-shadow 0.16s;
+      span {
+        color: var(--muted);
+        font-size: 0.8125rem;
+      }
+      @include hover {
+        box-shadow: inset 0 0 0 1px var(--soft);
+      }
+      &[aria-pressed='true'] {
+        background: var(--soft);
+        color: var(--black);
+        box-shadow: none;
+        font-weight: 600;
+        span {
+          color: var(--black);
+        }
+      }
+    }
+  }
+  .layout {
+    display: grid;
+    gap: 24px;
+    @include up(lg) {
+      grid-template-columns: 7fr 4fr;
+      align-items: start;
+    }
+  }
+  .constellation {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    @include up(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    @include up(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    // Cada fila se desplaza un poco: trazo de constelación, no tabla.
+    li:nth-child(even) {
+      @include up(lg) {
+        transform: translateY(18px);
+      }
+    }
+    li {
+      transition:
+        opacity 0.3s var(--ease),
+        filter 0.3s var(--ease);
+      &:global(.is-dim) {
+        opacity: 0.28;
+      }
+    }
+  }
+  [data-tool-btn] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 52px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--white);
+    box-shadow: inset 0 0 0 1px var(--line);
+    transition:
+      background-color 0.16s,
+      box-shadow 0.16s,
+      transform 0.16s var(--ease);
+    @include hover {
+      box-shadow: inset 0 0 0 1px var(--soft);
+      transform: translateY(-2px);
+    }
+    &[aria-pressed='true'] {
+      background: var(--card);
+      box-shadow: inset 0 0 0 1px var(--soft);
+      .star {
+        background: var(--soft);
+        box-shadow: 0 0 0 5px rgb(183 131 255 / 0.22);
+      }
+    }
+  }
+  .star {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition:
+      background-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .tname {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .nojs-tagline {
+    padding: 4px 14px 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .tool-card {
+    display: none;
+  }
+  :global(.js-ready) {
+    .nojs-tagline {
+      display: none;
+    }
+    .tool-card {
+      display: grid;
+      gap: 12px;
+      padding: 28px;
+      border-radius: 24px;
+      background: var(--card);
+      @include up(lg) {
+        position: sticky;
+        top: calc(var(--header-h) + 32px);
+      }
+      .label {
+        @include label;
+        color: var(--soft);
+      }
+      h3 {
+        font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);
+      }
+      p:not(.label) {
+        font-size: 1.0625rem;
+      }
+      .foot {
+        font-size: 0.875rem !important;
+        color: var(--muted);
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+    }
+  }
+</style>

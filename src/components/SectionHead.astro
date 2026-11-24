@@ -1,0 +1,15 @@
+---
+import type { Phase } from '../data/phases';
+
+interface Props {
+  phase: Phase;
+  titleId: string;
+}
+const { phase, titleId } = Astro.props;
+---
+
+<div class="section-head" data-reveal>
+  <span class="pill">{phase.code} · {phase.name}</span>
+  <h2 id={titleId}><slot name="title" /></h2>
+  {Astro.slots.has('default') && <p><slot /></p>}
+</div>

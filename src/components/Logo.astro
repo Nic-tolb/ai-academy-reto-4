@@ -1,0 +1,49 @@
+---
+/**
+ * Logo oficial (archivo extraído del manual, sin modificar).
+ * - Zona de protección: x = altura de «ACADEMY» libre en los 4 lados.
+ * - Tamaño mínimo: vertical 120 px; horizontal 160 px.
+ * - Sin efectos, rotaciones ni recoloreado (no se anima).
+ */
+import { Image } from 'astro:assets';
+import vertical from '../assets/brand/logo-principal-vertical.png';
+import horizontal from '../assets/brand/logo-horizontal-blanca.png';
+
+interface Props {
+  variant: 'vertical' | 'horizontal';
+  width: number;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const { variant, width, loading = 'lazy', class: className } = Astro.props;
+const src = variant === 'vertical' ? vertical : horizontal;
+const min = variant === 'vertical' ? 120 : 160;
+if (width < min) throw new Error(`Logo ${variant}: ${width}px es menor que el mínimo de ${min}px.`);
+
+// Proporción de «ACADEMY» respecto al alto del archivo (medida en el original).
+const academyRatio = variant === 'vertical' ? 76 / 704 : 69 / 316;
+const height = Math.round((width * src.height) / src.width);
+const clearSpace = Math.ceil(height * academyRatio);
+---
+
+<span class:list={['logo', className]} style={`--clear:${clearSpace}px`}>
+  <Image
+    src={src}
+    alt="Campuslands AI Academy"
+    width={width}
+    densities={[1, 2]}
+    loading={loading}
+    fetchpriority={loading === 'eager' ? 'high' : 'auto'}
+    format="webp"
+  />
+</span>
+
+<style lang="scss">
+  .logo {
+    display: inline-block;
+    // La zona de protección se reserva como relleno real: nada puede invadirla.
+    padding: var(--clear);
+    line-height: 0;
+  }
+</style>
