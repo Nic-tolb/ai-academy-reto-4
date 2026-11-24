@@ -5,7 +5,7 @@
  * cuando la librería está lista.
  */
 import { $, $$, prefersReducedMotion, whenIdle } from '../core/dom';
-import { heroField } from './hero';
+import { emit } from '../core/events';
 
 export function initMotion(): void {
   if (prefersReducedMotion()) return;
@@ -34,7 +34,7 @@ export function initMotion(): void {
           start: 'top top',
           end: 'bottom top',
           scrub: true,
-          onUpdate: (self) => heroField.setBoost(self.progress),
+          onUpdate: (self) => emit('heroBoost', self.progress),
         });
       }
 

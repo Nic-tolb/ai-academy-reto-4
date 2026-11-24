@@ -1,4 +1,5 @@
 import { $ } from '../core/dom';
+import { emit } from '../core/events';
 
 /** Menú móvil accesible: Escape cierra, el foco vuelve al botón, el fondo no se desplaza. */
 export function initMenu(): void {
@@ -12,7 +13,7 @@ export function initMenu(): void {
     if (label) label.textContent = open ? 'Cerrar menú' : 'Abrir menú';
     menu.hidden = !open;
     document.body.style.overflow = open ? 'hidden' : '';
-    document.dispatchEvent(new CustomEvent('menu:toggle', { detail: open }));
+    emit('menuToggle', open);
   };
 
   toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));

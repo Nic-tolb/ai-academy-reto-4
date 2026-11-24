@@ -31,8 +31,8 @@ export function initActionBar(): void {
     }).observe(footer);
   }
 
-  document.addEventListener('menu:toggle', (e) => {
-    state.menu = Boolean((e as CustomEvent<boolean>).detail);
+  on('menuToggle', (open) => {
+    state.menu = open;
     render();
   });
   on('recommenderFocus', (focused) => {

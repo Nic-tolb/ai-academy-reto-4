@@ -5,7 +5,7 @@
  * Todos los textos vienen de src/data (perfiles y misiones).
  */
 import { $, $$, prefersReducedMotion, whenIdle } from '../core/dom';
-import { emit } from '../core/events';
+import { emit, on } from '../core/events';
 import { MISSIONS, summary } from '../../data/missions';
 import { LINKS } from '../../data/links';
 import { profile, type Profile } from '../../data/profiles';
@@ -60,6 +60,9 @@ export function initHero(): void {
     });
   }
 
+  // El módulo de movimiento publica el progreso del scroll sobre el hero.
+  on('heroBoost', (value) => field?.setBoost(value));
+
   // Mejora progresiva: el campo se carga cuando el navegador está libre.
   const canvas = $<HTMLCanvasElement>('[data-field]', hero);
   const hint = $('[data-field-hint]', hero);
@@ -83,10 +86,3 @@ export function initHero(): void {
     }
   });
 }
-
-/** Lo usa el módulo de movimiento para el «despegue» con el scroll. */
-export const heroField = {
-  setBoost(value: number): void {
-    field?.setBoost(value);
-  },
-};
