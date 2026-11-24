@@ -4,16 +4,16 @@ Reto de ingreso al equipo · Noviembre 2026 · Entregables: **sitio publicado + 
 
 ## Estado actual
 
-| Fase                           | Estado                                                                                                       |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| 1 · Auditoría e investigación  | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md`         |
-| 2 · Estrategia de experiencia  | ✅ `docs/UX_STRATEGY.md`                                                                                     |
-| 3 · Exploración creativa       | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026)                                               |
-| 4 · Diseño y prototipado       | ✅ `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md` (el prototipo HTML queda como referencia en `prototype/`) |
-| 5 · Arquitectura técnica       | ✅ `docs/ARCHITECTURE.md`                                                                                    |
-| 6 · Implementación             | 🟨 Landing completa en Astro; pendiente: demo de prompt en el banco de pruebas                               |
-| 7 · Control de calidad         | 🟨 Ronda 1 hecha — `docs/QA_REPORT.md`                                                                       |
-| 8 · Optimización y publicación | ⬜ (requiere autorización)                                                                                   |
+| Fase                           | Estado                                                                                                                      |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 1 · Auditoría e investigación  | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md`                        |
+| 2 · Estrategia de experiencia  | ✅ `docs/UX_STRATEGY.md`                                                                                                    |
+| 3 · Exploración creativa       | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026)                                                              |
+| 4 · Diseño y prototipado       | ✅ `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md` (el prototipo HTML queda como referencia en `prototype/`)                |
+| 5 · Arquitectura técnica       | ✅ `docs/ARCHITECTURE.md`                                                                                                   |
+| 6 · Implementación             | 🟨 Landing completa en Astro; pendiente: demo de prompt en el banco de pruebas                                              |
+| 7 · Control de calidad         | 🟨 Ronda 1 hecha — `docs/QA_REPORT.md`                                                                                      |
+| 8 · Optimización y publicación | ✅ Publicado en https://nic-tolb.github.io/landing-ai-academy/ · repositorio https://github.com/Nic-tolb/landing-ai-academy |
 
 ## Jerarquía de fuentes
 
