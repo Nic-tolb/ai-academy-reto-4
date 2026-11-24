@@ -1,0 +1,32 @@
+﻿{
+  "name": "landing-ai-academy",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nueva landing de Campuslands AI Academy, reto de ingreso (noviembre 2026).",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@fontsource/poppins": "5.3.0",
+    "astro": "7.4.13",
+    "gsap": "3.15.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "sass": "1.108.2",
+    "typescript": "6.0.3",
+    "vitest": "5.1.1"
+  }
+}

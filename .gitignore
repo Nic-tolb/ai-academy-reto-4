@@ -1,0 +1,22 @@
+# dependencias y compilados
+node_modules/
+dist/
+.astro/
+
+# caché local (imágenes extraídas del manual, informes)
+.cache/
+reports/
+
+# entornos
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+
+# sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.claude/settings.local.json
