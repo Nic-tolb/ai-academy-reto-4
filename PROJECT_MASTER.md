@@ -8,10 +8,10 @@ Reto de ingreso al equipo · Noviembre 2026 · Entregables: **sitio publicado + 
 | 1 · Auditoría e investigación | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md` |
 | 2 · Estrategia de experiencia | ✅ `docs/UX_STRATEGY.md` |
 | 3 · Exploración creativa | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026) |
-| 4 · Diseño y prototipado | 🟨 `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md`, `prototype/index.html` — **esperando validación** |
-| 5 · Arquitectura técnica | ⬜ (stack preliminar abajo) |
-| 6 · Implementación | ⬜ |
-| 7 · Control de calidad | ⬜ |
+| 4 · Diseño y prototipado | ✅ `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md` (el prototipo HTML queda como referencia en `prototype/`) |
+| 5 · Arquitectura técnica | ✅ `docs/ARCHITECTURE.md` |
+| 6 · Implementación | 🟨 Landing completa en Astro; pendiente: demo de prompt en el banco de pruebas |
+| 7 · Control de calidad | 🟨 Ronda 1 hecha — `docs/QA_REPORT.md` |
 | 8 · Optimización y publicación | ⬜ (requiere autorización) |
 
 ## Jerarquía de fuentes
@@ -23,15 +23,15 @@ Reto de ingreso al equipo · Noviembre 2026 · Entregables: **sitio publicado + 
 - **Sin navegador automatizado instalado todavía** → se instalará Playwright como dependencia de desarrollo para capturas, pruebas a 375 px y Lighthouse.
 - Artifacts de claude.ai para prototipos visuales compartibles.
 
-## Stack preliminar (se confirma en Fase 5)
-**Astro + TypeScript + CSS propio (tokens) + GSAP (ScrollTrigger) cargado solo donde se usa.** Motivo: HTML estático con contenido real (SEO, LCP rápido), JS solo en las piezas interactivas («islas»), despliegue gratuito trivial en Vercel/Netlify/GitHub Pages. Sin Tailwind ni frameworks de UI para evitar el aspecto de plantilla y mantener el control de la marca.
+## Stack (implementado)
+Astro 7 + TypeScript estricto + Sass + GSAP/ScrollTrigger + canvas 2D + Vitest + Python (PyMuPDF/Pillow). Detalle y motivos en `docs/ARCHITECTURE.md` y `README.md`.
 
 ## Riesgos, contradicciones y recursos faltantes
 | # | Tema | Impacto | Propuesta |
 |---|---|---|---|
-| R1 | **Faltan los archivos oficiales del logo** (el manual cita `raw/Logo Principal Ai Academy.png` y la carpeta de logos recortados). La landing actual solo tiene el logo azul antiguo. El manual prohíbe redibujarlo. | Bloquea B-03 (y es criterio de descalificación) | Pedir: vertical principal a color, horizontal blanca y casco solo (PNG transparente o, idealmente, SVG). |
+| R1 | ~~Faltan los logos~~ **Resuelto**: extraídos del manual PDF con `scripts/extract_brand_assets.py`. | — | — |
 | R2 | **Fotos de personas reales**: el manual pide trainers y sesiones reales y prohíbe fotos de banco genéricas; el reto permite bancos libres. | Fidelidad a la marca | Preferible: fotos reales autorizadas de formaciones. Si no hay, usar un diseño que no dependa de fotos (tipográfico) y, como mucho, fotos libres de *trabajo real con pantallas*, no retratos genéricos. |
-| R3 | **Max** (mascota) es CONFIRMADO, pero no tengo sus archivos. | Opcional | Si los hay (expresiones Analítico e Idea), se usan en FAQs y recomendador. |
+| R3 | ~~Max sin archivos~~ **Resuelto**: extraído del manual (expresiones y poses aprobadas). | — | — |
 | R4 | **Enlaces legales**: en la landing actual apuntan a `#`. | C-09 | Pedir URLs reales; si no existen, se mantiene el enlace marcado «por confirmar» (no se inventan páginas legales). |
 | R5 | **Ignition dice «Conoce las 10 herramientas»**, la sección de herramientas lista 14. | Coherencia | Mantener el dato literal (no se cambian datos) y señalarlo al equipo. |
 | R6 | **Reseñas**: sin fotos, fechas relativas fijas («hace 5 días») y sin evidencia de autorización (el manual pide autorización). | Credibilidad | Conservar texto, nombre y cargo; quitar las fechas relativas congeladas. |
