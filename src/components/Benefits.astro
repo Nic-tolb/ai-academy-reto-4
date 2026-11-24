@@ -1,30 +1,26 @@
 ---
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import { BENEFITS } from '../data/content';
-import { phase } from '../data/phases';
-const p = phase('beneficios');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="ben-title">
-  <span class="halo halo--bl" aria-hidden="true"></span>
-  <div class="wrap">
-    <SectionHead phase={p} titleId="ben-title">
-      <Fragment slot="title">Lo que te llevas de cada <em>misión</em>.</Fragment>
-      Por qué elegir Campuslands AI Academy.
-    </SectionHead>
-    <ul class="cards">
-      {
-        BENEFITS.map((b) => (
-          <li class="card" data-reveal>
-            <span class="label">{b.tag}</span>
-            <h3>{b.title}</h3>
-            <p>{b.text}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-</section>
+<Section phaseId="beneficios" halo="bl">
+  <SectionHead phaseId="beneficios">
+    <Fragment slot="title">Lo que te llevas de cada <em>misión</em>.</Fragment>
+    Por qué elegir Campuslands AI Academy.
+  </SectionHead>
+  <ul class="cards">
+    {
+      BENEFITS.map((b) => (
+        <li class="card" data-reveal>
+          <span class="label">{b.tag}</span>
+          <h3>{b.title}</h3>
+          <p>{b.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
 
 <style lang="scss">
   .cards {

@@ -1,18 +1,15 @@
 ---
 import { Image } from 'astro:assets';
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import Icon from './Icon.astro';
 import maxExplicando from '../assets/brand/max-pose-explicando.png';
 import { FAQS } from '../data/content';
 import { LINKS } from '../data/links';
-import { phase } from '../data/phases';
-const p = phase('faqs');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="faq-title">
-  <span class="halo halo--bl" aria-hidden="true"></span>
-  <div class="wrap">
-    <SectionHead phase={p} titleId="faq-title">
+<Section phaseId="faqs" halo="bl">
+    <SectionHead phaseId="faqs">
       <Fragment slot="title">Preguntas antes del <em>despegue</em>.</Fragment>
     </SectionHead>
 
@@ -47,8 +44,7 @@ const p = phase('faqs');
         </p>
       </div>
     </div>
-  </div>
-</section>
+</Section>
 
 <style lang="scss">
   .grid {

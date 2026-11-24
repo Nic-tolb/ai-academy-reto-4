@@ -4,15 +4,13 @@
  * Cada estrella es un botón; la ficha se abre al tocarla (I-04, complemento).
  * Sin JavaScript se muestra la lista completa con sus descripciones.
  */
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import { TOOLS, TOOL_GROUPS } from '../data/content';
-import { phase } from '../data/phases';
-const p = phase('herramientas');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="tools-title">
-  <div class="wrap">
-    <SectionHead phase={p} titleId="tools-title">
+<Section phaseId="herramientas">
+    <SectionHead phaseId="herramientas">
       <Fragment slot="title">14 herramientas que vas a <em>usar</em>, no solo conocer.</Fragment>
       Filtra por lo que quieres lograr y toca una herramienta para ver para qué sirve.
     </SectionHead>
@@ -52,8 +50,7 @@ const p = phase('herramientas');
         </aside>
       </div>
     </div>
-  </div>
-</section>
+</Section>
 
 <style lang="scss">
   .tools {

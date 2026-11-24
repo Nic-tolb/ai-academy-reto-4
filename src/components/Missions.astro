@@ -1,17 +1,13 @@
 ---
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import Recommender from './Recommender.astro';
 import { ctaLabel, MAX_HOURS, STAGES, TRACKS } from '../data/missions';
 import { LINKS } from '../data/links';
-import { phase } from '../data/phases';
-
-const p = phase('planes');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="plans-title">
-  <span class="halo halo--tr" aria-hidden="true"></span>
-  <div class="wrap">
-    <SectionHead phase={p} titleId="plans-title">
+<Section phaseId="planes" halo="tr">
+    <SectionHead phaseId="planes">
       <Fragment slot="title">Elige tu <em>misión</em>.</Fragment>
       Tres etapas en vivo que se suman una sobre otra, y dos trayectorias aparte: una a la medida de tu
       empresa y otra a tu ritmo.
@@ -83,8 +79,7 @@ const p = phase('planes');
         </div>
       </div>
     </div>
-  </div>
-</section>
+</Section>
 
 <style lang="scss">
   .grid {

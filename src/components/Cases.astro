@@ -6,16 +6,13 @@
  *   desliza con el dedo sobre la tarjeta. El texto siempre se lee completo.
  * Sin JavaScript se ven ambos textos, uno debajo del otro.
  */
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import { CASES } from '../data/content';
-import { phase } from '../data/phases';
-const p = phase('casos-uso');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="cases-title">
-  <span class="halo halo--tr" aria-hidden="true"></span>
-  <div class="wrap">
-    <SectionHead phase={p} titleId="cases-title">
+<Section phaseId="casos-uso" halo="tr">
+    <SectionHead phaseId="casos-uso">
       <Fragment slot="title">Del antes al <em>después</em>, con tareas reales.</Fragment>
       Elige un perfil y desliza para ver el salto concreto en su día a día.
     </SectionHead>
@@ -54,8 +51,7 @@ const p = phase('casos-uso');
         <p class="swipe-hint" aria-hidden="true">o desliza la tarjeta</p>
       </div>
     </div>
-  </div>
-</section>
+</Section>
 
 <style lang="scss">
   .explorer {

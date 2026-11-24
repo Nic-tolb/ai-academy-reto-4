@@ -1,4 +1,5 @@
 ---
+import Section from './Section.astro';
 import Icon from './Icon.astro';
 import { LINKS } from '../data/links';
 import { phase } from '../data/phases';
@@ -7,23 +8,14 @@ import { PROFILES } from '../data/profiles';
 const p = phase('tripulacion');
 ---
 
-<section
-  class="section hero"
-  id={p.id}
-  data-phase
-  data-phase-code={p.code}
-  data-phase-name={p.name}
-  aria-labelledby="hero-title"
-  data-hero
->
+<Section phaseId="tripulacion" class="hero" halo="bl" wrap={false} data-hero>
   <!-- Campo de trayectorias (canvas). Si no carga, la página funciona igual. -->
-  <canvas class="field" aria-hidden="true" data-field></canvas>
-  <span class="halo halo--bl" aria-hidden="true"></span>
+  <canvas slot="background" class="field" aria-hidden="true" data-field></canvas>
 
   <div class="wrap grid">
     <div class="copy">
       <span class="pill">{p.code} · {p.name}</span>
-      <h1 id="hero-title">Evoluciona a la <em>velocidad</em> de la tecnología.</h1>
+      <h1 id={`${p.id}-title`}>Evoluciona a la <em>velocidad</em> de la tecnología.</h1>
       <p class="lead" data-hero-lead aria-live="polite">
         En Campuslands AI Academy aprendes IA con tus tareas reales y sales con un banco de prompts,
         guías y agentes listos para tu trabajo.
@@ -60,7 +52,7 @@ const p = phase('tripulacion');
   </div>
 
   <p class="hint" aria-hidden="true" data-field-hint>Mueve el cursor o toca para desviar la trayectoria</p>
-</section>
+</Section>
 
 <style lang="scss">
   .hero {

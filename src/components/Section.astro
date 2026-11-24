@@ -1,0 +1,34 @@
+---
+/**
+ * Contenedor de cada fase del plan de vuelo.
+ * Centraliza el id, los atributos que lee el riel de fases, el título accesible
+ * (`{id}-title`) y los halos del manual (esquinas, nunca detrás del texto).
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { phase, type PhaseId } from '../data/phases';
+
+interface Props extends Omit<HTMLAttributes<'section'>, 'id'> {
+  phaseId: PhaseId;
+  halo?: 'tr' | 'bl' | 'both' | 'none';
+  /** Envuelve el contenido en `.wrap` (ancho máximo y márgenes). */
+  wrap?: boolean;
+}
+
+const { phaseId, halo = 'none', wrap = true, class: className, ...rest } = Astro.props;
+const p = phase(phaseId);
+---
+
+<section
+  class:list={['section', className]}
+  id={p.id}
+  data-phase
+  data-phase-code={p.code}
+  data-phase-name={p.name}
+  aria-labelledby={`${p.id}-title`}
+  {...rest}
+>
+  <slot name="background" />
+  {(halo === 'tr' || halo === 'both') && <span class="halo halo--tr" aria-hidden="true" />}
+  {(halo === 'bl' || halo === 'both') && <span class="halo halo--bl" aria-hidden="true" />}
+  {wrap ? <div class="wrap"><slot /></div> : <slot />}
+</section>

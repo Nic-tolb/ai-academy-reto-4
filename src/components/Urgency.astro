@@ -1,29 +1,25 @@
 ---
+import Section from './Section.astro';
 import SectionHead from './SectionHead.astro';
 import { URGENCY } from '../data/content';
-import { phase } from '../data/phases';
-const p = phase('urgencia');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="urg-title">
-  <span class="halo halo--bl" aria-hidden="true"></span>
-  <div class="wrap">
-    <SectionHead phase={p} titleId="urg-title">
-      <Fragment slot="title">Cada semana sin IA aplicada cuesta <em>velocidad</em>.</Fragment>
-      Y competitividad. Esto es lo que pesa mientras esperas.
-    </SectionHead>
-    <ol class="reasons">
-      {
-        URGENCY.map((r) => (
-          <li data-reveal>
-            <h3>{r.title}</h3>
-            <p>{r.text}</p>
-          </li>
-        ))
-      }
-    </ol>
-  </div>
-</section>
+<Section phaseId="urgencia" halo="bl">
+  <SectionHead phaseId="urgencia">
+    <Fragment slot="title">Cada semana sin IA aplicada cuesta <em>velocidad</em>.</Fragment>
+    Y competitividad. Esto es lo que pesa mientras esperas.
+  </SectionHead>
+  <ol class="reasons">
+    {
+      URGENCY.map((r) => (
+        <li data-reveal>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
 
 <style lang="scss">
   .reasons {

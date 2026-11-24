@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Section from './Section.astro';
 import Icon from './Icon.astro';
 import maxPresentando from '../assets/brand/max-pose-presentando.png';
 import { LINKS } from '../data/links';
@@ -7,12 +8,11 @@ import { phase } from '../data/phases';
 const p = phase('despegue');
 ---
 
-<section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="go-title">
-  <div class="wrap">
+<Section phaseId="despegue">
     <div class="block" data-reveal>
       <div class="copy">
         <span class="pill">{p.code} · {p.name}</span>
-        <h2 id="go-title">Tu misión empieza con una decisión.</h2>
+        <h2 id={`${p.id}-title`}>Tu misión empieza con una decisión.</h2>
         <p>Inscríbete en la etapa que elegiste o cuéntale a un especialista qué necesita tu equipo.</p>
         <div class="ctas">
           <a class="btn btn--light" href={LINKS.inscripcion}>Inscríbete</a>
@@ -21,8 +21,7 @@ const p = phase('despegue');
       </div>
       <Image src={maxPresentando} alt="" width={260} densities={[1, 2]} format="webp" class="max" />
     </div>
-  </div>
-</section>
+</Section>
 
 <style lang="scss">
   .block {

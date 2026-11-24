@@ -1,15 +1,15 @@
 ---
-import type { Phase } from '../data/phases';
+/** Encabezado de fase: píldora con el código de la cuenta regresiva + titular. */
+import { phase, type PhaseId } from '../data/phases';
 
 interface Props {
-  phase: Phase;
-  titleId: string;
+  phaseId: PhaseId;
 }
-const { phase, titleId } = Astro.props;
+const p = phase(Astro.props.phaseId);
 ---
 
 <div class="section-head" data-reveal>
-  <span class="pill">{phase.code} · {phase.name}</span>
-  <h2 id={titleId}><slot name="title" /></h2>
+  <span class="pill">{p.code} · {p.name}</span>
+  <h2 id={`${p.id}-title`}><slot name="title" /></h2>
   {Astro.slots.has('default') && <p><slot /></p>}
 </div>
