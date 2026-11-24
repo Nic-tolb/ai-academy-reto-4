@@ -4,7 +4,7 @@
  * la clase `motion-ready` (que oculta los elementos a revelar) solo se añade
  * cuando la librería está lista.
  */
-import { $, $$, prefersReducedMotion, whenIdle } from '../lib/dom';
+import { $, $$, prefersReducedMotion, whenIdle } from '../core/dom';
 import { heroField } from './hero';
 
 export function initMotion(): void {

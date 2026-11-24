@@ -3,7 +3,7 @@
  * El barrido también responde a un gesto horizontal sobre la tarjeta
  * (sin bloquear el scroll vertical: `touch-action: pan-y`).
  */
-import { $, $$ } from '../lib/dom';
+import { $, $$ } from '../core/dom';
 
 const SWIPE_PX = 40;
 

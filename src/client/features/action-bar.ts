@@ -1,5 +1,5 @@
-import { $ } from '../lib/dom';
-import { on } from '../lib/store';
+import { $ } from '../core/dom';
+import { on } from '../core/events';
 
 /**
  * Barra de acción móvil: aparece al salir del hero, y se oculta en el footer,

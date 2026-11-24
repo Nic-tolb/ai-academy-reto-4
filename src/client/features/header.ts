@@ -1,4 +1,4 @@
-import { $ } from '../lib/dom';
+import { $ } from '../core/dom';
 
 /** Filete inferior del encabezado cuando la página ya se desplazó. */
 export function initHeader(): void {

@@ -1,4 +1,4 @@
-import { $, $$ } from '../lib/dom';
+import { $, $$ } from '../core/dom';
 
 /** I-02 · Fase activa del plan de vuelo: riel, barra móvil y menú. */
 export function initPhases(): void {

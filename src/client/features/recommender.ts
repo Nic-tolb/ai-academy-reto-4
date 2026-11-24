@@ -2,8 +2,8 @@
  * I-03 · Interfaz del recomendador. La lógica vive en src/lib/recommend.ts y
  * todos los textos de las misiones se derivan de src/data/missions.ts.
  */
-import { $, $$, prefersReducedMotion } from '../lib/dom';
-import { emit, getProfile, on } from '../lib/store';
+import { $, $$, prefersReducedMotion } from '../core/dom';
+import { emit, getProfile, on } from '../core/events';
 import { brief, ctaLabel, MISSIONS, summary } from '../../data/missions';
 import { profile } from '../../data/profiles';
 import { STEP_ORDER } from '../../data/recommender';

@@ -1,5 +1,5 @@
 /** Constelación de herramientas: filtros por objetivo + ficha de la herramienta. */
-import { $, $$ } from '../lib/dom';
+import { $, $$ } from '../core/dom';
 
 export function initTools(): void {
   const root = $('[data-tools]');

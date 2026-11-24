@@ -1,4 +1,4 @@
-import { $ } from '../lib/dom';
+import { $ } from '../core/dom';
 
 /** Menú móvil accesible: Escape cierra, el foco vuelve al botón, el fondo no se desplaza. */
 export function initMenu(): void {

@@ -40,7 +40,7 @@ const ogImage = new URL('/icon-512.png', Astro.site);
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <slot />
     <script>
-      import { boot } from '../scripts/main';
+      import { boot } from '../client/main';
       boot();
     </script>
   </body>

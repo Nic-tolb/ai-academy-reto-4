@@ -3,15 +3,15 @@
  * Estabilidad primero: cada módulo arranca aislado. Si uno falla, se registra
  * el error y el resto de la página sigue funcionando (el HTML ya trae todo el contenido).
  */
-import { initHeader } from './modules/header';
-import { initMenu } from './modules/menu';
-import { initPhases } from './modules/phases';
-import { initActionBar } from './modules/action-bar';
-import { initHero } from './modules/hero';
-import { initCases } from './modules/cases';
-import { initTools } from './modules/tools';
-import { initRecommender } from './modules/recommender';
-import { initMotion } from './modules/motion';
+import { initHeader } from './features/header';
+import { initMenu } from './features/menu';
+import { initPhases } from './features/phases';
+import { initActionBar } from './features/action-bar';
+import { initHero } from './features/hero';
+import { initCases } from './features/cases';
+import { initTools } from './features/tools';
+import { initRecommender } from './features/recommender';
+import { initMotion } from './features/motion';
 
 type Init = () => void | Promise<void>;
 

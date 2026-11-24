@@ -4,12 +4,12 @@
  * es una mejora progresiva que se carga después del primer pintado.
  * Todos los textos vienen de src/data (perfiles y misiones).
  */
-import { $, $$, prefersReducedMotion, whenIdle } from '../lib/dom';
-import { emit } from '../lib/store';
+import { $, $$, prefersReducedMotion, whenIdle } from '../core/dom';
+import { emit } from '../core/events';
 import { MISSIONS, summary } from '../../data/missions';
 import { LINKS } from '../../data/links';
 import { profile, type Profile } from '../../data/profiles';
-import type { FieldController } from '../hero/field';
+import type { FieldController } from '../field/field';
 
 let field: FieldController | null = null;
 let pendingTarget: Parameters<FieldController['setTarget']>[0] = null;
@@ -67,7 +67,7 @@ export function initHero(): void {
 
   whenIdle(async () => {
     try {
-      const { createField } = await import('../hero/field');
+      const { createField } = await import('../field/field');
       field = createField(canvas, {
         reducedMotion: prefersReducedMotion(),
         onInteract: () => hint?.classList.remove('is-visible'),
