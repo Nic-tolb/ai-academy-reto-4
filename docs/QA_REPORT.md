@@ -58,8 +58,23 @@ Hallazgos durante la ronda:
 - `astro check` detectó que los archivos de prueba no pasaban el tipado estricto (faltaban los tipos de Node). Se corrigió antes de publicar la integración continua.
 - El 79 en Buenas prácticas de la ronda 1 se debía al servidor local de vista previa; con el servidor estático de Lighthouse CI da 100.
 
+## Ronda 3 · 24 nov 2026 · sitio publicado
+
+URL: https://nic-tolb.github.io/landing-ai-academy/ (GitHub Pages, HTTPS).
+Flujos de GitHub Actions: «CI» y «Publicar en GitHub Pages» en verde en el primer push.
+
+| Verificación en línea (Edge, 375 y 1440 px)             | Resultado                                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Errores de consola y peticiones fallidas                | ✔️ 0                                                                            |
+| Desbordamiento horizontal                               | ✔️ 0 px                                                                         |
+| Canvas del hero, perfil → ficha «Booster», recomendador | ✔️                                                                              |
+| Movimiento reducido: bloques ocultos                    | ✔️ 0                                                                            |
+| Lighthouse móvil                                        | Performance **95** · Accesibilidad **100** · Buenas prácticas **100** · SEO 92* |
+
+FCP 1,2 s · LCP 1,3 s · TBT 270 ms · CLS 0 · 122 KiB.
+\* SEO pierde puntos solo por `robots.txt`: Lighthouse lo busca en la raíz del dominio (`nic-tolb.github.io/robots.txt`), que no pertenece a este repositorio.
+
 ### Pendiente
 
-- Repetir Lighthouse sobre la URL publicada (HTTPS).
 - Pruebas en dispositivos reales (iOS Safari, Android Chrome de gama media).
 - Lector de pantalla (NVDA / VoiceOver).
