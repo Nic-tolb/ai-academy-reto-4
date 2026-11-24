@@ -1,24 +1,13 @@
-/** I-03 · Interfaz del recomendador. La lógica vive en src/lib/recommend.ts. */
+/**
+ * I-03 · Interfaz del recomendador. La lógica vive en src/lib/recommend.ts y
+ * todos los textos de las misiones se derivan de src/data/missions.ts.
+ */
 import { $, $$, prefersReducedMotion } from '../lib/dom';
 import { emit, getProfile, on } from '../lib/store';
-import { MISSIONS, type MissionId } from '../../data/missions';
-import {
-  nextStep,
-  PROFILE_PRESET,
-  REASONS,
-  recommend,
-  type Answers,
-  type StepId,
-} from '../../lib/recommend';
-
-const ORDER: StepId[] = ['formato', 'quien', 'meta'];
-const ALT_TEXT: Record<MissionId, string> = {
-  ignition: 'en vivo, 4 horas',
-  booster: 'en vivo, 8 horas',
-  liftoff: 'en vivo, 12 horas',
-  odyssey: 'un programa a la medida de tu empresa',
-  nebula: 'a tu ritmo, pregrabado',
-};
+import { brief, ctaLabel, MISSIONS, summary } from '../../data/missions';
+import { profile } from '../../data/profiles';
+import { STEP_ORDER } from '../../data/recommender';
+import { nextStep, reasonsFor, recommend, type Answers, type StepId } from '../../lib/recommend';
 
 export function initRecommender(): void {
   const root = $('[data-recommender]');
@@ -26,7 +15,7 @@ export function initRecommender(): void {
   const inscripcion = root.dataset.inscripcion ?? '#';
   const whatsapp = root.dataset.whatsapp ?? '#';
 
-  const steps = new Map(ORDER.map((id) => [id, $<HTMLFieldSetElement>(`[data-step="${id}"]`, root)!]));
+  const steps = new Map(STEP_ORDER.map((id) => [id, $<HTMLFieldSetElement>(`[data-step="${id}"]`, root)!]));
   const progress = $$('[data-progress]', root);
   const result = $('[data-result]', root)!;
   const nav = $('[data-rec-nav]', root)!;
@@ -44,9 +33,8 @@ export function initRecommender(): void {
 
   function paintProgress(done: boolean): void {
     progress.forEach((li, i) => {
-      const id = ORDER[i]!;
-      const answered = answers[id] !== undefined && history.includes(id);
-      li.classList.toggle('is-done', answered);
+      const id = STEP_ORDER[i]!;
+      li.classList.toggle('is-done', answers[id] !== undefined && history.includes(id));
       li.classList.toggle('is-skipped', done && !history.includes(id));
     });
   }
@@ -83,22 +71,18 @@ export function initRecommender(): void {
     maxIdea?.removeAttribute('hidden');
 
     $('[data-r-name]', result)!.textContent = mission.name;
-    $('[data-r-meta]', result)!.textContent =
-      `${mission.duration} · ${mission.modality} · ${mission.stage}`;
+    $('[data-r-meta]', result)!.textContent = `${summary(mission)} · ${mission.stage}`;
     $('[data-r-reasons]', result)!.replaceChildren(
-      ...REASONS[mission.id].map((r) => Object.assign(document.createElement('li'), { textContent: r })),
+      ...reasonsFor(mission.id).map((r) => Object.assign(document.createElement('li'), { textContent: r })),
     );
-    const altLink = Object.assign(document.createElement('a'), {
-      href: `#mision-${alt.id}`,
-      textContent: alt.name,
-    });
-    $('[data-r-alt]', result)!.replaceChildren('Alternativa cercana: ', altLink, ` (${ALT_TEXT[alt.id]}).`);
+    const altLink = Object.assign(document.createElement('a'), { href: `#mision-${alt.id}`, textContent: alt.name });
+    $('[data-r-alt]', result)!.replaceChildren('Alternativa cercana: ', altLink, ` (${brief(alt)}).`);
 
     const cta = $<HTMLAnchorElement>('[data-r-cta]', result)!;
-    const useWa = mission.cta === 'whatsapp';
-    cta.textContent = useWa ? 'Diseñar mi programa' : mission.id === 'nebula' ? 'Accede ahora' : `Inscríbete en ${mission.name}`;
-    cta.href = useWa ? whatsapp : inscripcion;
-    if (useWa) {
+    const wa = mission.channel === 'whatsapp';
+    cta.textContent = ctaLabel(mission);
+    cta.href = wa ? whatsapp : inscripcion;
+    if (wa) {
       cta.target = '_blank';
       cta.rel = 'noopener';
     } else {
@@ -113,7 +97,7 @@ export function initRecommender(): void {
     card?.querySelector('[data-badge]')?.removeAttribute('hidden');
 
     paintProgress(true);
-    live.textContent = `Te recomendamos ${mission.name}: ${mission.duration}, ${mission.modality}.`;
+    live.textContent = `Te recomendamos ${mission.name}: ${brief(mission)}.`;
     result.focus({ preventScroll: true });
     if (window.innerWidth < 1200) {
       result.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
@@ -125,8 +109,7 @@ export function initRecommender(): void {
     const step = steps.get('quien');
     if (!step || !quien) return;
     $$('.preset', step).forEach((n) => n.remove());
-    const strong = $(`.opt[data-value="${quien}"] strong`, step);
-    strong?.append(
+    $(`.opt[data-value="${quien}"] strong`, step)?.append(
       Object.assign(document.createElement('span'), { className: 'preset', textContent: '· según tu elección arriba' }),
     );
   }
@@ -136,13 +119,14 @@ export function initRecommender(): void {
       const opt = (e.target as Element).closest<HTMLButtonElement>('.opt');
       if (!opt?.dataset.value) return;
       // Responder una pregunta invalida las respuestas posteriores.
+      const idx = STEP_ORDER.indexOf(id);
       const kept: Answers = {};
-      for (const key of ORDER.slice(0, ORDER.indexOf(id))) {
+      for (const key of STEP_ORDER.slice(0, idx)) {
         if (answers[key] !== undefined) Object.assign(kept, { [key]: answers[key] });
       }
       answers = { ...kept, [id]: opt.dataset.value };
       markPressed(step, opt.dataset.value);
-      ORDER.slice(ORDER.indexOf(id) + 1).forEach((later) => {
+      STEP_ORDER.slice(idx + 1).forEach((later) => {
         const el = steps.get(later);
         if (el) markPressed(el);
       });
@@ -170,8 +154,8 @@ export function initRecommender(): void {
     history = ['formato'];
     steps.forEach((s) => markPressed(s));
     clearHighlight();
-    const profile = getProfile();
-    if (profile) applyPreset(PROFILE_PRESET[profile].quien);
+    const current = getProfile();
+    if (current) applyPreset(profile(current).quien);
     showStep('formato');
   });
 
@@ -180,7 +164,7 @@ export function initRecommender(): void {
     if (!root.contains(e.relatedTarget as Node | null)) emit('recommenderFocus', false);
   });
 
-  on('profile', (profile) => applyPreset(PROFILE_PRESET[profile].quien));
+  on('profile', (id) => applyPreset(profile(id).quien));
 
   showStep('formato', false);
 }

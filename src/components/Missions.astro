@@ -1,12 +1,11 @@
 ---
 import SectionHead from './SectionHead.astro';
 import Recommender from './Recommender.astro';
-import { MAX_HOURS, STAGES, TRACKS, type Mission } from '../data/missions';
+import { ctaLabel, MAX_HOURS, STAGES, TRACKS } from '../data/missions';
 import { LINKS } from '../data/links';
 import { phase } from '../data/phases';
 
 const p = phase('planes');
-const ctaLabel = (m: Mission) => (m.id === 'nebula' ? 'Accede ahora' : `Inscríbete en ${m.name}`);
 ---
 
 <section class="section" id={p.id} data-phase data-phase-code={p.code} data-phase-name={p.name} aria-labelledby="plans-title">
@@ -69,9 +68,9 @@ const ctaLabel = (m: Mission) => (m.id === 'nebula' ? 'Accede ahora' : `Inscríb
                   {m.includes.map((item) => <li>{item}</li>)}
                 </ul>
                 <div class="track-actions">
-                  {m.cta === 'whatsapp' ? (
+                  {m.channel === 'whatsapp' ? (
                     <>
-                      <a class="btn btn--primary" href={LINKS.whatsapp} target="_blank" rel="noopener">Diseñar mi programa</a>
+                      <a class="btn btn--primary" href={LINKS.whatsapp} target="_blank" rel="noopener">{ctaLabel(m)}</a>
                       <a class="btn btn--secondary" href={LINKS.inscripcion}>Inscríbete</a>
                     </>
                   ) : (

@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { MISSIONS, type MissionId } from '../data/missions';
-import { nextStep, recommend, REASONS, type Answers } from './recommend';
+import { PROFILES } from '../data/profiles';
+import { QUESTIONS } from '../data/recommender';
+import { nextStep, reasonsFor, recommend, REASON_INDEXES, type Answers, type Meta, type Quien } from './recommend';
+
+const IDS = Object.keys(MISSIONS) as MissionId[];
 
 describe('nextStep', () => {
   it('empieza por el formato', () => {
@@ -42,14 +46,40 @@ describe('recommend', () => {
       expect(r?.mission).not.toBe(r?.alternative);
     }
   });
-});
 
-describe('REASONS', () => {
-  it('solo usa viñetas literales de cada misión (no inventa beneficios)', () => {
-    for (const [id, reasons] of Object.entries(REASONS) as [MissionId, readonly string[]][]) {
-      for (const reason of reasons) {
-        expect(MISSIONS[id].includes).toContain(reason);
+  it('cubre todas las combinaciones de respuestas sin quedar indefinido', () => {
+    for (const q of QUESTIONS.find((x) => x.id === 'quien')!.options) {
+      for (const m of QUESTIONS.find((x) => x.id === 'meta')!.options) {
+        const r = recommend({ formato: 'vivo', quien: q.value as Quien, meta: m.value as Meta });
+        expect(r).not.toBeNull();
       }
     }
+  });
+});
+
+describe('razones', () => {
+  it('cada misión tiene tres razones que son viñetas reales (no inventa beneficios)', () => {
+    for (const id of IDS) {
+      const reasons = reasonsFor(id);
+      expect(reasons).toHaveLength(3);
+      reasons.forEach((r) => expect(MISSIONS[id].includes).toContain(r));
+    }
+  });
+  it('los índices apuntan a viñetas existentes', () => {
+    for (const id of IDS) {
+      REASON_INDEXES[id].forEach((i) => expect(MISSIONS[id].includes[i]).toBeDefined());
+    }
+  });
+});
+
+describe('perfiles del hero', () => {
+  it('sus textos se construyen con los datos reales de la misión', () => {
+    const lider = PROFILES.find((p) => p.id === 'lider')!;
+    expect(lider.lead).toContain(MISSIONS.booster.duration);
+    expect(lider.lead).not.toMatch(/undefined/);
+    PROFILES.forEach((p) => expect(p.lead).not.toMatch(/undefined/));
+  });
+  it('cada perfil apunta a una misión existente', () => {
+    PROFILES.forEach((p) => expect(MISSIONS[p.target]).toBeDefined());
   });
 });

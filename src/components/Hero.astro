@@ -2,6 +2,7 @@
 import Icon from './Icon.astro';
 import { LINKS } from '../data/links';
 import { phase } from '../data/phases';
+import { PROFILES } from '../data/profiles';
 
 const p = phase('tripulacion');
 ---
@@ -31,9 +32,13 @@ const p = phase('tripulacion');
       <fieldset class="crew">
         <legend>¿Quién va en esta misión?</legend>
         <div class="crew-options">
-          <button type="button" class="crew-opt" data-profile="empresa" aria-pressed="false">Empresa</button>
-          <button type="button" class="crew-opt" data-profile="lider" aria-pressed="false">Líder de equipo</button>
-          <button type="button" class="crew-opt" data-profile="independiente" aria-pressed="false">Independiente</button>
+          {
+            PROFILES.map((p) => (
+              <button type="button" class="crew-opt" data-profile={p.id} aria-pressed="false">
+                {p.label}
+              </button>
+            ))
+          }
         </div>
       </fieldset>
 

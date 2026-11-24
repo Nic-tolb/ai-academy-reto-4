@@ -2,7 +2,7 @@
  * Estado compartido mínimo entre piezas (hero → recomendador → campo).
  * Un bus de eventos tipado evita dependencias directas entre módulos.
  */
-import type { Profile } from '../../lib/recommend';
+import type { Profile } from '../../data/profiles';
 
 interface Events {
   profile: Profile;

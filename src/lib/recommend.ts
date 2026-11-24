@@ -1,9 +1,9 @@
 /**
  * Lógica del recomendador «Configura tu misión» (I-03).
- * Función pura: se prueba con Vitest y se usa en el navegador.
- * Cada respuesta se apoya solo en datos reales de las misiones.
+ * Funciones puras: se prueban con Vitest y se usan en el navegador.
+ * Cada recomendación se justifica solo con viñetas reales de la misión.
  */
-import type { MissionId } from '../data/missions';
+import { MISSIONS, type MissionId } from '../data/missions';
 
 export type Formato = 'vivo' | 'ritmo';
 export type Quien = 'yo' | 'equipo' | 'medida';
@@ -50,42 +50,18 @@ export function recommend(a: Answers): Recommendation | null {
 }
 
 /**
- * Viñetas literales de «Incluye» que justifican cada recomendación.
- * Se toman del texto real para no prometer nada que la misión no ofrezca.
+ * Qué viñetas de «Incluye» justifican cada misión (por índice, en orden de
+ * importancia). Se referencian por posición para no duplicar el texto.
  */
-export const REASONS: Record<MissionId, readonly string[]> = {
-  ignition: [
-    'Comprende el impacto real de la IA en tu industria',
-    'Domina la IA generativa de tu elección como asistente diario',
-    'Aprende a crear agentes básicos de IA en vivo',
-  ],
-  booster: [
-    'Técnicas de prompting para resultados precisos',
-    'Construye agentes personalizados para tu rol',
-    'Todo Ignition con enfoque profesional avanzado',
-  ],
-  liftoff: [
-    'Aprende a automatizar procesos reales con n8n',
-    'Diseña flujos automáticos aplicados a tu negocio',
-    'Todo Booster enfocado en escalar tu operación',
-  ],
-  odyssey: [
-    'Programa 100% personalizado para tu empresa',
-    'Elige herramientas, duración y profundidad',
-    'Casos de uso reales según tu industria y roles',
-  ],
-  nebula: [
-    'Acceso flexible 24/7 a materiales, recursos y actualizaciones',
-    'Contenidos organizados por niveles de aprendizaje',
-    'Evaluaciones continuas para medir el progreso',
-  ],
+export const REASON_INDEXES: Readonly<Record<MissionId, readonly number[]>> = {
+  ignition: [0, 1, 3],
+  booster: [1, 3, 0],
+  liftoff: [2, 3, 0],
+  odyssey: [0, 1, 2],
+  nebula: [2, 0, 1],
 };
 
-/** Perfil elegido en el hero → respuesta precargada y destino de la trayectoria. */
-export type Profile = 'empresa' | 'lider' | 'independiente';
-
-export const PROFILE_PRESET: Record<Profile, { quien: Quien; target: MissionId }> = {
-  empresa: { quien: 'medida', target: 'odyssey' },
-  lider: { quien: 'equipo', target: 'booster' },
-  independiente: { quien: 'yo', target: 'ignition' },
-};
+export function reasonsFor(id: MissionId): string[] {
+  const includes = MISSIONS[id].includes;
+  return REASON_INDEXES[id].map((i) => includes[i]).filter((r): r is string => Boolean(r));
+}

@@ -11,7 +11,7 @@
  * abasto, se congela en un fotograma estático. Cualquier error detiene el bucle
  * sin afectar al resto de la página.
  */
-import type { MissionId } from '../../data/missions';
+import { MISSIONS, shortMeta, type MissionId } from '../../data/missions';
 
 export interface FieldController {
   setTarget(target: MissionId | null): void;
@@ -52,13 +52,7 @@ const STOPS: Record<Exclude<MissionId, 'odyssey' | 'nebula'>, number> = {
   booster: 0.56,
   liftoff: 0.84,
 };
-const LABELS: Record<MissionId, [string, string]> = {
-  ignition: ['IGNITION', '4 horas'],
-  booster: ['BOOSTER', '8 horas'],
-  liftoff: ['LIFTOFF', '12 horas'],
-  odyssey: ['ODYSSEY', 'a medida'],
-  nebula: ['NEBULA', 'pregrabado'],
-};
+const label = (id: MissionId): [string, string] => [MISSIONS[id].name.toUpperCase(), shortMeta(MISSIONS[id])];
 
 // ---------- Geometría ----------
 type Cubic = [Point, Point, Point, Point];
@@ -218,7 +212,7 @@ export function createField(canvas: HTMLCanvasElement, opts: Options): FieldCont
     ctx!.strokeStyle = active ? `rgb(${COLORS.soft})` : `rgba(${COLORS.soft},0.5)`;
     ctx!.stroke();
     if (!wide) return; // en móvil la etiqueta vive en el DOM (ficha de misión)
-    const [name, meta] = LABELS[id];
+    const [name, meta] = label(id);
     const left = id === 'ignition';
     ctx!.textAlign = left ? 'left' : 'right';
     const x = p.x + (left ? 16 : -16);

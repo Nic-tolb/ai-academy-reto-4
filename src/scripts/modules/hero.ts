@@ -2,31 +2,14 @@
  * I-01 · Hero «¿Quién va en esta misión?».
  * La elección funciona siempre (HTML + este módulo). El campo de trayectorias
  * es una mejora progresiva que se carga después del primer pintado.
+ * Todos los textos vienen de src/data (perfiles y misiones).
  */
 import { $, $$, prefersReducedMotion, whenIdle } from '../lib/dom';
 import { emit } from '../lib/store';
-import { MISSIONS } from '../../data/missions';
+import { MISSIONS, summary } from '../../data/missions';
 import { LINKS } from '../../data/links';
-import { PROFILE_PRESET, type Profile } from '../../lib/recommend';
+import { profile, type Profile } from '../../data/profiles';
 import type { FieldController } from '../hero/field';
-
-const COPY: Record<Profile, { lead: string; cta: string; whatsapp: boolean }> = {
-  empresa: {
-    lead: 'Diseñamos el programa contigo: eliges herramientas, duración y profundidad, con casos de uso reales según tu industria y roles.',
-    cta: 'Hablar con un especialista',
-    whatsapp: true,
-  },
-  lider: {
-    lead: 'En 8 horas tu equipo aprende técnicas de prompting para resultados precisos y construye agentes personalizados para su rol.',
-    cta: 'Inscribir a mi equipo',
-    whatsapp: false,
-  },
-  independiente: {
-    lead: 'Empieza con 4 horas en vivo o a tu ritmo con contenido pregrabado, y domina la IA generativa como asistente diario.',
-    cta: 'Inscríbete',
-    whatsapp: false,
-  },
-};
 
 let field: FieldController | null = null;
 let pendingTarget: Parameters<FieldController['setTarget']>[0] = null;
@@ -43,16 +26,16 @@ export function initHero(): void {
 
   for (const button of buttons) {
     button.addEventListener('click', () => {
-      const profile = button.dataset.profile as Profile;
-      const copy = COPY[profile];
-      const mission = MISSIONS[PROFILE_PRESET[profile].target];
+      const info = profile(button.dataset.profile as Profile);
+      const mission = MISSIONS[info.target];
 
       buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-      if (lead) lead.textContent = copy.lead;
+      if (lead) lead.textContent = info.lead;
       if (cta2) {
-        cta2.textContent = copy.cta;
-        cta2.href = copy.whatsapp ? LINKS.whatsapp : LINKS.inscripcion;
-        if (copy.whatsapp) {
+        const wa = info.cta.channel === 'whatsapp';
+        cta2.textContent = info.cta.label;
+        cta2.href = wa ? LINKS.whatsapp : LINKS.inscripcion;
+        if (wa) {
           cta2.target = '_blank';
           cta2.rel = 'noopener';
         } else {
@@ -62,7 +45,7 @@ export function initHero(): void {
       }
       if (chip && chipName && chipMeta) {
         chipName.textContent = mission.name;
-        chipMeta.textContent = `${mission.duration} · ${mission.modality}`;
+        chipMeta.textContent = summary(mission);
         chip.href = `#mision-${mission.id}`;
         chip.hidden = false;
         // Reinicia la animación de entrada en cada elección.
@@ -73,7 +56,7 @@ export function initHero(): void {
 
       pendingTarget = mission.id;
       field?.setTarget(mission.id);
-      emit('profile', profile);
+      emit('profile', info.id);
     });
   }
 
@@ -95,7 +78,6 @@ export function initHero(): void {
         hint?.classList.add('is-visible');
         setTimeout(() => hint?.classList.remove('is-visible'), 6000);
       }
-      document.dispatchEvent(new CustomEvent('field:ready'));
     } catch (error) {
       console.warn('[hero] el campo de trayectorias no está disponible', error);
     }
