@@ -25,10 +25,14 @@ import { PHASES } from '../data/phases';
     @include up(rail) {
       display: block;
       position: fixed;
-      left: 20px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       z-index: 40;
+      // Fondo propio: los filetes entre secciones no cruzan el riel.
+      padding: 14px 14px 14px 8px;
+      border-radius: 16px;
+      background: var(--black);
     }
   }
   ol {
@@ -40,17 +44,37 @@ import { PHASES } from '../data/phases';
   .fill {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 8px;
-    bottom: 8px;
+    left: 13px;
+    top: 22px;
+    bottom: 22px;
     width: 1px;
     background: var(--line);
   }
+  ol::before {
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+  }
+  // T−0 · Despegue: el punto al que lleva toda la cuenta regresiva.
+  li:last-child a {
+    .tick {
+      box-shadow: inset 0 0 0 2px var(--evox);
+    }
+    .code {
+      color: var(--soft);
+    }
+    &:global(:not([aria-current='step'])) .tick {
+      background: rgb(112 38 232 / 0.35);
+    }
+  }
   .fill {
     z-index: 1;
+    width: 2px;
+    margin-left: -0.5px;
     background: var(--electric);
     transform-origin: top;
     transform: scaleY(var(--p, 0));
+    transition: transform 0.5s var(--ease);
   }
   li {
     position: relative;

@@ -9,10 +9,13 @@ export function initPhases(): void {
   const segments = $$('[data-phase-seg]');
   const label = $('[data-phase-label]');
   const navLinks = $$<HTMLAnchorElement>('[data-nav-link]');
+  const railFill = $('[data-rail-fill]');
 
   const setActive = (index: number) => {
     const section = sections[index];
     if (!section) return;
+    // La línea de la cuenta regresiva llega exactamente a la fase actual.
+    railFill?.style.setProperty('--p', String(index / Math.max(1, sections.length - 1)));
     railLinks.forEach((a, i) => {
       a.classList.toggle('is-past', i < index);
       if (i === index) a.setAttribute('aria-current', 'step');

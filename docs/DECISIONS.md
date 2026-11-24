@@ -16,3 +16,4 @@
 | D-11 | 2026-11-24 | Antes/después como interruptor con barrido y gesto, no como cortina continua | Decisión de UX | Con texto, la cortina cortaba palabras y se leía revuelto |
 | D-12 | 2026-11-24 | Max aparece con expresiones aprobadas: Analítico (preguntas), Idea (resultado); poses Explicando (FAQs) y Presentando (cierre) | Decisión de marca | Manual §07 |
 | D-13 | 2026-11-24 | Commits con Conventional Commits, sin trailers de coautoría | Aprobada (pedido de la persona usuaria) | — |
+| D-14 | 2026-11-24 | Cuenta regresiva corregida: T−8 → T−0, un paso por fase, despegue = inscripción. «Ignición» pasa a «Ensayo» y «Órbita» a «Bitácora» (no puede haber órbita antes del despegue) | Corrección de la persona usuaria | La secuencia anterior saltaba (10, 5, 0) y seguía con +01…+05 |

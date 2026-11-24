@@ -23,17 +23,21 @@ Mensajes por perfil (solo datos reales)
 | Independiente | Empieza con 4 horas en vivo o a tu ritmo con contenido pregrabado, y usa la IA como asistente diario. | Inscríbete |
 
 ## I-02 · Recorrido narrativo («Plan de vuelo»)
+Cuenta regresiva real: un paso por fase, de T−8 a T−0. El despegue (T−0) es la inscripción; toda la página prepara ese momento.
+
 | Fase | Código | Sección |
 |---|---|---|
-| 0 | T−10 | Tripulación (hero) |
-| 1 | T−5 | Carga útil — ¿Por qué ahora? |
-| 2 | T−0 | Ignición — Antes / después + Banco de pruebas |
-| 3 | +01 | Instrumentos — 14 herramientas |
-| 4 | +02 | Sistemas — Beneficios |
-| 5 | +03 | Etapas — Misiones + recomendador |
-| 6 | +04 | Órbita — Reseñas |
-| 7 | +05 | Control de misión — FAQs, Diagnóstico, Certificado |
-| 8 | ↑ | Despegue — CTA final |
+| 0 | T−8 | Tripulación (hero) |
+| 1 | T−7 | Carga útil — ¿Por qué ahora? |
+| 2 | T−6 | Ensayo — Antes / después |
+| 3 | T−5 | Instrumentos — 14 herramientas |
+| 4 | T−4 | Sistemas — Beneficios |
+| 5 | T−3 | Etapas — Misiones + recomendador |
+| 6 | T−2 | Bitácora — Reseñas |
+| 7 | T−1 | Control de misión — FAQs, Diagnóstico, Certificado (verificación final) |
+| 8 | T−0 | Despegue — CTA final |
+
+La línea del riel se llena hasta la fase activa (no según el porcentaje de scroll), para que siempre coincida con un marcador.
 
 - **Riel de fases**: en escritorio, riel vertical a la izquierda; en móvil, barra segmentada de 9 tramos bajo el encabezado con el nombre de la fase actual. Cada marca es un enlace (navegación por teclado) con `aria-current="step"` en la activa.
 - **Trayectoria**: una línea vertical continua une las secciones; el tramo recorrido se pinta en Electric Violet según el scroll.

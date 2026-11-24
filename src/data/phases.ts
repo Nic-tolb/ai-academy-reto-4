@@ -1,4 +1,8 @@
-/** Fases del «Plan de vuelo» (docs/INTERACTIONS.md, I-02). */
+/**
+ * Fases del «Plan de vuelo» (docs/INTERACTIONS.md, I-02).
+ * Cuenta regresiva real: un paso por fase, de T−8 a T−0. El despegue (T−0)
+ * es la inscripción: toda la página prepara ese momento.
+ */
 export interface Phase {
   id: string;
   code: string;
@@ -6,15 +10,15 @@ export interface Phase {
 }
 
 export const PHASES = [
-  { id: 'tripulacion', code: 'T−10', name: 'Tripulación' },
-  { id: 'urgencia', code: 'T−5', name: 'Carga útil' },
-  { id: 'casos-uso', code: 'T−0', name: 'Ignición' },
-  { id: 'herramientas', code: '+01', name: 'Instrumentos' },
-  { id: 'beneficios', code: '+02', name: 'Sistemas' },
-  { id: 'planes', code: '+03', name: 'Etapas' },
-  { id: 'resenas', code: '+04', name: 'Órbita' },
-  { id: 'faqs', code: '+05', name: 'Control de misión' },
-  { id: 'despegue', code: '↑', name: 'Despegue' },
+  { id: 'tripulacion', code: 'T−8', name: 'Tripulación' },
+  { id: 'urgencia', code: 'T−7', name: 'Carga útil' },
+  { id: 'casos-uso', code: 'T−6', name: 'Ensayo' },
+  { id: 'herramientas', code: 'T−5', name: 'Instrumentos' },
+  { id: 'beneficios', code: 'T−4', name: 'Sistemas' },
+  { id: 'planes', code: 'T−3', name: 'Etapas' },
+  { id: 'resenas', code: 'T−2', name: 'Bitácora' },
+  { id: 'faqs', code: 'T−1', name: 'Control de misión' },
+  { id: 'despegue', code: 'T−0', name: 'Despegue' },
 ] as const satisfies readonly Phase[];
 
 export type PhaseId = (typeof PHASES)[number]['id'];

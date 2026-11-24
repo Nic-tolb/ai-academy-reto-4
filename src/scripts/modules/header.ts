@@ -1,19 +1,14 @@
 import { $ } from '../lib/dom';
 
-/** Filete inferior del encabezado y relleno del riel de fases según el scroll. */
+/** Filete inferior del encabezado cuando la página ya se desplazó. */
 export function initHeader(): void {
   const header = $('[data-header]');
-  const railFill = $('[data-rail-fill]');
+  if (!header) return;
   let ticking = false;
 
   const update = () => {
     ticking = false;
-    const y = window.scrollY;
-    header?.classList.toggle('is-scrolled', y > 8);
-    if (railFill) {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      railFill.style.setProperty('--p', max > 0 ? (y / max).toFixed(4) : '0');
-    }
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
   };
 
   window.addEventListener(
