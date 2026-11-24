@@ -17,8 +17,11 @@ export function initRecommender(): void {
 
   // Todos los elementos se resuelven al iniciar: si falta uno, el error es claro
   // y ocurre al cargar, no a mitad de una interacción.
-  const need = <T extends Element = HTMLElement>(selector: string) => required<T>(selector, root, 'recommender');
-  const steps = new Map(STEP_ORDER.map((id) => [id, need<HTMLFieldSetElement>(`[data-step="${id}"]`)]));
+  const need = <T extends Element = HTMLElement>(selector: string) =>
+    required<T>(selector, root, 'recommender');
+  const steps = new Map(
+    STEP_ORDER.map((id) => [id, need<HTMLFieldSetElement>(`[data-step="${id}"]`)]),
+  );
   const progress = $$('[data-progress]', root);
   const result = need('[data-result]');
   const nav = need('[data-rec-nav]');
@@ -40,7 +43,9 @@ export function initRecommender(): void {
   let history: StepId[] = ['formato'];
 
   const markPressed = (step: HTMLElement, value?: string) =>
-    $$('.opt', step).forEach((o) => o.setAttribute('aria-pressed', String(o.dataset.value === value)));
+    $$('.opt', step).forEach((o) =>
+      o.setAttribute('aria-pressed', String(o.dataset.value === value)),
+    );
 
   function paintProgress(done: boolean): void {
     progress.forEach((li, i) => {
@@ -84,9 +89,14 @@ export function initRecommender(): void {
     out.name.textContent = mission.name;
     out.meta.textContent = `${summary(mission)} · ${mission.stage}`;
     out.reasons.replaceChildren(
-      ...reasonsFor(mission.id).map((r) => Object.assign(document.createElement('li'), { textContent: r })),
+      ...reasonsFor(mission.id).map((r) =>
+        Object.assign(document.createElement('li'), { textContent: r }),
+      ),
     );
-    const altLink = Object.assign(document.createElement('a'), { href: `#mision-${alt.id}`, textContent: alt.name });
+    const altLink = Object.assign(document.createElement('a'), {
+      href: `#mision-${alt.id}`,
+      textContent: alt.name,
+    });
     out.alt.replaceChildren('Alternativa cercana: ', altLink, ` (${brief(alt)}).`);
 
     const cta = out.cta;
@@ -111,7 +121,10 @@ export function initRecommender(): void {
     live.textContent = `Te recomendamos ${mission.name}: ${brief(mission)}.`;
     result.focus({ preventScroll: true });
     if (window.innerWidth < 1200) {
-      result.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+      result.scrollIntoView({
+        block: 'nearest',
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+      });
     }
   }
 
@@ -121,7 +134,10 @@ export function initRecommender(): void {
     if (!step || !quien) return;
     $$('.preset', step).forEach((n) => n.remove());
     $(`.opt[data-value="${quien}"] strong`, step)?.append(
-      Object.assign(document.createElement('span'), { className: 'preset', textContent: '· según tu elección arriba' }),
+      Object.assign(document.createElement('span'), {
+        className: 'preset',
+        textContent: '· según tu elección arriba',
+      }),
     );
   }
 

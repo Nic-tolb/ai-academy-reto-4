@@ -83,14 +83,38 @@ export type ToolGroup = 'Pensar y escribir' | 'Investigar' | 'Automatizar' | 'Cr
 
 /** Las 14 herramientas con sus taglines literales. La agrupación es editorial. */
 export const TOOLS: readonly { name: string; tagline: string; group: ToolGroup }[] = [
-  { name: 'ChatGPT', tagline: 'Asistente conversacional para ideas y código', group: 'Pensar y escribir' },
-  { name: 'Claude', tagline: 'IA colaborativa con atención al detalle', group: 'Pensar y escribir' },
+  {
+    name: 'ChatGPT',
+    tagline: 'Asistente conversacional para ideas y código',
+    group: 'Pensar y escribir',
+  },
+  {
+    name: 'Claude',
+    tagline: 'IA colaborativa con atención al detalle',
+    group: 'Pensar y escribir',
+  },
   { name: 'Gemini', tagline: 'Visión multimodal impulsada por Google', group: 'Pensar y escribir' },
-  { name: 'Microsoft Copilot', tagline: 'Asistencia integrada en el ecosistema Microsoft', group: 'Organizar' },
-  { name: 'GitHub Copilot', tagline: 'Colaborador de código en tiempo real', group: 'Pensar y escribir' },
+  {
+    name: 'Microsoft Copilot',
+    tagline: 'Asistencia integrada en el ecosistema Microsoft',
+    group: 'Organizar',
+  },
+  {
+    name: 'GitHub Copilot',
+    tagline: 'Colaborador de código en tiempo real',
+    group: 'Pensar y escribir',
+  },
   { name: 'Perplexity', tagline: 'Investigación asistida por IA', group: 'Investigar' },
-  { name: 'NotebookLM', tagline: 'Tu asistente de investigación personalizado', group: 'Investigar' },
-  { name: 'Read AI', tagline: 'Resúmenes y análisis inteligentes para reuniones', group: 'Organizar' },
+  {
+    name: 'NotebookLM',
+    tagline: 'Tu asistente de investigación personalizado',
+    group: 'Investigar',
+  },
+  {
+    name: 'Read AI',
+    tagline: 'Resúmenes y análisis inteligentes para reuniones',
+    group: 'Organizar',
+  },
   { name: 'Notion AI', tagline: 'Organización y contenido en un solo espacio', group: 'Organizar' },
   { name: 'Make', tagline: 'Orquestación visual de procesos', group: 'Automatizar' },
   { name: 'Zapier', tagline: 'Automatización con inteligencia contextual', group: 'Automatizar' },

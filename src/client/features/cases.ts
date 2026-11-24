@@ -18,7 +18,9 @@ export function initCases(): void {
   const setAfter = (after: boolean) => {
     showingAfter = after;
     panels.forEach((panel) => $('[data-compare]', panel)?.classList.toggle('is-after', after));
-    switchButtons.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.state === 'after') === after)));
+    switchButtons.forEach((b) =>
+      b.setAttribute('aria-pressed', String((b.dataset.state === 'after') === after)),
+    );
   };
 
   const select = (index: number, focus = false) => {
@@ -50,7 +52,9 @@ export function initCases(): void {
     });
   });
 
-  switchButtons.forEach((b) => b.addEventListener('click', () => setAfter(b.dataset.state === 'after')));
+  switchButtons.forEach((b) =>
+    b.addEventListener('click', () => setAfter(b.dataset.state === 'after')),
+  );
 
   // Gesto horizontal: izquierda → después, derecha → antes. Un toque alterna.
   for (const panel of panels) {

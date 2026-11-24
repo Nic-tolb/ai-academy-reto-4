@@ -12,7 +12,10 @@ export function initMotion(): void {
 
   whenIdle(async () => {
     try {
-      const [{ gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')]);
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ]);
       gsap.registerPlugin(ScrollTrigger);
       document.documentElement.classList.add('motion-ready');
 
@@ -21,7 +24,14 @@ export function initMotion(): void {
         start: 'top 88%',
         once: true,
         onEnter: (els) =>
-          gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08, overwrite: true }),
+          gsap.to(els, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+            stagger: 0.08,
+            overwrite: true,
+          }),
       });
       // Lo que ya está en pantalla al cargar, se muestra sin esperar al scroll.
       ScrollTrigger.refresh();
@@ -47,9 +57,19 @@ export function initMotion(): void {
         const tl = gsap.timeline({
           scrollTrigger: { trigger: stagesBox, start: 'top 80%', once: true },
         });
-        tl.from(stages, { y: (i: number) => 40 * (i + 1), opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 });
+        tl.from(stages, {
+          y: (i: number) => 40 * (i + 1),
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.12,
+        });
         stages.forEach((stage, i) => {
-          tl.from($$('.hours i', stage), { scaleX: 0, duration: 0.35, ease: 'power2.out', stagger: 0.03 }, 0.3 + i * 0.25);
+          tl.from(
+            $$('.hours i', stage),
+            { scaleX: 0, duration: 0.35, ease: 'power2.out', stagger: 0.03 },
+            0.3 + i * 0.25,
+          );
         });
       }
 
@@ -60,7 +80,8 @@ export function initMotion(): void {
           return r.bottom > 0 && r.top < window.innerHeight;
         };
         $$('[data-reveal], [data-stage]').forEach((el) => {
-          if (inView(el) && Number(getComputedStyle(el).opacity) < 0.05) gsap.set(el, { opacity: 1, y: 0 });
+          if (inView(el) && Number(getComputedStyle(el).opacity) < 0.05)
+            gsap.set(el, { opacity: 1, y: 0 });
         });
         $$('.hours i').forEach((el) => {
           if (inView(el) && el.getBoundingClientRect().width < 1) gsap.set(el, { scaleX: 1 });

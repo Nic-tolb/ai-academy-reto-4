@@ -13,53 +13,62 @@ import { CASES } from '../data/content';
 
 <Section phaseId="casos-uso" halo="tr">
   <SectionHead phaseId="casos-uso">
-    <Fragment slot="title">Del antes al <em>después</em>, con tareas reales.</Fragment>
+    <Fragment slot="title">
+      Del antes al <em>después</em>, con tareas reales.
+    </Fragment>
     Elige un perfil y desliza para ver el salto concreto en su día a día.
   </SectionHead>
 
   <div class="explorer" data-cases data-reveal>
     <div class="chip-row" role="tablist" aria-label="Perfiles">
-      {
-        CASES.map((c, i) => (
-          <button
-            type="button"
-            role="tab"
-            class="chip"
-            id={`tab-${c.id}`}
-            aria-controls={`panel-${c.id}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? 0 : -1}
-            data-tab
-          >
-            {c.role}
-          </button>
-        ))
-      }
+      {CASES.map((c, i) => (
+        <button
+          type="button"
+          role="tab"
+          class="chip"
+          id={`tab-${c.id}`}
+          aria-controls={`panel-${c.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          data-tab
+        >
+          {c.role}
+        </button>
+      ))}
     </div>
 
-    {
-      CASES.map((c, i) => (
-        <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`tab-${c.id}`} hidden={i !== 0} data-panel>
-          <div class="compare" data-compare>
-            <div class="side before">
-              <p class="tag">Antes</p>
-              <p class="text">{c.before}</p>
-            </div>
-            <div class="side after" data-after>
-              <p class="tag">Después</p>
-              <p class="text">{c.after}</p>
-            </div>
+    {CASES.map((c, i) => (
+      <div
+        class="panel"
+        role="tabpanel"
+        id={`panel-${c.id}`}
+        aria-labelledby={`tab-${c.id}`}
+        hidden={i !== 0}
+        data-panel
+      >
+        <div class="compare" data-compare>
+          <div class="side before">
+            <p class="tag">Antes</p>
+            <p class="text">{c.before}</p>
+          </div>
+          <div class="side after" data-after>
+            <p class="tag">Después</p>
+            <p class="text">{c.after}</p>
           </div>
         </div>
-      ))
-    }
+      </div>
+    ))}
 
     <div class="switch" role="group" aria-label="Comparar" data-switch>
-      <button type="button" class="chip chip--contrast" aria-pressed="true" data-state="before">Antes</button>
+      <button type="button" class="chip chip--contrast" aria-pressed="true" data-state="before">
+        Antes
+      </button>
       <button type="button" class="chip chip--contrast" aria-pressed="false" data-state="after">
         Después <span aria-hidden="true">→</span>
       </button>
-      <p class="swipe-hint" aria-hidden="true">o desliza la tarjeta</p>
+      <p class="swipe-hint" aria-hidden="true">
+        o desliza la tarjeta
+      </p>
     </div>
   </div>
 </Section>

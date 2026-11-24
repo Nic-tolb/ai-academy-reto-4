@@ -23,8 +23,16 @@ export const QUESTIONS: readonly Question[] = [
     id: 'formato',
     title: '¿Cómo prefieres aprender?',
     options: [
-      { value: 'vivo', label: 'En vivo, con un trainer', hint: `Sesiones de ${stageHoursList()} horas, presenciales o virtuales` },
-      { value: 'ritmo', label: 'A mi ritmo, cuando pueda', hint: `Contenido ${nebula.duration.toLowerCase()} con acceso 24/7` },
+      {
+        value: 'vivo',
+        label: 'En vivo, con un trainer',
+        hint: `Sesiones de ${stageHoursList()} horas, presenciales o virtuales`,
+      },
+      {
+        value: 'ritmo',
+        label: 'A mi ritmo, cuando pueda',
+        hint: `Contenido ${nebula.duration.toLowerCase()} con acceso 24/7`,
+      },
     ],
   },
   {
@@ -33,16 +41,32 @@ export const QUESTIONS: readonly Question[] = [
     options: [
       { value: 'yo', label: 'Solo yo', hint: 'Quiero aplicarla en mi propio trabajo' },
       { value: 'equipo', label: 'Mi equipo', hint: 'Varias personas con tareas parecidas' },
-      { value: 'medida', label: 'Mi empresa, con un programa a medida', hint: 'Herramientas, duración y casos según nuestra industria' },
+      {
+        value: 'medida',
+        label: 'Mi empresa, con un programa a medida',
+        hint: 'Herramientas, duración y casos según nuestra industria',
+      },
     ],
   },
   {
     id: 'meta',
     title: '¿Hasta dónde quieres llegar?',
     options: [
-      { value: 'diario', label: 'Usar la IA a diario y entender su impacto', hint: 'Un asistente de IA para tu trabajo diario' },
-      { value: 'agentes', label: 'Prompts precisos y agentes para mi rol', hint: 'Resultados más finos y asistentes propios' },
-      { value: 'automatizar', label: 'Automatizar procesos con n8n', hint: liftoff.includes[3] ?? '' },
+      {
+        value: 'diario',
+        label: 'Usar la IA a diario y entender su impacto',
+        hint: 'Un asistente de IA para tu trabajo diario',
+      },
+      {
+        value: 'agentes',
+        label: 'Prompts precisos y agentes para mi rol',
+        hint: 'Resultados más finos y asistentes propios',
+      },
+      {
+        value: 'automatizar',
+        label: 'Automatizar procesos con n8n',
+        hint: liftoff.includes[3] ?? '',
+      },
     ],
   },
 ];

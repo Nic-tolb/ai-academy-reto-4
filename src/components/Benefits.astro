@@ -6,19 +6,19 @@ import { BENEFITS } from '../data/content';
 
 <Section phaseId="beneficios" halo="bl">
   <SectionHead phaseId="beneficios">
-    <Fragment slot="title">Lo que te llevas de cada <em>misión</em>.</Fragment>
+    <Fragment slot="title">
+      Lo que te llevas de cada <em>misión</em>.
+    </Fragment>
     Por qué elegir Campuslands AI Academy.
   </SectionHead>
   <ul class="cards">
-    {
-      BENEFITS.map((b) => (
-        <li class="card" data-reveal>
-          <span class="label">{b.tag}</span>
-          <h3>{b.title}</h3>
-          <p>{b.text}</p>
-        </li>
-      ))
-    }
+    {BENEFITS.map((b) => (
+      <li class="card" data-reveal>
+        <span class="label">{b.tag}</span>
+        <h3>{b.title}</h3>
+        <p>{b.text}</p>
+      </li>
+    ))}
   </ul>
 </Section>
 

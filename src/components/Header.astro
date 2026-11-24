@@ -14,52 +14,98 @@ import { NAV, PHASES } from '../data/phases';
 
       <nav class="nav" aria-label="Principal">
         <ul>
-          {NAV.map((item) => <li><a href={item.href} data-nav-link>{item.label}</a></li>)}
-          <li><a href={LINKS.diagnostico}>Diagnóstico</a></li>
-          <li><a href={LINKS.certificado}>Certificado</a></li>
+          {NAV.map((item) => (
+            <li>
+              <a href={item.href} data-nav-link>
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={LINKS.diagnostico}>Diagnóstico</a>
+          </li>
+          <li>
+            <a href={LINKS.certificado}>Certificado</a>
+          </li>
         </ul>
       </nav>
 
       <div class="actions">
-        <a class="icon-btn icon-btn--sm" href={LINKS.whatsapp} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp (se abre en otra pestaña)">
+        <a
+          class="icon-btn icon-btn--sm"
+          href={LINKS.whatsapp}
+          target="_blank"
+          rel="noopener"
+          aria-label="Escríbenos por WhatsApp (se abre en otra pestaña)"
+        >
           <Icon name="whatsapp" />
         </a>
-        <a class="btn btn--primary btn--sm" href={LINKS.inscripcion}>Inscríbete</a>
+        <a class="btn btn--primary btn--sm" href={LINKS.inscripcion}>
+          Inscríbete
+        </a>
       </div>
 
-      <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-        <span class="sr-only" data-menu-label>Abrir menú</span>
-        <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <button
+        class="icon-btn menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="sr-only" data-menu-label>
+          Abrir menú
+        </span>
+        <span class="bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
     </div>
 
     <div class="phase-bar" aria-hidden="true">
-      <ol>{PHASES.map(() => <li data-phase-seg></li>)}</ol>
-      <p data-phase-label>{PHASES[0].code} · {PHASES[0].name}</p>
+      <ol>
+        {PHASES.map(() => (
+          <li data-phase-seg></li>
+        ))}
+      </ol>
+      <p data-phase-label>
+        {PHASES[0].code} · {PHASES[0].name}
+      </p>
     </div>
   </div>
 </header>
 
 <nav class="mobile-menu" id="mobile-menu" aria-label="Menú" data-menu hidden>
   <ul>
-    {
-      NAV.map((item) => {
-        const p = PHASES.find((ph) => `#${ph.id}` === item.href);
-        return (
-          <li>
-            <a href={item.href}>
-              {item.label} <span>{p?.code}</span>
-            </a>
-          </li>
-        );
-      })
-    }
-    <li><a href={LINKS.diagnostico}>Diagnóstico <span>↗</span></a></li>
-    <li><a href={LINKS.certificado}>Certificado <span>↗</span></a></li>
+    {NAV.map((item) => {
+      const p = PHASES.find((ph) => `#${ph.id}` === item.href);
+      return (
+        <li>
+          <a href={item.href}>
+            {item.label} <span>{p?.code}</span>
+          </a>
+        </li>
+      );
+    })}
+    <li>
+      <a href={LINKS.diagnostico}>
+        Diagnóstico <span>↗</span>
+      </a>
+    </li>
+    <li>
+      <a href={LINKS.certificado}>
+        Certificado <span>↗</span>
+      </a>
+    </li>
   </ul>
   <div class="menu-ctas">
-    <a class="btn btn--primary" href={LINKS.inscripcion}>Inscríbete</a>
-    <a class="btn btn--secondary" href={LINKS.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Hablar con un especialista</a>
+    <a class="btn btn--primary" href={LINKS.inscripcion}>
+      Inscríbete
+    </a>
+    <a class="btn btn--secondary" href={LINKS.whatsapp} target="_blank" rel="noopener">
+      <Icon name="whatsapp" /> Hablar con un especialista
+    </a>
   </div>
 </nav>
 
@@ -149,15 +195,27 @@ import { NAV, PHASES } from '../data/phases';
       transition:
         transform 0.2s var(--ease),
         opacity 0.2s;
-      &:nth-child(1) { top: 0; }
-      &:nth-child(2) { top: 5px; }
-      &:nth-child(3) { top: 10px; }
+      &:nth-child(1) {
+        top: 0;
+      }
+      &:nth-child(2) {
+        top: 5px;
+      }
+      &:nth-child(3) {
+        top: 10px;
+      }
     }
   }
   [aria-expanded='true'] .bars span {
-    &:nth-child(1) { transform: translateY(5px) rotate(45deg); }
-    &:nth-child(2) { opacity: 0; }
-    &:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+    &:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+    }
+    &:nth-child(3) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
   }
 
   @include up(xl) {
@@ -188,8 +246,12 @@ import { NAV, PHASES } from '../data/phases';
       border-radius: 3px;
       background: var(--line);
       transition: background-color 0.3s;
-      &:global(.is-past) { background: var(--line-strong); }
-      &:global(.is-active) { background: var(--electric); }
+      &:global(.is-past) {
+        background: var(--line-strong);
+      }
+      &:global(.is-active) {
+        background: var(--electric);
+      }
     }
     p {
       @include label;

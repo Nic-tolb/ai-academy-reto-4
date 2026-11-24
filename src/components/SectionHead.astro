@@ -9,7 +9,15 @@ const p = phase(Astro.props.phaseId);
 ---
 
 <div class="section-head" data-reveal>
-  <span class="pill">{p.code} · {p.name}</span>
-  <h2 id={`${p.id}-title`}><slot name="title" /></h2>
-  {Astro.slots.has('default') && <p><slot /></p>}
+  <span class="pill">
+    {p.code} · {p.name}
+  </span>
+  <h2 id={`${p.id}-title`}>
+    <slot name="title" />
+  </h2>
+  {Astro.slots.has('default') && (
+    <p>
+      <slot />
+    </p>
+  )}
 </div>

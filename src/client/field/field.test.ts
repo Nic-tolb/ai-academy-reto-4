@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { FrameMonitor } from './frame-monitor';
 import { bezier, buildPaths, STOPS, stopT, tangent, type Cubic } from './geometry';
-import { particleBudget, repulsion, simulate, spawn, stepPulses, type Pointer, type Pulse } from './particles';
+import {
+  particleBudget,
+  repulsion,
+  simulate,
+  spawn,
+  stepPulses,
+  type Pointer,
+  type Pulse,
+} from './particles';
 
 /** Generador pseudoaleatorio determinista para pruebas reproducibles. */
 function seeded(seed = 1) {
@@ -67,21 +75,44 @@ describe('partículas', () => {
 
   it('el empuje es más fuerte cerca del puntero', () => {
     const pointer: Pointer = { x: 0, y: 0, active: true, strength: 1 };
-    expect(repulsion(10, 0, pointer, 100, [], 0).fx).toBeGreaterThan(repulsion(80, 0, pointer, 100, [], 0).fx);
+    expect(repulsion(10, 0, pointer, 100, [], 0).fx).toBeGreaterThan(
+      repulsion(80, 0, pointer, 100, [], 0).fx,
+    );
   });
 
   it('las partículas avanzan y se reciclan al terminar la ruta', () => {
     const rng = seeded(7);
     const p = spawn(rng);
     p.t = 0.999;
-    simulate([p], { dt: 0.05, frozen: false, boost: 0, path: line, spread: 0, pointer: idlePointer, pointerRadius: 0, pulses: [], lift: 0, rng });
+    simulate([p], {
+      dt: 0.05,
+      frozen: false,
+      boost: 0,
+      path: line,
+      spread: 0,
+      pointer: idlePointer,
+      pointerRadius: 0,
+      pulses: [],
+      lift: 0,
+      rng,
+    });
     expect(p.t).toBeLessThan(0.5);
   });
 
   it('congeladas no avanzan', () => {
     const p = spawn(seeded(3));
     const t0 = p.t;
-    simulate([p], { dt: 0.05, frozen: true, boost: 1, path: line, spread: 0, pointer: idlePointer, pointerRadius: 0, pulses: [], lift: 0 });
+    simulate([p], {
+      dt: 0.05,
+      frozen: true,
+      boost: 1,
+      path: line,
+      spread: 0,
+      pointer: idlePointer,
+      pointerRadius: 0,
+      pulses: [],
+      lift: 0,
+    });
     expect(p.t).toBe(t0);
   });
 

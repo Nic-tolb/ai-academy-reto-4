@@ -7,78 +7,111 @@ import { LINKS } from '../data/links';
 ---
 
 <Section phaseId="planes" halo="tr">
-    <SectionHead phaseId="planes">
-      <Fragment slot="title">Elige tu <em>misión</em>.</Fragment>
-      Tres etapas en vivo que se suman una sobre otra, y dos trayectorias aparte: una a la medida de tu
-      empresa y otra a tu ritmo.
-    </SectionHead>
+  <SectionHead phaseId="planes">
+    <Fragment slot="title">
+      Elige tu <em>misión</em>.
+    </Fragment>
+    Tres etapas en vivo que se suman una sobre otra, y dos trayectorias aparte: una a la medida de
+    tu empresa y otra a tu ritmo.
+  </SectionHead>
 
-    <div class="grid">
-      <Recommender />
+  <div class="grid">
+    <Recommender />
 
-      <div>
-        <p class="group-label">Etapas en vivo · cada una incluye la anterior</p>
-        <ol class="stages" data-stages>
-          {
-            STAGES.map((m, i) => {
-              const own = (m.hours ?? 0) - (i === 0 ? 0 : (STAGES[i - 1]?.hours ?? 0));
-              const inherited = (m.hours ?? 0) - own;
-              return (
-                <li class="stage" id={`mision-${m.id}`} data-mission={m.id} data-stage>
-                  <span class="pill badge" data-badge hidden>Recomendada para ti</span>
-                  <div class="stage-head">
-                    <span class="step-num" aria-hidden="true">{i + 1}</span>
-                    <div class="titles">
-                      <p class="code">{m.stage}</p>
-                      <h3>{m.name}</h3>
-                    </div>
-                    <p class="hours-num"><strong>{m.hours}</strong>horas</p>
-                  </div>
-                  <div class="hours" role="img" aria-label={inherited ? `${m.hours} horas: ${inherited} de la etapa anterior y ${own} propias` : `${m.hours} horas`}>
-                    {Array.from({ length: MAX_HOURS }, (_, h) => (
-                      <i class:list={[{ inh: h < inherited, own: h >= inherited && h < inherited + own }]} />
-                    ))}
-                  </div>
-                  <ul class="incl">
-                    {m.includes.map((item, k) => <li class:list={[{ inherit: k === m.inheritedIndex }]}>{item}</li>)}
-                  </ul>
-                  <a class="btn btn--secondary" href={LINKS.inscripcion}>{ctaLabel(m)}</a>
-                </li>
-              );
-            })
-          }
-        </ol>
-        <p class="legend" aria-hidden="true"><span>Horas propias de la etapa</span><span class="inh">Horas de la etapa anterior</span></p>
-
-        <div class="tracks">
-          {
-            TRACKS.map((m) => (
-              <article class="track" id={`mision-${m.id}`} data-mission={m.id} data-reveal>
-                <span class="pill badge" data-badge hidden>Recomendada para ti</span>
-                <div>
+    <div>
+      <p class="group-label">Etapas en vivo · cada una incluye la anterior</p>
+      <ol class="stages" data-stages>
+        {STAGES.map((m, i) => {
+          const own = (m.hours ?? 0) - (i === 0 ? 0 : (STAGES[i - 1]?.hours ?? 0));
+          const inherited = (m.hours ?? 0) - own;
+          return (
+            <li class="stage" id={`mision-${m.id}`} data-mission={m.id} data-stage>
+              <span class="pill badge" data-badge hidden>
+                Recomendada para ti
+              </span>
+              <div class="stage-head">
+                <span class="step-num" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div class="titles">
                   <p class="code">{m.stage}</p>
                   <h3>{m.name}</h3>
-                  <p class="track-dur">{m.duration}</p>
                 </div>
-                <ul class="incl">
-                  {m.includes.map((item) => <li>{item}</li>)}
-                </ul>
-                <div class="track-actions">
-                  {m.channel === 'whatsapp' ? (
-                    <>
-                      <a class="btn btn--primary" href={LINKS.whatsapp} target="_blank" rel="noopener">{ctaLabel(m)}</a>
-                      <a class="btn btn--secondary" href={LINKS.inscripcion}>Inscríbete</a>
-                    </>
-                  ) : (
-                    <a class="btn btn--secondary" href={LINKS.inscripcion}>{ctaLabel(m)}</a>
-                  )}
-                </div>
-              </article>
-            ))
-          }
-        </div>
+                <p class="hours-num">
+                  <strong>{m.hours}</strong>horas
+                </p>
+              </div>
+              <div
+                class="hours"
+                role="img"
+                aria-label={
+                  inherited
+                    ? `${m.hours} horas: ${inherited} de la etapa anterior y ${own} propias`
+                    : `${m.hours} horas`
+                }
+              >
+                {Array.from({ length: MAX_HOURS }, (_, h) => (
+                  <i
+                    class:list={[
+                      { inh: h < inherited, own: h >= inherited && h < inherited + own },
+                    ]}
+                  />
+                ))}
+              </div>
+              <ul class="incl">
+                {m.includes.map((item, k) => (
+                  <li class:list={[{ inherit: k === m.inheritedIndex }]}>{item}</li>
+                ))}
+              </ul>
+              <a class="btn btn--secondary" href={LINKS.inscripcion}>
+                {ctaLabel(m)}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+      <p class="legend" aria-hidden="true">
+        <span>Horas propias de la etapa</span>
+        <span class="inh">Horas de la etapa anterior</span>
+      </p>
+
+      <div class="tracks">
+        {TRACKS.map((m) => (
+          <article class="track" id={`mision-${m.id}`} data-mission={m.id} data-reveal>
+            <span class="pill badge" data-badge hidden>
+              Recomendada para ti
+            </span>
+            <div>
+              <p class="code">{m.stage}</p>
+              <h3>{m.name}</h3>
+              <p class="track-dur">{m.duration}</p>
+            </div>
+            <ul class="incl">
+              {m.includes.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <div class="track-actions">
+              {m.channel === 'whatsapp' ? (
+                <>
+                  <a class="btn btn--primary" href={LINKS.whatsapp} target="_blank" rel="noopener">
+                    {ctaLabel(m)}
+                  </a>
+                  <a class="btn btn--secondary" href={LINKS.inscripcion}>
+                    Inscríbete
+                  </a>
+                </>
+              ) : (
+                <a class="btn btn--secondary" href={LINKS.inscripcion}>
+                  {ctaLabel(m)}
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
+  </div>
 </Section>
 
 <style lang="scss">

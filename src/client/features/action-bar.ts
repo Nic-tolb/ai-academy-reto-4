@@ -19,10 +19,13 @@ export function initActionBar(): void {
     bar.toggleAttribute('inert', !show);
   };
 
-  new IntersectionObserver(([e]) => {
-    state.hero = Boolean(e?.isIntersecting);
-    render();
-  }, { threshold: 0.1 }).observe(hero);
+  new IntersectionObserver(
+    ([e]) => {
+      state.hero = Boolean(e?.isIntersecting);
+      render();
+    },
+    { threshold: 0.1 },
+  ).observe(hero);
 
   if (footer) {
     new IntersectionObserver(([e]) => {

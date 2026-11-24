@@ -6,25 +6,25 @@ La narrativa espacial de la marca es la estructura de la página: el recorrido e
 
 ## Piezas interactivas
 
-| Pieza | Dónde | Qué hace |
-|---|---|---|
-| Hero que reacciona | `src/components/Hero.astro`, `src/scripts/hero/field.ts` | Campo de trayectorias en canvas: el cursor o el dedo desvían las partículas, un toque lanza una onda. Al elegir *Empresa, Líder de equipo o Independiente*, la trayectoria se dibuja hasta la misión sugerida y el texto y el CTA se adaptan. El scroll acelera el despegue. |
-| Recorrido narrativo | `src/components/PhaseRail.astro`, `src/scripts/modules/phases.ts`, `motion.ts` | Riel de fases (escritorio) y barra segmentada (móvil) que indican y permiten saltar entre fases; revelado con GSAP ScrollTrigger; las etapas se apilan y sus horas se encienden. |
-| Recomendador | `src/components/Recommender.astro`, `src/lib/recommend.ts` | Hasta 3 preguntas → misión recomendada, razones literales del plan, alternativa y CTA real. Lógica pura cubierta con Vitest. |
-| Exploración libre | `src/components/Cases.astro`, `Tools.astro` | Antes/después por perfil con barrido (botones o gesto) y constelación de las 14 herramientas filtrable por objetivo. |
+| Pieza               | Dónde                                                                          | Qué hace                                                                                                                                                                                                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero que reacciona  | `src/components/Hero.astro`, `src/scripts/hero/field.ts`                       | Campo de trayectorias en canvas: el cursor o el dedo desvían las partículas, un toque lanza una onda. Al elegir _Empresa, Líder de equipo o Independiente_, la trayectoria se dibuja hasta la misión sugerida y el texto y el CTA se adaptan. El scroll acelera el despegue. |
+| Recorrido narrativo | `src/components/PhaseRail.astro`, `src/scripts/modules/phases.ts`, `motion.ts` | Riel de fases (escritorio) y barra segmentada (móvil) que indican y permiten saltar entre fases; revelado con GSAP ScrollTrigger; las etapas se apilan y sus horas se encienden.                                                                                             |
+| Recomendador        | `src/components/Recommender.astro`, `src/lib/recommend.ts`                     | Hasta 3 preguntas → misión recomendada, razones literales del plan, alternativa y CTA real. Lógica pura cubierta con Vitest.                                                                                                                                                 |
+| Exploración libre   | `src/components/Cases.astro`, `Tools.astro`                                    | Antes/después por perfil con barrido (botones o gesto) y constelación de las 14 herramientas filtrable por objetivo.                                                                                                                                                         |
 
 ## Stack
 
-| Capa | Herramienta | Por qué |
-|---|---|---|
-| Sitio | [Astro 7](https://astro.build) + TypeScript estricto | HTML estático con todo el contenido; JavaScript solo para las interacciones. |
-| Estilos | Sass (tokens + mixins) | Paleta y escalas del manual en un solo lugar. |
-| Movimiento | GSAP + ScrollTrigger (carga diferida) | Animaciones ligadas al scroll sin bloquearlo. |
-| Hero | Canvas 2D propio | Más liviano y estable en celulares que WebGL. |
-| Tipografía | Poppins vía Fontsource | Autoalojada, sin depender de terceros. |
-| Imágenes | `astro:assets` + sharp | WebP responsivo (logo: 83 kB → 3 kB). |
-| Recursos de marca | Python (PyMuPDF, Pillow) | Extrae del manual los archivos originales sin redibujarlos. |
-| Pruebas | Vitest, Playwright, Lighthouse | Lógica, navegador real a 375 / 1440 px y rendimiento. |
+| Capa              | Herramienta                                          | Por qué                                                                      |
+| ----------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Sitio             | [Astro 7](https://astro.build) + TypeScript estricto | HTML estático con todo el contenido; JavaScript solo para las interacciones. |
+| Estilos           | Sass (tokens + mixins)                               | Paleta y escalas del manual en un solo lugar.                                |
+| Movimiento        | GSAP + ScrollTrigger (carga diferida)                | Animaciones ligadas al scroll sin bloquearlo.                                |
+| Hero              | Canvas 2D propio                                     | Más liviano y estable en celulares que WebGL.                                |
+| Tipografía        | Poppins vía Fontsource                               | Autoalojada, sin depender de terceros.                                       |
+| Imágenes          | `astro:assets` + sharp                               | WebP responsivo (logo: 83 kB → 3 kB).                                        |
+| Recursos de marca | Python (PyMuPDF, Pillow)                             | Extrae del manual los archivos originales sin redibujarlos.                  |
+| Pruebas           | Vitest, Playwright, Lighthouse                       | Lógica, navegador real a 375 / 1440 px y rendimiento.                        |
 
 ## Estabilidad
 

@@ -30,5 +30,11 @@ const p = phase(phaseId);
   <slot name="background" />
   {(halo === 'tr' || halo === 'both') && <span class="halo halo--tr" aria-hidden="true" />}
   {(halo === 'bl' || halo === 'both') && <span class="halo halo--bl" aria-hidden="true" />}
-  {wrap ? <div class="wrap"><slot /></div> : <slot />}
+  {wrap ? (
+    <div class="wrap">
+      <slot />
+    </div>
+  ) : (
+    <slot />
+  )}
 </section>

@@ -6,18 +6,18 @@ import { URGENCY } from '../data/content';
 
 <Section phaseId="urgencia" halo="bl">
   <SectionHead phaseId="urgencia">
-    <Fragment slot="title">Cada semana sin IA aplicada cuesta <em>velocidad</em>.</Fragment>
+    <Fragment slot="title">
+      Cada semana sin IA aplicada cuesta <em>velocidad</em>.
+    </Fragment>
     Y competitividad. Esto es lo que pesa mientras esperas.
   </SectionHead>
   <ol class="reasons">
-    {
-      URGENCY.map((r) => (
-        <li data-reveal>
-          <h3>{r.title}</h3>
-          <p>{r.text}</p>
-        </li>
-      ))
-    }
+    {URGENCY.map((r) => (
+      <li data-reveal>
+        <h3>{r.title}</h3>
+        <p>{r.text}</p>
+      </li>
+    ))}
   </ol>
 </Section>
 

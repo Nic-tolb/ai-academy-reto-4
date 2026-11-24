@@ -6,20 +6,20 @@ import { TESTIMONIALS } from '../data/content';
 
 <Section phaseId="resenas">
   <SectionHead phaseId="resenas">
-    <Fragment slot="title">Equipos que ya están en <em>órbita</em>.</Fragment>
+    <Fragment slot="title">
+      Equipos que ya están en <em>órbita</em>.
+    </Fragment>
   </SectionHead>
   <div class="quotes">
-    {
-      TESTIMONIALS.map((t) => (
-        <figure class="quote" data-reveal>
-          <blockquote>«{t.quote}»</blockquote>
-          <figcaption>
-            <strong>{t.name}</strong>
-            {t.role}
-          </figcaption>
-        </figure>
-      ))
-    }
+    {TESTIMONIALS.map((t) => (
+      <figure class="quote" data-reveal>
+        <blockquote>«{t.quote}»</blockquote>
+        <figcaption>
+          <strong>{t.name}</strong>
+          {t.role}
+        </figcaption>
+      </figure>
+    ))}
   </div>
 </Section>
 

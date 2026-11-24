@@ -9,7 +9,8 @@ export interface Point {
 export type Cubic = readonly [Point, Point, Point, Point];
 
 export const lerp = (a: number, b: number, k: number): number => a + (b - a) * k;
-export const clamp = (v: number, min: number, max: number): number => Math.min(max, Math.max(min, v));
+export const clamp = (v: number, min: number, max: number): number =>
+  Math.min(max, Math.max(min, v));
 
 /** Punto de una curva cúbica de Bézier en t ∈ [0, 1]. */
 export function bezier([p0, p1, p2, p3]: Cubic, t: number): Point {
@@ -18,7 +19,10 @@ export function bezier([p0, p1, p2, p3]: Cubic, t: number): Point {
   const b = 3 * u * u * t;
   const c = 3 * u * t * t;
   const d = t * t * t;
-  return { x: a * p0.x + b * p1.x + c * p2.x + d * p3.x, y: a * p0.y + b * p1.y + c * p2.y + d * p3.y };
+  return {
+    x: a * p0.x + b * p1.x + c * p2.x + d * p3.x,
+    y: a * p0.y + b * p1.y + c * p2.y + d * p3.y,
+  };
 }
 
 /** Tangente unitaria de la curva en t (para separar las partículas en carriles). */

@@ -9,41 +9,55 @@ import { LINKS } from '../data/links';
 ---
 
 <Section phaseId="faqs" halo="bl">
-    <SectionHead phaseId="faqs">
-      <Fragment slot="title">Preguntas antes del <em>despegue</em>.</Fragment>
-    </SectionHead>
+  <SectionHead phaseId="faqs">
+    <Fragment slot="title">
+      Preguntas antes del <em>despegue</em>.
+    </Fragment>
+  </SectionHead>
 
-    <div class="grid">
-      <div class="faq">
-        {
-          FAQS.map((f) => (
-            <details data-reveal>
-              <summary>{f.q}</summary>
-              <p>{f.a}</p>
-            </details>
-          ))
-        }
-      </div>
-
-      <div class="side">
-        <Image src={maxExplicando} alt="Max, el astronauta de AI Academy, explicando" width={150} densities={[1, 2]} format="webp" class="max" />
-        <div class="card" data-reveal>
-          <span class="label">Empresas</span>
-          <h3>Diagnóstico con un asesor</h3>
-          <p>Identifiquen juntos las tareas donde la IA tendría más impacto en tu empresa.</p>
-          <a class="link" href={LINKS.diagnostico}>Ir al diagnóstico <Icon name="external" class="ext" /></a>
-        </div>
-        <div class="card" data-reveal>
-          <span class="label">Egresados</span>
-          <h3>Tu certificado</h3>
-          <p>¿Ya terminaste tu formación? Consulta y descarga tu certificado.</p>
-          <a class="link" href={LINKS.certificado}>Consultar certificado <Icon name="external" class="ext" /></a>
-        </div>
-        <p class="wa">
-          ¿Otra pregunta? <a class="link" href={LINKS.whatsapp} target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
-        </p>
-      </div>
+  <div class="grid">
+    <div class="faq">
+      {FAQS.map((f) => (
+        <details data-reveal>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
     </div>
+
+    <div class="side">
+      <Image
+        src={maxExplicando}
+        alt="Max, el astronauta de AI Academy, explicando"
+        width={150}
+        densities={[1, 2]}
+        format="webp"
+        class="max"
+      />
+      <div class="card" data-reveal>
+        <span class="label">Empresas</span>
+        <h3>Diagnóstico con un asesor</h3>
+        <p>Identifiquen juntos las tareas donde la IA tendría más impacto en tu empresa.</p>
+        <a class="link" href={LINKS.diagnostico}>
+          Ir al diagnóstico <Icon name="external" class="ext" />
+        </a>
+      </div>
+      <div class="card" data-reveal>
+        <span class="label">Egresados</span>
+        <h3>Tu certificado</h3>
+        <p>¿Ya terminaste tu formación? Consulta y descarga tu certificado.</p>
+        <a class="link" href={LINKS.certificado}>
+          Consultar certificado <Icon name="external" class="ext" />
+        </a>
+      </div>
+      <p class="wa">
+        ¿Otra pregunta?{' '}
+        <a class="link" href={LINKS.whatsapp} target="_blank" rel="noopener">
+          Escríbenos por WhatsApp
+        </a>
+      </p>
+    </div>
+  </div>
 </Section>
 
 <style lang="scss">

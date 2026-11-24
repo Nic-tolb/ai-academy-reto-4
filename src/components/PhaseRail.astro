@@ -5,17 +5,15 @@ import { PHASES } from '../data/phases';
 <nav class="phase-rail" aria-label="Plan de vuelo">
   <span class="fill" aria-hidden="true" data-rail-fill></span>
   <ol>
-    {
-      PHASES.map((p) => (
-        <li>
-          <a href={`#${p.id}`} data-phase-link>
-            <span class="tick" aria-hidden="true" />
-            <span class="code">{p.code}</span>
-            <span class="name">{p.name}</span>
-          </a>
-        </li>
-      ))
-    }
+    {PHASES.map((p) => (
+      <li>
+        <a href={`#${p.id}`} data-phase-link>
+          <span class="tick" aria-hidden="true" />
+          <span class="code">{p.code}</span>
+          <span class="name">{p.name}</span>
+        </a>
+      </li>
+    ))}
   </ol>
 </nav>
 

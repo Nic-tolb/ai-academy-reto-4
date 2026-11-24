@@ -29,9 +29,17 @@ export interface Scene {
   pulses: readonly Pulse[];
 }
 
-const label = (id: MissionId): [string, string] => [MISSIONS[id].name.toUpperCase(), shortMeta(MISSIONS[id])];
+const label = (id: MissionId): [string, string] => [
+  MISSIONS[id].name.toUpperCase(),
+  shortMeta(MISSIONS[id]),
+];
 
-function drawPath(ctx: CanvasRenderingContext2D, c: Cubic, alpha: number, dash: number[] = []): void {
+function drawPath(
+  ctx: CanvasRenderingContext2D,
+  c: Cubic,
+  alpha: number,
+  dash: number[] = [],
+): void {
   ctx.save();
   ctx.setLineDash(dash);
   ctx.strokeStyle = `rgba(${RGB.soft},${alpha})`;
@@ -59,7 +67,13 @@ function drawTrail(ctx: CanvasRenderingContext2D, c: Cubic, upTo: number): Point
   return p;
 }
 
-function drawStop(ctx: CanvasRenderingContext2D, p: Point, id: MissionId, active: boolean, withLabel: boolean): void {
+function drawStop(
+  ctx: CanvasRenderingContext2D,
+  p: Point,
+  id: MissionId,
+  active: boolean,
+  withLabel: boolean,
+): void {
   ctx.beginPath();
   ctx.arc(p.x, p.y, active ? 7 : 5, 0, Math.PI * 2);
   ctx.fillStyle = active ? `rgb(${RGB.soft})` : BLACK;

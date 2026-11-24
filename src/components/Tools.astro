@@ -11,7 +11,9 @@ import { TOOLS, TOOL_GROUPS } from '../data/content';
 
 <Section phaseId="herramientas">
   <SectionHead phaseId="herramientas">
-    <Fragment slot="title">{TOOLS.length} herramientas que vas a <em>usar</em>, no solo conocer.</Fragment>
+    <Fragment slot="title">
+      {TOOLS.length} herramientas que vas a <em>usar</em>, no solo conocer.
+    </Fragment>
     Filtra por lo que quieres lograr y toca una herramienta para ver para qué sirve.
   </SectionHead>
 
@@ -20,43 +22,43 @@ import { TOOLS, TOOL_GROUPS } from '../data/content';
       <button type="button" class="chip" aria-pressed="true" data-filter="all">
         Todas <span class="chip__count">{TOOLS.length}</span>
       </button>
-      {
-        TOOL_GROUPS.map((g) => (
-          <button type="button" class="chip" aria-pressed="false" data-filter={g}>
-            {g} <span class="chip__count">{TOOLS.filter((t) => t.group === g).length}</span>
-          </button>
-        ))
-      }
+      {TOOL_GROUPS.map((g) => (
+        <button type="button" class="chip" aria-pressed="false" data-filter={g}>
+          {g} <span class="chip__count">{TOOLS.filter((t) => t.group === g).length}</span>
+        </button>
+      ))}
     </div>
 
     <div class="layout">
       <ul class="constellation" aria-label="Herramientas">
-        {
-          TOOLS.map((t, i) => (
-            <li data-tool data-group={t.group}>
-              <button
-                type="button"
-                aria-pressed={i === 0 ? 'true' : 'false'}
-                aria-controls="tool-card"
-                data-tool-btn
-                data-name={t.name}
-                data-tagline={t.tagline}
-                data-group-label={t.group}
-              >
-                <span class="star" aria-hidden="true" />
-                <span class="tname">{t.name}</span>
-              </button>
-              <p class="nojs-tagline">{t.tagline}</p>
-            </li>
-          ))
-        }
+        {TOOLS.map((t, i) => (
+          <li data-tool data-group={t.group}>
+            <button
+              type="button"
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              aria-controls="tool-card"
+              data-tool-btn
+              data-name={t.name}
+              data-tagline={t.tagline}
+              data-group-label={t.group}
+            >
+              <span class="star" aria-hidden="true" />
+              <span class="tname">{t.name}</span>
+            </button>
+            <p class="nojs-tagline">{t.tagline}</p>
+          </li>
+        ))}
       </ul>
 
       <aside class="tool-card" id="tool-card" aria-live="polite" data-tool-card>
-        <p class="label" data-card-group>{TOOLS[0]?.group}</p>
+        <p class="label" data-card-group>
+          {TOOLS[0]?.group}
+        </p>
         <h3 data-card-name>{TOOLS[0]?.name}</h3>
         <p data-card-tagline>{TOOLS[0]?.tagline}</p>
-        <p class="foot">En las misiones en vivo eliges las herramientas que más le sirven a tu trabajo.</p>
+        <p class="foot">
+          En las misiones en vivo eliges las herramientas que más le sirven a tu trabajo.
+        </p>
       </aside>
     </div>
   </div>

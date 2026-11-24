@@ -10,27 +10,52 @@ const year = new Date().getFullYear();
     <div class="grid">
       <div class="brand">
         <Logo variant="vertical" width={160} />
-        <p>Transformamos la productividad de los equipos con una adopción de IA práctica, guiada y amigable.</p>
+        <p>
+          Transformamos la productividad de los equipos con una adopción de IA práctica, guiada y
+          amigable.
+        </p>
       </div>
       <nav aria-label="Pie de página">
         <h2>Navegación</h2>
-        <ul>{NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        <ul>
+          {NAV.map((n) => (
+            <li>
+              <a href={n.href}>{n.label}</a>
+            </li>
+          ))}
+        </ul>
       </nav>
       <div>
         <h2>Contacto</h2>
         <ul>
-          <li><a href={LINKS.whatsapp} target="_blank" rel="noopener">WhatsApp · Habla con un especialista</a></li>
-          <li><a href={LINKS.instagram} target="_blank" rel="noopener">Instagram · @ai.campuslands</a></li>
-          <li><a href={LINKS.diagnostico}>Diagnóstico</a></li>
-          <li><a href={LINKS.certificado}>Certificado</a></li>
+          <li>
+            <a href={LINKS.whatsapp} target="_blank" rel="noopener">
+              WhatsApp · Habla con un especialista
+            </a>
+          </li>
+          <li>
+            <a href={LINKS.instagram} target="_blank" rel="noopener">
+              Instagram · @ai.campuslands
+            </a>
+          </li>
+          <li>
+            <a href={LINKS.diagnostico}>Diagnóstico</a>
+          </li>
+          <li>
+            <a href={LINKS.certificado}>Certificado</a>
+          </li>
         </ul>
       </div>
     </div>
     <div class="legal">
       <p>© {year} Campuslands AI Academy. Todos los derechos reservados.</p>
       <ul aria-label="Legal">
-        <li><span title="Enlace pendiente de confirmar">Política de privacidad</span></li>
-        <li><span title="Enlace pendiente de confirmar">Términos</span></li>
+        <li>
+          <span title="Enlace pendiente de confirmar">Política de privacidad</span>
+        </li>
+        <li>
+          <span title="Enlace pendiente de confirmar">Términos</span>
+        </li>
       </ul>
     </div>
   </div>

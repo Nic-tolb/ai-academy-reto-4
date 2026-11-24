@@ -9,18 +9,26 @@ const p = phase('despegue');
 ---
 
 <Section phaseId="despegue">
-    <div class="block" data-reveal>
-      <div class="copy">
-        <span class="pill">{p.code} · {p.name}</span>
-        <h2 id={`${p.id}-title`}>Tu misión empieza con una decisión.</h2>
-        <p>Inscríbete en la etapa que elegiste o cuéntale a un especialista qué necesita tu equipo.</p>
-        <div class="ctas">
-          <a class="btn btn--light" href={LINKS.inscripcion}>Inscríbete</a>
-          <a class="btn btn--outline" href={LINKS.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" /> Hablar con un especialista</a>
-        </div>
+  <div class="block" data-reveal>
+    <div class="copy">
+      <span class="pill">
+        {p.code} · {p.name}
+      </span>
+      <h2 id={`${p.id}-title`}>Tu misión empieza con una decisión.</h2>
+      <p>
+        Inscríbete en la etapa que elegiste o cuéntale a un especialista qué necesita tu equipo.
+      </p>
+      <div class="ctas">
+        <a class="btn btn--light" href={LINKS.inscripcion}>
+          Inscríbete
+        </a>
+        <a class="btn btn--outline" href={LINKS.whatsapp} target="_blank" rel="noopener">
+          <Icon name="whatsapp" /> Hablar con un especialista
+        </a>
       </div>
-      <Image src={maxPresentando} alt="" width={260} densities={[1, 2]} format="webp" class="max" />
     </div>
+    <Image src={maxPresentando} alt="" width={260} densities={[1, 2]} format="webp" class="max" />
+  </div>
 </Section>
 
 <style lang="scss">

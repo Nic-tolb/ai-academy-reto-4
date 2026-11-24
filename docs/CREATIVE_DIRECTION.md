@@ -6,9 +6,9 @@ Restricciones comunes a las tres: paleta y Poppins del manual, logo intacto (no 
 
 ---
 
-## A · «Plan de vuelo»  ⭐ recomendada
+## A · «Plan de vuelo» ⭐ recomendada
 
-**Idea central.** La página es el plan de vuelo de *tu* misión. El visitante no lee una landing: prepara un despegue. Cada sección es una fase con un nombre técnico real de un lanzamiento (Cuenta regresiva → Ignición → Ascenso → Separación de etapas → Órbita), y cada fase corresponde a un paso de la decisión de compra.
+**Idea central.** La página es el plan de vuelo de _tu_ misión. El visitante no lee una landing: prepara un despegue. Cada sección es una fase con un nombre técnico real de un lanzamiento (Cuenta regresiva → Ignición → Ascenso → Separación de etapas → Órbita), y cada fase corresponde a un paso de la decisión de compra.
 
 **Narrativa.** «T−10: identifica la tripulación» (hero: ¿quién eres?) → «T−5: carga útil» (qué tareas te pesan) → «T−0: ignición» (antes/después) → «Ascenso: instrumentos» (herramientas) → «Separación de etapas» (las misiones como etapas de un cohete: Ignition, Booster y Liftoff se **apilan** literalmente porque cada una incluye la anterior; Odyssey y Nebula son trayectorias aparte) → «Órbita» (reseñas, FAQs) → despegue (CTA).
 
@@ -19,12 +19,13 @@ Restricciones comunes a las tres: paleta y Poppins del manual, logo intacto (no 
 **Scroll.** Un **altímetro** lateral (escritorio) / barra superior segmentada (móvil) con las fases; muestra dónde estás y permite saltar. La línea de trayectoria se dibuja con el scroll (SVG `stroke-dashoffset`). Secciones que se revelan; en «Separación de etapas» las tres misiones en vivo se apilan y desacoplan mientras bajas (fijado corto, ≤ 1,2 pantallas, solo escritorio; en móvil es un apilado animado normal).
 
 **Recomendador — «Configura tu misión».** Tres preguntas, cada una mapeada a datos reales:
-1. ¿Cómo prefieres aprender? → *En vivo con un trainer* / *A mi ritmo, cuando pueda* (→ **Nebula**: pregrabado, acceso 24/7).
-2. ¿Quién se forma? → *Solo yo* / *Mi equipo* / *Mi empresa, con necesidades propias* (→ **Odyssey**: 100 % personalizado, eliges herramientas, duración y profundidad).
-3. ¿Hasta dónde quieres llegar? → *Usar la IA a diario y entender su impacto* (→ **Ignition**, 4 h) / *Prompts precisos y agentes para mi rol* (→ **Booster**, 8 h) / *Automatizar procesos con n8n* (→ **Liftoff**, 12 h).
-El resultado muestra la misión, su duración, **por qué** (las viñetas reales que coinciden con tus respuestas) y la alternativa más cercana. CTA: Inscribirme (o WhatsApp para Odyssey). Mientras respondes, la etapa correspondiente del cohete se ilumina.
 
-**Exploración libre — «Banco de pruebas».** Elige una tarea real de un perfil (p. ej. «Responder 40 cotizaciones de una ferretería en Bucaramanga») y mira una **demo corta de prompt en acción**: el prompt se escribe, la respuesta aparece y un contador muestra el paso de *antes* a *después*. Cada demo indica qué herramienta de las 14 se usa y en qué misión se aprende. Contenido marcado como «ejemplo simulado» (lo exige el manual). Complemento: las 14 herramientas como **constelación** filtrable por objetivo (escribir, investigar, automatizar, crear audio/video).
+1. ¿Cómo prefieres aprender? → _En vivo con un trainer_ / _A mi ritmo, cuando pueda_ (→ **Nebula**: pregrabado, acceso 24/7).
+2. ¿Quién se forma? → _Solo yo_ / _Mi equipo_ / _Mi empresa, con necesidades propias_ (→ **Odyssey**: 100 % personalizado, eliges herramientas, duración y profundidad).
+3. ¿Hasta dónde quieres llegar? → _Usar la IA a diario y entender su impacto_ (→ **Ignition**, 4 h) / _Prompts precisos y agentes para mi rol_ (→ **Booster**, 8 h) / _Automatizar procesos con n8n_ (→ **Liftoff**, 12 h).
+   El resultado muestra la misión, su duración, **por qué** (las viñetas reales que coinciden con tus respuestas) y la alternativa más cercana. CTA: Inscribirme (o WhatsApp para Odyssey). Mientras respondes, la etapa correspondiente del cohete se ilumina.
+
+**Exploración libre — «Banco de pruebas».** Elige una tarea real de un perfil (p. ej. «Responder 40 cotizaciones de una ferretería en Bucaramanga») y mira una **demo corta de prompt en acción**: el prompt se escribe, la respuesta aparece y un contador muestra el paso de _antes_ a _después_. Cada demo indica qué herramienta de las 14 se usa y en qué misión se aprende. Contenido marcado como «ejemplo simulado» (lo exige el manual). Complemento: las 14 herramientas como **constelación** filtrable por objetivo (escribir, investigar, automatizar, crear audio/video).
 
 **Ventajas.** Une las cuatro piezas en una sola historia (la elección del hero alimenta el recomendador; la demo enlaza con la misión). Respeta el manual al pie de la letra sin parecer rígido. Rinde muy bien en móvil (casi todo es tipografía y SVG). Bajo riesgo de rendimiento.
 **Riesgos.** Si la tipografía no está muy bien resuelta, puede verse sobrio en exceso → se compensa con el movimiento de la trayectoria y la demo. El léxico de lanzamiento (T−10) debe ser comprensible: siempre acompañado de un título claro.
@@ -68,16 +69,17 @@ El resultado muestra la misión, su duración, **por qué** (las viñetas reales
 
 ## Evaluación con la rúbrica oficial (estimación previa)
 
-| Criterio (peso) | A · Plan de vuelo | B · Órbitas | C · Gravedad cero |
-|---|---|---|---|
-| Experiencia interactiva (35) | 30 — piezas encadenadas | 28 — vistosa, menos clara | 31 — muy original, riesgo táctil |
-| Fidelidad a la marca (20) | 19 | 15 — riesgo de decoración espacial | 17 — espacio secundario |
-| Diseño visual y jerarquía (15) | 13 | 12 | 12 |
-| Calidad técnica (20) | 18 | 14 | 14 |
-| Móvil y accesibilidad (10) | 9 | 6 | 6 |
-| **Total estimado** | **89** | **75** | **80** |
+| Criterio (peso)                | A · Plan de vuelo       | B · Órbitas                        | C · Gravedad cero                |
+| ------------------------------ | ----------------------- | ---------------------------------- | -------------------------------- |
+| Experiencia interactiva (35)   | 30 — piezas encadenadas | 28 — vistosa, menos clara          | 31 — muy original, riesgo táctil |
+| Fidelidad a la marca (20)      | 19                      | 15 — riesgo de decoración espacial | 17 — espacio secundario          |
+| Diseño visual y jerarquía (15) | 13                      | 12                                 | 12                               |
+| Calidad técnica (20)           | 18                      | 14                                 | 14                               |
+| Móvil y accesibilidad (10)     | 9                       | 6                                  | 6                                |
+| **Total estimado**             | **89**                  | **75**                             | **80**                           |
 
 **Recomendación: A · Plan de vuelo**, tomando de C la demo «antes/después» de tareas reales de Santander como pieza de exploración. Es la que mejor convierte la narrativa espacial en estructura (fases, etapas que se apilan) en lugar de decoración, la que más protege móvil, accesibilidad y rendimiento (30 de 100 puntos), y la única en que las cuatro piezas obligatorias forman una sola historia.
 
 ## Siguiente paso tras la aprobación
+
 Fase 4: wireframes móvil y escritorio de las 9 secciones, sistema de diseño (tokens, escala, componentes) y un prototipo navegable del hero + recomendador para validar antes de construir el resto.

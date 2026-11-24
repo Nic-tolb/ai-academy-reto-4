@@ -14,8 +14,12 @@ const p = phase('tripulacion');
 
   <div class="wrap grid">
     <div class="copy">
-      <span class="pill">{p.code} · {p.name}</span>
-      <h1 id={`${p.id}-title`}>Evoluciona a la <em>velocidad</em> de la tecnología.</h1>
+      <span class="pill">
+        {p.code} · {p.name}
+      </span>
+      <h1 id={`${p.id}-title`}>
+        Evoluciona a la <em>velocidad</em> de la tecnología.
+      </h1>
       <p class="lead" data-hero-lead aria-live="polite">
         En Campuslands AI Academy aprendes IA con tus tareas reales y sales con un banco de prompts,
         guías y agentes listos para tu trabajo.
@@ -24,13 +28,11 @@ const p = phase('tripulacion');
       <fieldset class="crew">
         <legend>¿Quién va en esta misión?</legend>
         <div class="chip-row chip-row--wrap">
-          {
-            PROFILES.map((p) => (
-              <button type="button" class="chip chip--dot" data-profile={p.id} aria-pressed="false">
-                {p.label}
-              </button>
-            ))
-          }
+          {PROFILES.map((p) => (
+            <button type="button" class="chip chip--dot" data-profile={p.id} aria-pressed="false">
+              {p.label}
+            </button>
+          ))}
         </div>
       </fieldset>
 
@@ -43,15 +45,25 @@ const p = phase('tripulacion');
       </a>
 
       <div class="ctas">
-        <a class="btn btn--primary" href="#planes">Ver planes <Icon name="arrow" class="arrow" /></a>
-        <a class="btn btn--secondary" href={LINKS.whatsapp} target="_blank" rel="noopener" data-hero-cta2>
+        <a class="btn btn--primary" href="#planes">
+          Ver planes <Icon name="arrow" class="arrow" />
+        </a>
+        <a
+          class="btn btn--secondary"
+          href={LINKS.whatsapp}
+          target="_blank"
+          rel="noopener"
+          data-hero-cta2
+        >
           Hablar con un especialista
         </a>
       </div>
     </div>
   </div>
 
-  <p class="hint" aria-hidden="true" data-field-hint>Mueve el cursor o toca para desviar la trayectoria</p>
+  <p class="hint" aria-hidden="true" data-field-hint>
+    Mueve el cursor o toca para desviar la trayectoria
+  </p>
 </Section>
 
 <style lang="scss">

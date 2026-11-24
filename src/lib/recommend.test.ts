@@ -2,7 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { MISSIONS, type MissionId } from '../data/missions';
 import { PROFILES } from '../data/profiles';
 import { QUESTIONS } from '../data/recommender';
-import { nextStep, reasonsFor, recommend, REASON_INDEXES, type Answers, type Meta, type Quien } from './recommend';
+import {
+  nextStep,
+  reasonsFor,
+  recommend,
+  REASON_INDEXES,
+  type Answers,
+  type Meta,
+  type Quien,
+} from './recommend';
 
 const IDS = Object.keys(MISSIONS) as MissionId[];
 

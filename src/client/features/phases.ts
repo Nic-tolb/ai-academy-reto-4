@@ -25,7 +25,8 @@ export function initPhases(): void {
       s.classList.toggle('is-active', i === index);
       s.classList.toggle('is-past', i < index);
     });
-    if (label) label.textContent = `${section.dataset.phaseCode ?? ''} · ${section.dataset.phaseName ?? ''}`;
+    if (label)
+      label.textContent = `${section.dataset.phaseCode ?? ''} · ${section.dataset.phaseName ?? ''}`;
     navLinks.forEach((a) => a.setAttribute('aria-current', String(a.hash === `#${section.id}`)));
   };
 

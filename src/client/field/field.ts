@@ -68,7 +68,8 @@ export function createField(canvas: HTMLCanvasElement, opts: FieldOptions): Fiel
   let interacted = false;
 
   const cores = navigator.hardwareConcurrency || 4;
-  const spread = () => (wide ? height * 0.2 : height * 0.16) * lerp(1, 0.1, focus) * (1 + boost * 0.6);
+  const spread = () =>
+    (wide ? height * 0.2 : height * 0.16) * lerp(1, 0.1, focus) * (1 + boost * 0.6);
   const pointerRadius = () => (pointer.active ? (wide ? 140 : 110) : 0);
   const lift = () => boost * height * 0.25;
 

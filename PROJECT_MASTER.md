@@ -3,45 +3,51 @@
 Reto de ingreso al equipo · Noviembre 2026 · Entregables: **sitio publicado + repositorio público de GitHub**.
 
 ## Estado actual
-| Fase | Estado |
-|---|---|
-| 1 · Auditoría e investigación | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md` |
-| 2 · Estrategia de experiencia | ✅ `docs/UX_STRATEGY.md` |
-| 3 · Exploración creativa | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026) |
-| 4 · Diseño y prototipado | ✅ `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md` (el prototipo HTML queda como referencia en `prototype/`) |
-| 5 · Arquitectura técnica | ✅ `docs/ARCHITECTURE.md` |
-| 6 · Implementación | 🟨 Landing completa en Astro; pendiente: demo de prompt en el banco de pruebas |
-| 7 · Control de calidad | 🟨 Ronda 1 hecha — `docs/QA_REPORT.md` |
-| 8 · Optimización y publicación | ⬜ (requiere autorización) |
+
+| Fase                           | Estado                                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| 1 · Auditoría e investigación  | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md`         |
+| 2 · Estrategia de experiencia  | ✅ `docs/UX_STRATEGY.md`                                                                                     |
+| 3 · Exploración creativa       | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026)                                               |
+| 4 · Diseño y prototipado       | ✅ `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md` (el prototipo HTML queda como referencia en `prototype/`) |
+| 5 · Arquitectura técnica       | ✅ `docs/ARCHITECTURE.md`                                                                                    |
+| 6 · Implementación             | 🟨 Landing completa en Astro; pendiente: demo de prompt en el banco de pruebas                               |
+| 7 · Control de calidad         | 🟨 Ronda 1 hecha — `docs/QA_REPORT.md`                                                                       |
+| 8 · Optimización y publicación | ⬜ (requiere autorización)                                                                                   |
 
 ## Jerarquía de fuentes
+
 1. Reto oficial (PDF) → 2. Manual de marca (reglas CONFIRMADO/APROBADO) → 3. Datos de la landing actual (`docs/RESEARCH.md`) → 4. Decisiones aprobadas (`docs/DECISIONS.md`) → 5. Referencias externas.
 
 ## Herramientas disponibles (verificado 24 nov 2026)
+
 - Node 24.16 · npm 11.13 · Git 2.53 · GitHub CLI 2.103 con sesión activa (permiso `repo`). Repositorio Git local inicializado; nada publicado en remoto.
 - Descarga y análisis de la landing actual por terminal (la página es una SPA; el contenido se extrajo del bundle JS).
 - **Sin navegador automatizado instalado todavía** → se instalará Playwright como dependencia de desarrollo para capturas, pruebas a 375 px y Lighthouse.
 - Artifacts de claude.ai para prototipos visuales compartibles.
 
 ## Stack (implementado)
+
 Astro 7 + TypeScript estricto + Sass + GSAP/ScrollTrigger + canvas 2D + Vitest + Python (PyMuPDF/Pillow). Detalle y motivos en `docs/ARCHITECTURE.md` y `README.md`.
 
 ## Riesgos, contradicciones y recursos faltantes
-| # | Tema | Impacto | Propuesta |
-|---|---|---|---|
-| R1 | ~~Faltan los logos~~ **Resuelto**: extraídos del manual PDF con `scripts/extract_brand_assets.py`. | — | — |
-| R2 | **Fotos de personas reales**: el manual pide trainers y sesiones reales y prohíbe fotos de banco genéricas; el reto permite bancos libres. | Fidelidad a la marca | Preferible: fotos reales autorizadas de formaciones. Si no hay, usar un diseño que no dependa de fotos (tipográfico) y, como mucho, fotos libres de *trabajo real con pantallas*, no retratos genéricos. |
-| R3 | ~~Max sin archivos~~ **Resuelto**: extraído del manual (expresiones y poses aprobadas). | — | — |
-| R4 | **Enlaces legales**: en la landing actual apuntan a `#`. | C-09 | Pedir URLs reales; si no existen, se mantiene el enlace marcado «por confirmar» (no se inventan páginas legales). |
-| R5 | **Ignition dice «Conoce las 10 herramientas»**, la sección de herramientas lista 14. | Coherencia | Mantener el dato literal (no se cambian datos) y señalarlo al equipo. |
-| R6 | **Reseñas**: sin fotos, fechas relativas fijas («hace 5 días») y sin evidencia de autorización (el manual pide autorización). | Credibilidad | Conservar texto, nombre y cargo; quitar las fechas relativas congeladas. |
-| R7 | **Mensaje de WhatsApp** dice «Campuslands IA Academy». | Nombre | Corregir solo el texto del mensaje (mismo número). Requiere aprobación: el reto dice que los enlaces se mantienen. |
-| R8 | **Diagnóstico** es en realidad un formulario de entrevista para asesores (pide «entrevistador» y «observaciones del asesor»). | Conversión | Se enlaza tal cual (lo exige el reto) pero se presenta como «Diagnóstico con un asesor», y WhatsApp como vía principal para empresas. |
-| R9 | **El «hero con video» no tiene video**: es un casco animado. El reto pide conservar el mensaje y el botón, no un video. | Rendimiento | No se usará video (mejor LCP). |
-| R10 | Cita de Darwin: atribución popular no verificada. | Voz de marca | Retirarla (el manual pide no vender humo y citar fuentes). |
-| R11 | Fecha de entrega del reto desconocida. | Planificación | Confirmar. |
+
+| #   | Tema                                                                                                                                       | Impacto              | Propuesta                                                                                                                                                                                                |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R1  | ~~Faltan los logos~~ **Resuelto**: extraídos del manual PDF con `scripts/extract_brand_assets.py`.                                         | —                    | —                                                                                                                                                                                                        |
+| R2  | **Fotos de personas reales**: el manual pide trainers y sesiones reales y prohíbe fotos de banco genéricas; el reto permite bancos libres. | Fidelidad a la marca | Preferible: fotos reales autorizadas de formaciones. Si no hay, usar un diseño que no dependa de fotos (tipográfico) y, como mucho, fotos libres de _trabajo real con pantallas_, no retratos genéricos. |
+| R3  | ~~Max sin archivos~~ **Resuelto**: extraído del manual (expresiones y poses aprobadas).                                                    | —                    | —                                                                                                                                                                                                        |
+| R4  | **Enlaces legales**: en la landing actual apuntan a `#`.                                                                                   | C-09                 | Pedir URLs reales; si no existen, se mantiene el enlace marcado «por confirmar» (no se inventan páginas legales).                                                                                        |
+| R5  | **Ignition dice «Conoce las 10 herramientas»**, la sección de herramientas lista 14.                                                       | Coherencia           | Mantener el dato literal (no se cambian datos) y señalarlo al equipo.                                                                                                                                    |
+| R6  | **Reseñas**: sin fotos, fechas relativas fijas («hace 5 días») y sin evidencia de autorización (el manual pide autorización).              | Credibilidad         | Conservar texto, nombre y cargo; quitar las fechas relativas congeladas.                                                                                                                                 |
+| R7  | **Mensaje de WhatsApp** dice «Campuslands IA Academy».                                                                                     | Nombre               | Corregir solo el texto del mensaje (mismo número). Requiere aprobación: el reto dice que los enlaces se mantienen.                                                                                       |
+| R8  | **Diagnóstico** es en realidad un formulario de entrevista para asesores (pide «entrevistador» y «observaciones del asesor»).              | Conversión           | Se enlaza tal cual (lo exige el reto) pero se presenta como «Diagnóstico con un asesor», y WhatsApp como vía principal para empresas.                                                                    |
+| R9  | **El «hero con video» no tiene video**: es un casco animado. El reto pide conservar el mensaje y el botón, no un video.                    | Rendimiento          | No se usará video (mejor LCP).                                                                                                                                                                           |
+| R10 | Cita de Darwin: atribución popular no verificada.                                                                                          | Voz de marca         | Retirarla (el manual pide no vender humo y citar fuentes).                                                                                                                                               |
+| R11 | Fecha de entrega del reto desconocida.                                                                                                     | Planificación        | Confirmar.                                                                                                                                                                                               |
 
 ## Plan de trabajo
+
 1. ✅ Fase 1 · Auditoría.
 2. 🟨 Fases 2–3 · Estrategia + 3 direcciones → **elegir dirección** (tu decisión).
 3. Fase 4 · Wireframes, sistema de diseño y prototipo del hero + recomendador (Artifact para validar).
@@ -51,4 +57,5 @@ Astro 7 + TypeScript estricto + Sass + GSAP/ScrollTrigger + canvas 2D + Vitest +
 7. Fase 8 · Repositorio público + despliegue (con tu autorización) + autoevaluación con la rúbrica.
 
 ## Registro
+
 Ver `docs/DECISIONS.md`.
