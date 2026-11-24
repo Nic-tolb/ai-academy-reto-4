@@ -55,7 +55,9 @@ test.describe('contenido y enlaces reales', () => {
     expect(hrefs).toContain(LINKS.inscripcion);
     expect(hrefs).toContain(LINKS.whatsapp);
     const external = hrefs.filter((h) => h.startsWith('http'));
-    const allowed = Object.values(LINKS).filter((v): v is string => typeof v === 'string');
+    const allowed: string[] = Object.values(LINKS).flatMap((v) =>
+      typeof v === 'string' ? [v] : [],
+    );
     for (const href of external) expect(allowed).toContain(href);
   });
 });
