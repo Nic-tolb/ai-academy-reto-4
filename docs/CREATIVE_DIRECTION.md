@@ -1,6 +1,6 @@
 # Dirección creativa — Fase 3
 
-> Estado: **PROPUESTAS — pendiente de aprobación.** No se implementa nada hasta elegir una.
+> Estado: **APROBADA la dirección A · «Plan de vuelo»** (24 nov 2026). B y C quedan como referencia descartada.
 
 Restricciones comunes a las tres: paleta y Poppins del manual, logo intacto (no se anima), halos solo en esquinas y nunca detrás del texto, sin robots ni fotos de banco genéricas, misma estrategia de CTA (UX_STRATEGY §4).
 

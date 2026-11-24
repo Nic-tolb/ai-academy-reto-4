@@ -6,9 +6,9 @@ Reto de ingreso al equipo · Noviembre 2026 · Entregables: **sitio publicado + 
 | Fase | Estado |
 |---|---|
 | 1 · Auditoría e investigación | ✅ Completada (24 nov 2026) — `docs/RESEARCH.md`, `docs/REQUIREMENTS.md`, `docs/BRAND_GUIDELINES.md` |
-| 2 · Estrategia de experiencia | 🟨 Propuesta — `docs/UX_STRATEGY.md` |
-| 3 · Exploración creativa | 🟨 3 direcciones propuestas — `docs/CREATIVE_DIRECTION.md` — **esperando aprobación** |
-| 4 · Diseño y prototipado | ⬜ |
+| 2 · Estrategia de experiencia | ✅ `docs/UX_STRATEGY.md` |
+| 3 · Exploración creativa | ✅ Aprobada la dirección **A · «Plan de vuelo»** (24 nov 2026) |
+| 4 · Diseño y prototipado | 🟨 `docs/DESIGN_SYSTEM.md`, `docs/INTERACTIONS.md`, `prototype/index.html` — **esperando validación** |
 | 5 · Arquitectura técnica | ⬜ (stack preliminar abajo) |
 | 6 · Implementación | ⬜ |
 | 7 · Control de calidad | ⬜ |
