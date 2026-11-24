@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Formato, pruebas, build, navegador y Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Formato (Prettier)
+        run: npm run format:check
+
+      - name: Pruebas unitarias (Vitest)
+        run: npm test
+
+      - name: Tipos y build (astro check + astro build)
+        run: npm run build
+
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Pruebas de navegador (Playwright + axe-core)
+        run: npm run test:e2e
+
+      - name: Lighthouse móvil (Performance ≥ 80, Accesibilidad ≥ 90)
+        run: npx --yes @lhci/cli@0.14.0 autorun
+
+      - name: Guardar informes si algo falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informes
+          path: |
+            playwright-report/
+            .lighthouseci/
+          retention-days: 7
