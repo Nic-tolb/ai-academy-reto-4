@@ -2,7 +2,7 @@
  * I-03 · Interfaz del recomendador. La lógica vive en src/lib/recommend.ts y
  * todos los textos de las misiones se derivan de src/data/missions.ts.
  */
-import { $, $$, prefersReducedMotion } from '../core/dom';
+import { $, $$, prefersReducedMotion, required } from '../core/dom';
 import { emit, getProfile, on } from '../core/events';
 import { brief, ctaLabel, MISSIONS, summary } from '../../data/missions';
 import { profile } from '../../data/profiles';
@@ -15,13 +15,24 @@ export function initRecommender(): void {
   const inscripcion = root.dataset.inscripcion ?? '#';
   const whatsapp = root.dataset.whatsapp ?? '#';
 
-  const steps = new Map(STEP_ORDER.map((id) => [id, $<HTMLFieldSetElement>(`[data-step="${id}"]`, root)!]));
+  // Todos los elementos se resuelven al iniciar: si falta uno, el error es claro
+  // y ocurre al cargar, no a mitad de una interacción.
+  const need = <T extends Element = HTMLElement>(selector: string) => required<T>(selector, root, 'recommender');
+  const steps = new Map(STEP_ORDER.map((id) => [id, need<HTMLFieldSetElement>(`[data-step="${id}"]`)]));
   const progress = $$('[data-progress]', root);
-  const result = $('[data-result]', root)!;
-  const nav = $('[data-rec-nav]', root)!;
-  const back = $<HTMLButtonElement>('[data-rec-back]', root)!;
-  const restart = $<HTMLButtonElement>('[data-rec-restart]', root)!;
-  const live = $('[data-rec-live]', root)!;
+  const result = need('[data-result]');
+  const nav = need('[data-rec-nav]');
+  const back = need<HTMLButtonElement>('[data-rec-back]');
+  const restart = need<HTMLButtonElement>('[data-rec-restart]');
+  const live = need('[data-rec-live]');
+  const out = {
+    name: need('[data-r-name]'),
+    meta: need('[data-r-meta]'),
+    reasons: need('[data-r-reasons]'),
+    alt: need('[data-r-alt]'),
+    cta: need<HTMLAnchorElement>('[data-r-cta]'),
+    see: need<HTMLAnchorElement>('[data-r-see]'),
+  };
   const maxAnalitico = $('[data-max="analitico"]', root);
   const maxIdea = $('[data-max="idea"]', root);
 
@@ -70,15 +81,15 @@ export function initRecommender(): void {
     maxAnalitico?.setAttribute('hidden', '');
     maxIdea?.removeAttribute('hidden');
 
-    $('[data-r-name]', result)!.textContent = mission.name;
-    $('[data-r-meta]', result)!.textContent = `${summary(mission)} · ${mission.stage}`;
-    $('[data-r-reasons]', result)!.replaceChildren(
+    out.name.textContent = mission.name;
+    out.meta.textContent = `${summary(mission)} · ${mission.stage}`;
+    out.reasons.replaceChildren(
       ...reasonsFor(mission.id).map((r) => Object.assign(document.createElement('li'), { textContent: r })),
     );
     const altLink = Object.assign(document.createElement('a'), { href: `#mision-${alt.id}`, textContent: alt.name });
-    $('[data-r-alt]', result)!.replaceChildren('Alternativa cercana: ', altLink, ` (${brief(alt)}).`);
+    out.alt.replaceChildren('Alternativa cercana: ', altLink, ` (${brief(alt)}).`);
 
-    const cta = $<HTMLAnchorElement>('[data-r-cta]', result)!;
+    const cta = out.cta;
     const wa = mission.channel === 'whatsapp';
     cta.textContent = ctaLabel(mission);
     cta.href = wa ? whatsapp : inscripcion;
@@ -89,7 +100,7 @@ export function initRecommender(): void {
       cta.removeAttribute('target');
       cta.removeAttribute('rel');
     }
-    $<HTMLAnchorElement>('[data-r-see]', result)!.href = `#mision-${mission.id}`;
+    out.see.href = `#mision-${mission.id}`;
 
     clearHighlight();
     const card = document.getElementById(`mision-${mission.id}`);
