@@ -1,0 +1,60 @@
+// Contenedor, secciones, encabezados de fase y halos.
+@use '../abstracts' as *;
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--maxw) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  isolation: isolate;
+  padding-block: 96px;
+  overflow: hidden;
+  overflow: clip;
+  @include up(lg) {
+    padding-block: 144px;
+  }
+  & + & {
+    border-top: 1px solid var(--line);
+  }
+}
+
+.section-head {
+  display: grid;
+  gap: 20px;
+  max-width: 46rem;
+  margin-bottom: 48px;
+  justify-items: start;
+  h2 {
+    font-size: var(--fs-h2);
+  }
+  p {
+    font-size: var(--fs-lead);
+    max-width: 38rem;
+  }
+}
+
+// Halos: esquinas opuestas, nunca detrás del texto (manual §06).
+.halo {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: min(70vw, 640px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  &--tr {
+    top: 0;
+    right: 0;
+    transform: translate(45%, -45%);
+    background: radial-gradient(closest-side, rgb(150 54 255 / 0.42), transparent);
+  }
+  &--bl {
+    bottom: 0;
+    left: 0;
+    transform: translate(-45%, 45%);
+    background: radial-gradient(closest-side, rgb(112 38 232 / 0.4), transparent);
+  }
+}

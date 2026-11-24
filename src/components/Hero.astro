@@ -23,10 +23,10 @@ const p = phase('tripulacion');
 
       <fieldset class="crew">
         <legend>¿Quién va en esta misión?</legend>
-        <div class="crew-options">
+        <div class="chip-row chip-row--wrap">
           {
             PROFILES.map((p) => (
-              <button type="button" class="crew-opt" data-profile={p.id} aria-pressed="false">
+              <button type="button" class="chip chip--dot" data-profile={p.id} aria-pressed="false">
                 {p.label}
               </button>
             ))
@@ -106,54 +106,6 @@ const p = phase('tripulacion');
       padding: 0;
     }
   }
-  .crew-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .crew-opt {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 0 16px;
-    border-radius: 999px;
-    background: rgb(5 5 7 / 0.7);
-    box-shadow: inset 0 0 0 1px var(--line-strong);
-    font-weight: 500;
-    font-size: 0.9375rem;
-    color: var(--body);
-    transition:
-      background-color 0.16s,
-      box-shadow 0.16s,
-      color 0.16s,
-      transform 0.16s var(--ease);
-    &::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      box-shadow: inset 0 0 0 1px var(--muted);
-      transition: background-color 0.16s;
-    }
-    @include hover {
-      box-shadow: inset 0 0 0 1px var(--soft);
-      color: var(--white);
-    }
-    &:active {
-      transform: scale(0.97);
-    }
-    &[aria-pressed='true'] {
-      background: rgb(112 38 232 / 0.35);
-      box-shadow: inset 0 0 0 1px var(--soft);
-      color: var(--white);
-      &::before {
-        background: var(--soft);
-        box-shadow: none;
-      }
-    }
-  }
-
   .mission-chip {
     display: inline-grid;
     grid-template-columns: auto auto 1fr auto;

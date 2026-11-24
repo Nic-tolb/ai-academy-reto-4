@@ -1,0 +1,109 @@
+// Botones (bloque de CTA en Evox Purple, manual §06) y botón de ícono.
+@use '../abstracts' as *;
+
+.btn {
+  --bg: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  background: var(--bg);
+  transition:
+    transform 0.16s var(--ease),
+    background-color 0.16s var(--ease),
+    box-shadow 0.16s var(--ease),
+    color 0.16s var(--ease);
+  @include hover {
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  .arrow {
+    transition: transform 0.16s var(--ease);
+  }
+  @include hover {
+    .arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  &--primary {
+    --bg: var(--evox);
+    color: var(--white);
+    @include hover {
+      --bg: var(--electric);
+    }
+  }
+  &--secondary {
+    color: var(--white);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    @include hover {
+      box-shadow: inset 0 0 0 1px var(--soft);
+      background: var(--card);
+    }
+  }
+  &--light {
+    --bg: var(--white);
+    color: var(--black);
+    @include hover {
+      --bg: var(--body);
+    }
+  }
+  &--sm {
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 0.875rem;
+  }
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--white);
+  text-decoration: none;
+  transition:
+    background-color 0.16s,
+    box-shadow 0.16s,
+    transform 0.16s var(--ease);
+  @include hover {
+    background: var(--card);
+    box-shadow: inset 0 0 0 1px var(--soft);
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.link {
+  color: var(--soft);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  @include hover {
+    text-decoration-thickness: 2px;
+  }
+}

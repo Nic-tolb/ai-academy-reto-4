@@ -1,0 +1,32 @@
+// Etiqueta en píldora (Soft Violet + texto Black, manual §06) y paso numerado.
+@use '../abstracts' as *;
+
+.pill {
+  @include label;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--soft);
+  color: var(--black);
+  padding: 8px 14px;
+  border-radius: 999px;
+  &--ghost {
+    background: transparent;
+    color: var(--soft);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+}
+
+// Cuadro numerado Evox (solo cuando el orden importa).
+.step-num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--evox);
+  color: var(--white);
+  font-weight: 700;
+  line-height: 1;
+}

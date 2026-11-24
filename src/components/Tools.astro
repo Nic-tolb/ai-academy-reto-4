@@ -10,91 +10,62 @@ import { TOOLS, TOOL_GROUPS } from '../data/content';
 ---
 
 <Section phaseId="herramientas">
-    <SectionHead phaseId="herramientas">
-      <Fragment slot="title">14 herramientas que vas a <em>usar</em>, no solo conocer.</Fragment>
-      Filtra por lo que quieres lograr y toca una herramienta para ver para qué sirve.
-    </SectionHead>
+  <SectionHead phaseId="herramientas">
+    <Fragment slot="title">{TOOLS.length} herramientas que vas a <em>usar</em>, no solo conocer.</Fragment>
+    Filtra por lo que quieres lograr y toca una herramienta para ver para qué sirve.
+  </SectionHead>
 
-    <div class="tools" data-tools>
-      <div class="filters" role="group" aria-label="Filtrar herramientas">
-        <button type="button" aria-pressed="true" data-filter="all">Todas <span>14</span></button>
+  <div class="tools" data-tools>
+    <div class="chip-row" role="group" aria-label="Filtrar herramientas">
+      <button type="button" class="chip" aria-pressed="true" data-filter="all">
+        Todas <span class="chip__count">{TOOLS.length}</span>
+      </button>
+      {
+        TOOL_GROUPS.map((g) => (
+          <button type="button" class="chip" aria-pressed="false" data-filter={g}>
+            {g} <span class="chip__count">{TOOLS.filter((t) => t.group === g).length}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="layout">
+      <ul class="constellation" aria-label="Herramientas">
         {
-          TOOL_GROUPS.map((g) => (
-            <button type="button" aria-pressed="false" data-filter={g}>
-              {g} <span>{TOOLS.filter((t) => t.group === g).length}</span>
-            </button>
+          TOOLS.map((t, i) => (
+            <li data-tool data-group={t.group}>
+              <button
+                type="button"
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                aria-controls="tool-card"
+                data-tool-btn
+                data-name={t.name}
+                data-tagline={t.tagline}
+                data-group-label={t.group}
+              >
+                <span class="star" aria-hidden="true" />
+                <span class="tname">{t.name}</span>
+              </button>
+              <p class="nojs-tagline">{t.tagline}</p>
+            </li>
           ))
         }
-      </div>
+      </ul>
 
-      <div class="layout">
-        <ul class="constellation" aria-label="Herramientas">
-          {
-            TOOLS.map((t, i) => (
-              <li data-tool data-group={t.group} style={`--i:${i}`}>
-                <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="tool-card" data-tool-btn data-name={t.name} data-tagline={t.tagline} data-group-label={t.group}>
-                  <span class="star" aria-hidden="true" />
-                  <span class="tname">{t.name}</span>
-                </button>
-                <p class="nojs-tagline">{t.tagline}</p>
-              </li>
-            ))
-          }
-        </ul>
-
-        <aside class="tool-card" id="tool-card" aria-live="polite" data-tool-card>
-          <p class="label" data-card-group>{TOOLS[0]?.group}</p>
-          <h3 data-card-name>{TOOLS[0]?.name}</h3>
-          <p data-card-tagline>{TOOLS[0]?.tagline}</p>
-          <p class="foot">En las misiones en vivo eliges las herramientas que más le sirven a tu trabajo.</p>
-        </aside>
-      </div>
+      <aside class="tool-card" id="tool-card" aria-live="polite" data-tool-card>
+        <p class="label" data-card-group>{TOOLS[0]?.group}</p>
+        <h3 data-card-name>{TOOLS[0]?.name}</h3>
+        <p data-card-tagline>{TOOLS[0]?.tagline}</p>
+        <p class="foot">En las misiones en vivo eliges las herramientas que más le sirven a tu trabajo.</p>
+      </aside>
     </div>
+  </div>
 </Section>
 
 <style lang="scss">
   .tools {
     display: grid;
     gap: 28px;
-  }
-  .filters {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 4px var(--gutter);
-    button {
-      flex: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 0 16px;
-      border-radius: 999px;
-      box-shadow: inset 0 0 0 1px var(--line-strong);
-      font-weight: 500;
-      font-size: 0.9375rem;
-      transition:
-        background-color 0.16s,
-        box-shadow 0.16s;
-      span {
-        color: var(--muted);
-        font-size: 0.8125rem;
-      }
-      @include hover {
-        box-shadow: inset 0 0 0 1px var(--soft);
-      }
-      &[aria-pressed='true'] {
-        background: var(--soft);
-        color: var(--black);
-        box-shadow: none;
-        font-weight: 600;
-        span {
-          color: var(--black);
-        }
-      }
-    }
   }
   .layout {
     display: grid;

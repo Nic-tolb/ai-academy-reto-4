@@ -12,81 +12,62 @@ import { CASES } from '../data/content';
 ---
 
 <Section phaseId="casos-uso" halo="tr">
-    <SectionHead phaseId="casos-uso">
-      <Fragment slot="title">Del antes al <em>después</em>, con tareas reales.</Fragment>
-      Elige un perfil y desliza para ver el salto concreto en su día a día.
-    </SectionHead>
+  <SectionHead phaseId="casos-uso">
+    <Fragment slot="title">Del antes al <em>después</em>, con tareas reales.</Fragment>
+    Elige un perfil y desliza para ver el salto concreto en su día a día.
+  </SectionHead>
 
-    <div class="explorer" data-cases data-reveal>
-      <div class="tabs" role="tablist" aria-label="Perfiles">
-        {
-          CASES.map((c, i) => (
-            <button type="button" role="tab" id={`tab-${c.id}`} aria-controls={`panel-${c.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-tab>
-              {c.role}
-            </button>
-          ))
-        }
-      </div>
-
+  <div class="explorer" data-cases data-reveal>
+    <div class="chip-row" role="tablist" aria-label="Perfiles">
       {
         CASES.map((c, i) => (
-          <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`tab-${c.id}`} hidden={i !== 0} data-panel>
-            <div class="compare" data-compare>
-              <div class="side before">
-                <p class="tag">Antes</p>
-                <p class="text">{c.before}</p>
-              </div>
-              <div class="side after" data-after>
-                <p class="tag">Después</p>
-                <p class="text">{c.after}</p>
-              </div>
-            </div>
-          </div>
+          <button
+            type="button"
+            role="tab"
+            class="chip"
+            id={`tab-${c.id}`}
+            aria-controls={`panel-${c.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-tab
+          >
+            {c.role}
+          </button>
         ))
       }
-
-      <div class="switch" role="group" aria-label="Comparar" data-switch>
-        <button type="button" aria-pressed="true" data-state="before">Antes</button>
-        <button type="button" aria-pressed="false" data-state="after">Después <span aria-hidden="true">→</span></button>
-        <p class="swipe-hint" aria-hidden="true">o desliza la tarjeta</p>
-      </div>
     </div>
+
+    {
+      CASES.map((c, i) => (
+        <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`tab-${c.id}`} hidden={i !== 0} data-panel>
+          <div class="compare" data-compare>
+            <div class="side before">
+              <p class="tag">Antes</p>
+              <p class="text">{c.before}</p>
+            </div>
+            <div class="side after" data-after>
+              <p class="tag">Después</p>
+              <p class="text">{c.after}</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+
+    <div class="switch" role="group" aria-label="Comparar" data-switch>
+      <button type="button" class="chip chip--contrast" aria-pressed="true" data-state="before">Antes</button>
+      <button type="button" class="chip chip--contrast" aria-pressed="false" data-state="after">
+        Después <span aria-hidden="true">→</span>
+      </button>
+      <p class="swipe-hint" aria-hidden="true">o desliza la tarjeta</p>
+    </div>
+  </div>
 </Section>
 
 <style lang="scss">
   .explorer {
     display: grid;
     gap: 20px;
-  }
-  .tabs {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 4px var(--gutter);
-    button {
-      flex: none;
-      min-height: 44px;
-      padding: 0 16px;
-      border-radius: 999px;
-      box-shadow: inset 0 0 0 1px var(--line-strong);
-      font-weight: 500;
-      font-size: 0.9375rem;
-      transition:
-        background-color 0.16s,
-        box-shadow 0.16s,
-        color 0.16s;
-      @include hover {
-        box-shadow: inset 0 0 0 1px var(--soft);
-      }
-      &[aria-selected='true'] {
-        background: var(--soft);
-        color: var(--black);
-        box-shadow: none;
-        font-weight: 600;
-      }
-    }
   }
 
   // Sin JS: los dos lados apilados.
@@ -162,27 +143,10 @@ import { CASES } from '../data/content';
       transition: none;
     }
   }
-  .switch button {
-    min-height: 44px;
-    padding: 0 20px;
-    border-radius: 999px;
-    font-weight: 600;
-    box-shadow: inset 0 0 0 1px var(--line-strong);
-    transition:
-      background-color 0.16s,
-      box-shadow 0.16s;
-    @include hover {
-      box-shadow: inset 0 0 0 1px var(--soft);
-    }
-    &[aria-pressed='true'] {
-      background: var(--white);
-      color: var(--black);
-      box-shadow: none;
-    }
-    &[data-state='after'][aria-pressed='true'] {
-      background: var(--evox);
-      color: var(--white);
-    }
+  // «Después» activo usa el color de la tarjeta que revela.
+  [data-state='after'][aria-pressed='true'] {
+    background: var(--evox);
+    color: var(--white);
   }
   .swipe-hint {
     font-size: 0.875rem;
