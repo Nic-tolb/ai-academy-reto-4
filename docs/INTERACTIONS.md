@@ -1,6 +1,6 @@
 # Interacciones — especificación
 
-> Estado: **PROPUESTA en validación** (prototipo: hero, riel de fases, misiones y recomendador).
+> Estado: **implementado** y cubierto por `tests/e2e/landing.spec.ts` (I-01 a I-04).
 > Cada pieza responde: ¿qué aporta? · ¿por qué interesa? · ¿cómo acerca a la conversión?
 
 ## I-01 · Hero «¿Quién va en esta misión?»

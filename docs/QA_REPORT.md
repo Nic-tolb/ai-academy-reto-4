@@ -40,6 +40,24 @@ FCP 1,2 s · LCP 1,2 s · TBT 10 ms · CLS 0,016 · peso total 121 KiB.
 - Corregido: la barra de horas de Liftoff no aparecía en escritorio (dos disparadores de animación medían elementos ya desplazados) → una sola línea de tiempo + red de seguridad.
 - Corregido: titular del hero en 4 líneas en escritorio → 3 líneas.
 
+## Ronda 2 · 24 nov 2026 · tras la refactorización de modularidad (D-15)
+
+Ahora todas las verificaciones viven en el repositorio y las ejecuta GitHub Actions.
+
+| Verificación                                                  | Resultado                                                                  |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `prettier --check`                                            | ✔️ todo el código con formato uniforme                                     |
+| Vitest (recomendador, perfiles, bus de eventos, canvas puro)  | ✔️ 35/35                                                                   |
+| `astro check` (TypeScript estricto, todo el proyecto)         | ✔️ 0 errores, 0 advertencias                                               |
+| Playwright + axe-core, 375 y 1440 px (16 pruebas × 2 tamaños) | ✔️ 32/32, repetido 2 veces sin fallos (64/64)                              |
+| Lighthouse CI móvil (3 corridas, build estático)              | ✔️ Performance 99–100 · Accesibilidad 100 · Buenas prácticas 100 · SEO 100 |
+
+Hallazgos durante la ronda:
+
+- La primera auditoría de axe-core marcó falta de contraste en elementos **a mitad de su animación de entrada**. No era un problema de la página: la prueba medía antes de tiempo. Ahora espera a que terminen las animaciones (`waitForReveals`).
+- `astro check` detectó que los archivos de prueba no pasaban el tipado estricto (faltaban los tipos de Node). Se corrigió antes de publicar la integración continua.
+- El 79 en Buenas prácticas de la ronda 1 se debía al servidor local de vista previa; con el servidor estático de Lighthouse CI da 100.
+
 ### Pendiente
 
 - Repetir Lighthouse sobre la URL publicada (HTTPS).

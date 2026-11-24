@@ -1,6 +1,6 @@
 # Sistema de diseño — «Plan de vuelo»
 
-> Estado: **PROPUESTA en validación** con el prototipo (`prototype/index.html`).
+> Estado: **implementado** en `src/styles/` (tokens en `base/_tokens.scss`; componentes en `components/`). El control en píldora seleccionable es `.chip` (`components/_chip.scss`).
 > Se diseña primero para 375 px y luego se amplía.
 
 ## 1. Tokens de color
