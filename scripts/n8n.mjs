@@ -26,6 +26,11 @@ const readEnv = (file) =>
 
 const env = readEnv('.env');
 const tg = readEnv('.env.telegram');
+// También acepta un archivo que solo contiene el token (sin «TELEGRAM_BOT_TOKEN=»).
+if (!tg.TELEGRAM_BOT_TOKEN && existsSync('.env.telegram')) {
+  const raw = readFileSync('.env.telegram', 'utf8').trim();
+  if (/^\d+:[\w-]{20,}$/.test(raw)) tg.TELEGRAM_BOT_TOKEN = raw;
+}
 const docker = (...args) =>
   execFileSync('docker', args, { stdio: ['ignore', 'pipe', 'pipe'] })
     .toString()
