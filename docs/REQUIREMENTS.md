@@ -24,15 +24,15 @@
 
 ## B. Identidad visual
 
-| ID   | Requisito                                                    | Estado | Evidencia                                                                                                                                                                                           |
-| ---- | ------------------------------------------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| B-01 | Solo la paleta oficial                                       | ✔️     | Auditoría del CSS/JS compilado: solo los 6 colores, sus transparencias y el tono de apoyo `#DCD6EA` del manual                                                                                      |
-| B-02 | Poppins en todos sus pesos; ninguna otra familia             | ✔️     | Fontsource (400–800); el CSS compilado solo declara Poppins                                                                                                                                         |
-| B-03 | Logo oficial, zona de protección, tamaño mínimo, sin efectos | ✔️     | Extraído del PDF con Python sin redibujar; e2e «marca» mide ancho mínimo y zona de protección                                                                                                       |
-| B-04 | «Campuslands AI Academy»; corregir «IA Academy»              | ⚠️     | Todo el texto visible corregido (e2e «marca»). Queda «IA Academy» dentro del **mensaje prellenado de WhatsApp**, que no se cambió porque el reto pide mantener los enlaces (decisión pendiente, R7) |
-| B-05 | Halos violeta, etiquetas en píldora, palabra en Soft Violet  | ✔️     | `Section.astro` (halos en esquinas), `.pill`, `<em>` en Soft Violet                                                                                                                                 |
-| B-06 | Personas reales; sin robots genéricos ni fotos de banco      | ⚠️     | Sin robots ni fotos de banco. **No hay fotos de personas reales**: no se recibieron fotos autorizadas (R2); se usa Max, la mascota aprobada                                                         |
-| B-07 | Narrativa espacial como hilo conductor                       | ✔️     | Cuenta regresiva T−8 → T−0, etapas que se apilan, trayectoria del hero; e2e «cuenta regresiva»                                                                                                      |
+| ID   | Requisito                                                    | Estado | Evidencia                                                                                                                                   |
+| ---- | ------------------------------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| B-01 | Solo la paleta oficial                                       | ✔️     | Auditoría del CSS/JS compilado: solo los 6 colores, sus transparencias y el tono de apoyo `#DCD6EA` del manual                              |
+| B-02 | Poppins en todos sus pesos; ninguna otra familia             | ✔️     | Fontsource (400–800); el CSS compilado solo declara Poppins                                                                                 |
+| B-03 | Logo oficial, zona de protección, tamaño mínimo, sin efectos | ✔️     | Extraído del PDF con Python sin redibujar; e2e «marca» mide ancho mínimo y zona de protección                                               |
+| B-04 | «Campuslands AI Academy»; corregir «IA Academy»              | ✔️     | Texto visible y mensaje prellenado de WhatsApp corregidos (mismo número, D-18); e2e «marca» revisa texto y enlaces                          |
+| B-05 | Halos violeta, etiquetas en píldora, palabra en Soft Violet  | ✔️     | `Section.astro` (halos en esquinas), `.pill`, `<em>` en Soft Violet                                                                         |
+| B-06 | Personas reales; sin robots genéricos ni fotos de banco      | ⚠️     | Sin robots ni fotos de banco. **No hay fotos de personas reales**: no se recibieron fotos autorizadas (R2); se usa Max, la mascota aprobada |
+| B-07 | Narrativa espacial como hilo conductor                       | ✔️     | Cuenta regresiva T−8 → T−0, etapas que se apilan, trayectoria del hero; e2e «cuenta regresiva»                                              |
 
 ## C. Interactividad
 

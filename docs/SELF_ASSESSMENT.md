@@ -5,11 +5,11 @@
 | Criterio                  | Peso    | Estimado | Resumen                                                                            |
 | ------------------------- | ------- | -------- | ---------------------------------------------------------------------------------- |
 | Experiencia interactiva   | 35      | **31**   | Las cuatro piezas funcionan, se conectan entre sí y están cubiertas por pruebas    |
-| Fidelidad a la marca      | 20      | **16**   | Paleta, Poppins, logo y recursos gráficos fieles; faltan fotos de personas reales  |
+| Fidelidad a la marca      | 20      | **17**   | Paleta, Poppins, logo y recursos gráficos fieles; faltan fotos de personas reales  |
 | Diseño visual y jerarquía | 15      | **13**   | Sistema tipográfico claro y una sola llamada principal por bloque                  |
 | Calidad técnica           | 20      | **19**   | Código modular y tipado, 35 pruebas unitarias, 36 de navegador, CI, Lighthouse 100 |
 | Móvil y accesibilidad     | 10      | **9**    | 375 px completo, teclado, axe-core limpio, movimiento reducido                     |
-| **Total**                 | **100** | **88**   |                                                                                    |
+| **Total**                 | **100** | **89**   |                                                                                    |
 
 ## Experiencia interactiva · 31 / 35
 
@@ -25,14 +25,14 @@
 - La demo corta de un prompt en acción (prevista en la dirección creativa) no se construyó.
 - La constelación es una cuadrícula escalonada; podría ser más exploratoria (líneas que unan herramientas según el objetivo).
 
-## Fidelidad a la marca · 16 / 20
+## Fidelidad a la marca · 17 / 20
 
 **Cumplido**: solo la paleta oficial (auditado en el CSS y el JS compilados), Poppins autoalojada, logo original extraído del manual con zona de protección y tamaño mínimo verificados por pruebas, halos en esquinas, píldoras, palabra destacada, Max con expresiones aprobadas, voz del manual (sin «revolucionario» ni promesas sin caso).
 
 **Por qué no es 20**
 
 - **Personas reales**: el reto y el manual las piden; no hay fotos autorizadas de trainers o formaciones (R2). Es la brecha más visible.
-- El mensaje prellenado de WhatsApp aún dice «IA Academy» (R7, pendiente de aprobación).
+- El nombre ya es «Campuslands AI Academy» en todo el sitio, incluido el mensaje prellenado de WhatsApp (D-18).
 
 ## Diseño visual y jerarquía · 13 / 15
 
@@ -56,4 +56,4 @@
 
 1. Fotos reales y autorizadas de formaciones o trainers (marca +2 a +3).
 2. Demo corta de un prompt en acción dentro del antes/después (interactividad +2).
-3. Corregir el texto del mensaje de WhatsApp si se aprueba (marca +1).
+3. Probar en dispositivos físicos y con lector de pantalla (técnica y accesibilidad +1 cada una).
