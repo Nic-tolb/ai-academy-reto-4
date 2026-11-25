@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { clearSpaceFor, LOGO_RULES, type LogoVariant } from '../../src/data/brand';
 import { LINKS } from '../../src/data/links';
 import { MISSIONS } from '../../src/data/missions';
 import { PHASES } from '../../src/data/phases';
@@ -15,7 +16,7 @@ import {
 test.describe('estabilidad', () => {
   test('carga y se recorre completa sin errores ni desbordamiento lateral', async ({ page }) => {
     const errors = collectErrors(page);
-    await page.goto('/');
+    await page.goto('./');
     await scrollThrough(page);
     await page.waitForTimeout(500);
     await expectNoHorizontalOverflow(page);
@@ -23,14 +24,14 @@ test.describe('estabilidad', () => {
   });
 
   test('el campo del hero dibuja en el canvas', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await expect.poll(() => canvasInk(page), { timeout: 5000 }).toBeGreaterThan(20);
   });
 });
 
 test.describe('contenido y enlaces reales', () => {
   test('la cuenta regresiva va de T−8 a T−0 en orden', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const codes = await page
       .locator('[data-phase]')
       .evaluateAll((els) => els.map((el) => (el as HTMLElement).dataset.phaseCode));
@@ -38,7 +39,7 @@ test.describe('contenido y enlaces reales', () => {
   });
 
   test('presenta las cinco misiones con sus duraciones', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     for (const m of Object.values(MISSIONS)) {
       const card = page.locator(`#mision-${m.id}`);
       await expect(card).toContainText(m.name);
@@ -48,7 +49,7 @@ test.describe('contenido y enlaces reales', () => {
   });
 
   test('inscripción y WhatsApp apuntan a los enlaces reales', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const hrefs = await page
       .locator('a[href]')
       .evaluateAll((as) => as.map((a) => a.getAttribute('href') ?? ''));
@@ -62,11 +63,42 @@ test.describe('contenido y enlaces reales', () => {
   });
 });
 
+test.describe('marca (manual v1.0)', () => {
+  test('el logo oficial respeta su tamaño mínimo y su zona de protección', async ({ page }) => {
+    await page.goto('./');
+    await scrollThrough(page);
+    const logos = await page.locator('.logo[data-variant]').evaluateAll((wraps) =>
+      wraps.map((wrap) => {
+        const box = wrap.querySelector('img')!.getBoundingClientRect();
+        return {
+          variant: (wrap as HTMLElement).dataset.variant as LogoVariant,
+          width: box.width,
+          height: box.height,
+          clear: parseFloat(getComputedStyle(wrap).paddingTop),
+        };
+      }),
+    );
+    expect(logos.map((l) => l.variant).sort()).toEqual(['horizontal', 'vertical']);
+    for (const logo of logos) {
+      expect(logo.width).toBeGreaterThanOrEqual(LOGO_RULES[logo.variant].minWidth);
+      // Zona de protección: x = altura de «ACADEMY» libre en los cuatro lados.
+      expect(logo.clear).toBeGreaterThanOrEqual(clearSpaceFor(logo.variant, logo.height) - 1);
+    }
+  });
+
+  test('el nombre visible es «Campuslands AI Academy», nunca «IA Academy»', async ({ page }) => {
+    await page.goto('./');
+    const text = await page.locator('body').innerText();
+    expect(text).toContain('Campuslands AI Academy');
+    expect(text).not.toMatch(/\bIA Academy\b/);
+  });
+});
+
 test.describe('I-01 · hero', () => {
   test('elegir un perfil muestra la misión en la primera pantalla y adapta el CTA', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('./');
     await page.getByRole('button', { name: 'Líder de equipo' }).click();
     const chip = page.locator('[data-mission-chip]');
     await expect(chip).toBeVisible();
@@ -83,7 +115,7 @@ test.describe('I-01 · hero', () => {
 
 test.describe('I-02 · recorrido', () => {
   test('el indicador marca la fase visible', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await goToSection(page, 'faqs');
     await expect(page.locator('[data-phase-label]')).toHaveText('T−1 · Control de misión');
   });
@@ -91,7 +123,7 @@ test.describe('I-02 · recorrido', () => {
 
 test.describe('I-03 · recomendador', () => {
   test('en vivo + mi equipo + automatizar → Liftoff, resaltado en las etapas', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await goToSection(page, 'planes');
     const rec = page.locator('[data-recommender]');
     await rec.getByRole('button', { name: /En vivo/ }).click();
@@ -102,7 +134,7 @@ test.describe('I-03 · recomendador', () => {
   });
 
   test('«a mi ritmo» recomienda Nebula sin más preguntas', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await goToSection(page, 'planes');
     const rec = page.locator('[data-recommender]');
     await rec.getByRole('button', { name: /A mi ritmo/ }).click();
@@ -112,7 +144,7 @@ test.describe('I-03 · recomendador', () => {
   });
 
   test('el perfil del hero sugiere la respuesta de la pregunta 2', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await page.getByRole('button', { name: 'Independiente' }).click();
     await goToSection(page, 'planes');
     await page
@@ -127,7 +159,7 @@ test.describe('I-04 · exploración', () => {
   test('el antes/después cambia con el interruptor y las pestañas con el teclado', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('./');
     await goToSection(page, 'casos-uso');
     await page.getByRole('button', { name: /Después/ }).click();
     await expect(page.locator('[data-panel]:not([hidden]) [data-compare]')).toHaveClass(/is-after/);
@@ -139,7 +171,7 @@ test.describe('I-04 · exploración', () => {
   });
 
   test('filtrar herramientas actualiza la ficha', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await goToSection(page, 'herramientas');
     await page.getByRole('button', { name: /^Automatizar/ }).click();
     await expect(page.locator('[data-card-name]')).toHaveText('Make');
@@ -148,7 +180,7 @@ test.describe('I-04 · exploración', () => {
 
 test.describe('accesibilidad', () => {
   test('sin infracciones graves de axe-core', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await scrollThrough(page);
     await waitForReveals(page);
     const results = await new AxeBuilder({ page })
@@ -167,7 +199,7 @@ test.describe('accesibilidad', () => {
   });
 
   test('el primer Tab lleva a «Saltar al contenido»', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await page.keyboard.press('Tab');
     await expect(page.locator(':focus')).toHaveText('Saltar al contenido');
   });
@@ -177,7 +209,7 @@ test.describe('movimiento reducido', () => {
   test.use({ reducedMotion: 'reduce' });
 
   test('no queda contenido oculto y el hero sigue respondiendo', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await scrollThrough(page);
     const hidden = await page
       .locator('[data-reveal]')
@@ -193,7 +225,7 @@ test.describe('sin JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
   test('todo el contenido está en el HTML', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     const html = await page.content();
     for (const m of Object.values(MISSIONS)) expect(html).toContain(m.name);
     expect(html).toContain('HeyGen');

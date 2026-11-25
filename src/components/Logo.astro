@@ -8,9 +8,10 @@
 import { Image } from 'astro:assets';
 import vertical from '../assets/brand/logo-principal-vertical.png';
 import horizontal from '../assets/brand/logo-horizontal-blanca.png';
+import { clearSpaceFor, LOGO_RULES, type LogoVariant } from '../data/brand';
 
 interface Props {
-  variant: 'vertical' | 'horizontal';
+  variant: LogoVariant;
   width: number;
   loading?: 'eager' | 'lazy';
   class?: string;
@@ -18,16 +19,15 @@ interface Props {
 
 const { variant, width, loading = 'lazy', class: className } = Astro.props;
 const src = variant === 'vertical' ? vertical : horizontal;
-const min = variant === 'vertical' ? 120 : 160;
-if (width < min) throw new Error(`Logo ${variant}: ${width}px es menor que el mínimo de ${min}px.`);
-
-// Proporción de «ACADEMY» respecto al alto del archivo (medida en el original).
-const academyRatio = variant === 'vertical' ? 76 / 704 : 69 / 316;
+const { minWidth } = LOGO_RULES[variant];
+if (width < minWidth) {
+  throw new Error(`Logo ${variant}: ${width}px es menor que el mínimo de ${minWidth}px.`);
+}
 const height = Math.round((width * src.height) / src.width);
-const clearSpace = Math.ceil(height * academyRatio);
+const clearSpace = clearSpaceFor(variant, height);
 ---
 
-<span class:list={['logo', className]} style={`--clear:${clearSpace}px`}>
+<span class:list={['logo', className]} style={`--clear:${clearSpace}px`} data-variant={variant}>
   <Image
     src={src}
     alt="Campuslands AI Academy"
