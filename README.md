@@ -1,5 +1,10 @@
 # Campuslands AI Academy · Nueva landing «Plan de vuelo»
 
+**Sitio publicado:** https://nic-tolb.github.io/landing-ai-academy/
+**Repositorio:** https://github.com/Nic-tolb/landing-ai-academy
+
+Cumplimiento del reto: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) · Autoevaluación: [`docs/SELF_ASSESSMENT.md`](docs/SELF_ASSESSMENT.md) · Pruebas y rendimiento: [`docs/QA_REPORT.md`](docs/QA_REPORT.md)
+
 Rediseño de la landing de Campuslands AI Academy con la nueva identidad visual (manual de marca v1.0). Reto de ingreso al equipo, noviembre de 2026.
 
 La narrativa espacial de la marca es la estructura de la página: el recorrido es una cuenta regresiva de nueve fases (T−8 → T−0), las misiones son etapas que se apilan y el despegue (T−0) es la inscripción.

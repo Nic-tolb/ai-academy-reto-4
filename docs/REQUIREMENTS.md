@@ -1,83 +1,75 @@
 # Requisitos y matriz de cumplimiento
 
-> Fuente principal: `1.Reto ingreso landing ai academy.pdf` (nov 2026).
-> Estados: ⬜ pendiente · 🟨 en curso · ✅ implementado · ✔️ verificado (con evidencia en `QA_REPORT.md`).
+> Fuente: `1.Reto ingreso landing ai academy.pdf` (nov 2026). Revisión final: 24 nov 2026, sobre el sitio publicado.
+> Estados: ✔️ cumple y está verificado · ⚠️ cumple con una salvedad · ❌ no cumple.
+> «e2e» = `tests/e2e/landing.spec.ts`, que corre en cada push y también contra la URL publicada.
+
+**Sitio:** https://nic-tolb.github.io/landing-ai-academy/ · **Repositorio:** https://github.com/Nic-tolb/landing-ai-academy
 
 ## A. Contenido que debe seguir comunicándose
 
-| ID   | Requisito                                                                                                                           | Fuente de datos     | Estado |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------ |
-| C-01 | Menú fijo con acceso a Beneficios, Herramientas, Planes, ¿Por qué ahora?, Casos de uso, FAQs, Diagnóstico, Certificado e Inscríbete | RESEARCH §2.1       | ⬜     |
-| C-02 | Mensaje «Evoluciona a la velocidad de la tecnología» + botón **Ver planes**                                                         | RESEARCH §2.3       | ⬜     |
-| C-03 | Beneficios: formación práctica, entregables listos, soporte continuo, rutas flexibles                                               | RESEARCH §2.4       | ⬜     |
-| C-04 | Las 14 herramientas (nombres exactos)                                                                                               | RESEARCH §2.5       | ⬜     |
-| C-05 | Cinco misiones con lo que incluye cada una: Ignition 4 h, Booster 8 h, Liftoff 12 h, Odyssey personalizado, Nebula pregrabado       | RESEARCH §2.6       | ⬜     |
-| C-06 | ¿Por qué ahora?: el costo de esperar                                                                                                | RESEARCH §2.7       | ⬜     |
-| C-07 | Casos de uso: antes/después de empresario, director de innovación, profesional independiente y líder de RR. HH.                     | RESEARCH §2.8       | ⬜     |
-| C-08 | Reseñas de equipos formados                                                                                                         | RESEARCH §2.9       | ⬜     |
-| C-09 | FAQs (modalidades, fechas, requisitos…), contacto por WhatsApp, enlaces legales                                                     | RESEARCH §2.10–2.11 | ⬜     |
-| C-10 | No cambiar datos: duraciones, nombres de planes, herramientas, enlaces de inscripción y WhatsApp                                    | —                   | ⬜     |
-| C-11 | Diagnóstico, Certificado e Inscripción enlazan a las páginas actuales                                                               | RESEARCH §2.2       | ⬜     |
+| ID   | Requisito                                                                                                              | Estado | Evidencia                                                                                                                                           |
+| ---- | ---------------------------------------------------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C-01 | Menú fijo: Beneficios, Herramientas, Planes, ¿Por qué ahora?, Casos de uso, FAQs, Diagnóstico, Certificado, Inscríbete | ✔️     | `Header.astro` (escritorio) y menú móvil con los nueve accesos                                                                                      |
+| C-02 | «Evoluciona a la velocidad de la tecnología» + botón **Ver planes**                                                    | ✔️     | `Hero.astro`; e2e «hero»                                                                                                                            |
+| C-03 | Beneficios: formación práctica, entregables listos, soporte continuo, rutas flexibles                                  | ✔️     | `Benefits.astro`, texto literal en `src/data/content.ts`                                                                                            |
+| C-04 | Las 14 herramientas (nombres exactos)                                                                                  | ✔️     | `Tools.astro`; el título usa `TOOLS.length`; e2e «sin JavaScript» (HeyGen)                                                                          |
+| C-05 | Cinco misiones con lo que incluye cada una                                                                             | ✔️     | `Missions.astro` desde `src/data/missions.ts`; e2e «presenta las cinco misiones»                                                                    |
+| C-06 | ¿Por qué ahora?: el costo de esperar                                                                                   | ✔️     | `Urgency.astro` (fase T−7 · Carga útil)                                                                                                             |
+| C-07 | Antes/después: empresario, director de innovación, independiente, líder de RR. HH.                                     | ✔️     | `Cases.astro`; e2e «exploración»                                                                                                                    |
+| C-08 | Reseñas de equipos formados                                                                                            | ✔️     | `Reviews.astro` (texto literal; solo se corrigió el nombre de la marca)                                                                             |
+| C-09 | FAQs, contacto por WhatsApp y enlaces legales                                                                          | ⚠️     | FAQs y WhatsApp ✔️. Los enlaces legales de la landing actual apuntan a `#`; se muestran como texto «pendiente de confirmar» en vez de enlaces rotos |
+| C-10 | No cambiar datos: duraciones, nombres de planes, herramientas, enlaces                                                 | ✔️     | Fuente única `missions.ts`; Vitest comprueba que las razones del recomendador son viñetas literales                                                 |
+| C-11 | Diagnóstico, Certificado e Inscripción enlazan a las páginas actuales                                                  | ✔️     | `src/data/links.ts`; e2e «enlaces reales» (todo enlace externo pertenece a la lista oficial)                                                        |
 
 ## B. Identidad visual
 
-| ID   | Requisito                                                                                            | Estado                              |
-| ---- | ---------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| B-01 | Paleta exacta: #050507 · #7026E8 · #9636FF · #B783FF · #FFFFFF · #8E8998 (y solo esa)                | ⬜                                  |
-| B-02 | Poppins en todos sus pesos; ninguna otra familia                                                     | ⬜                                  |
-| B-03 | Logo oficial «campuslands AI» desde archivo original, zona de protección, tamaño mínimo, sin efectos | ⬜ (**bloqueado: faltan archivos**) |
-| B-04 | Nombre «Campuslands AI Academy»; corregir todas las menciones «IA Academy»                           | ⬜                                  |
-| B-05 | Halos violeta, etiquetas en píldora, palabra destacada en Soft Violet                                | ⬜                                  |
-| B-06 | Personas reales; sin robots genéricos ni fotos de banco                                              | ⬜                                  |
-| B-07 | Narrativa espacial como hilo conductor, no como decoración                                           | ⬜                                  |
+| ID   | Requisito                                                    | Estado | Evidencia                                                                                                                                                                                           |
+| ---- | ------------------------------------------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B-01 | Solo la paleta oficial                                       | ✔️     | Auditoría del CSS/JS compilado: solo los 6 colores, sus transparencias y el tono de apoyo `#DCD6EA` del manual                                                                                      |
+| B-02 | Poppins en todos sus pesos; ninguna otra familia             | ✔️     | Fontsource (400–800); el CSS compilado solo declara Poppins                                                                                                                                         |
+| B-03 | Logo oficial, zona de protección, tamaño mínimo, sin efectos | ✔️     | Extraído del PDF con Python sin redibujar; e2e «marca» mide ancho mínimo y zona de protección                                                                                                       |
+| B-04 | «Campuslands AI Academy»; corregir «IA Academy»              | ⚠️     | Todo el texto visible corregido (e2e «marca»). Queda «IA Academy» dentro del **mensaje prellenado de WhatsApp**, que no se cambió porque el reto pide mantener los enlaces (decisión pendiente, R7) |
+| B-05 | Halos violeta, etiquetas en píldora, palabra en Soft Violet  | ✔️     | `Section.astro` (halos en esquinas), `.pill`, `<em>` en Soft Violet                                                                                                                                 |
+| B-06 | Personas reales; sin robots genéricos ni fotos de banco      | ⚠️     | Sin robots ni fotos de banco. **No hay fotos de personas reales**: no se recibieron fotos autorizadas (R2); se usa Max, la mascota aprobada                                                         |
+| B-07 | Narrativa espacial como hilo conductor                       | ✔️     | Cuenta regresiva T−8 → T−0, etapas que se apilan, trayectoria del hero; e2e «cuenta regresiva»                                                                                                      |
 
-## C. Interactividad (35 pts)
+## C. Interactividad
 
-| ID   | Pieza mínima                      | Criterio de aceptación                                                                                                            | Estado |
-| ---- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| I-01 | Hero que reacciona al visitante   | Responde a una acción (elección/cursor/scroll) con equivalente táctil y de teclado; el mensaje y «Ver planes» visibles sin scroll | ⬜     |
-| I-02 | Recorrido narrativo con el scroll | Animaciones ligadas al scroll + secciones que se revelan + indicador de progreso del viaje; sin secuestrar el scroll              | ⬜     |
-| I-03 | Recomendador de planes            | 2–3 preguntas → misión sugerida, justificada solo con datos reales, con CTA directo                                               | ⬜     |
-| I-04 | Exploración libre                 | Constelación de herramientas / antes-después deslizable / demo de prompt; usable con toque y teclado                              | ⬜     |
-| I-05 | Microinteracciones                | Hover, foco visible, respuesta al clic y transiciones en todos los controles                                                      | ⬜     |
+| ID   | Pieza mínima                      | Estado | Evidencia                                                                                                               |
+| ---- | --------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- |
+| I-01 | Hero que reacciona al visitante   | ✔️     | Canvas que responde a cursor, dedo y scroll + elección de perfil con ficha de misión en la primera pantalla; e2e «hero» |
+| I-02 | Recorrido narrativo con el scroll | ✔️     | Riel / barra de fases T−8 → T−0, revelado con GSAP, etapas que se apilan; e2e «recorrido»                               |
+| I-03 | Recomendador de planes            | ✔️     | Hasta 3 preguntas → misión, razones literales, alternativa y CTA real; Vitest + e2e «recomendador»                      |
+| I-04 | Exploración libre                 | ✔️     | Antes/después con barrido y gesto + constelación de 14 herramientas filtrable; e2e «exploración»                        |
+| I-05 | Microinteracciones                | ✔️     | Estados hover, foco, activo y de selección en botones, píldoras, pestañas y tarjetas                                    |
 
 ## D. Conversión
 
-| ID   | Requisito                                                            | Estado |
-| ---- | -------------------------------------------------------------------- | ------ |
-| V-01 | Inscripción y WhatsApp siempre a mano sin interrumpir la exploración | ⬜     |
-| V-02 | Enlaces reales de la landing actual                                  | ⬜     |
+| ID   | Requisito                                             | Estado | Evidencia                                                                                             |
+| ---- | ----------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------- |
+| V-01 | Inscripción y WhatsApp siempre a mano sin interrumpir | ✔️     | Encabezado en escritorio; barra inferior en móvil que se oculta en el hero, el menú y el recomendador |
+| V-02 | Enlaces reales de la landing actual                   | ✔️     | e2e «enlaces reales»                                                                                  |
 
 ## E. Técnicos
 
-| ID   | Requisito                                                          | Meta medible                                                                            | Estado |
-| ---- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | ------ |
-| T-01 | Experiencia completa a 375 px, interacciones táctiles equivalentes | Revisión en 375×812                                                                     | ⬜     |
-| T-02 | Rendimiento                                                        | Lighthouse móvil Performance ≥ 80 (objetivo interno ≥ 90)                               | ⬜     |
-| T-03 | Imágenes/video comprimidos, carga diferida                         | AVIF/WebP, `loading="lazy"` fuera del primer pantallazo                                 | ⬜     |
-| T-04 | Contraste suficiente                                               | Todo texto ≥ 4,5:1 (grande ≥ 3:1)                                                       | ⬜     |
-| T-05 | Navegación con teclado                                             | Todo operable con Tab/Enter/Espacio/flechas; foco visible; enlace «Saltar al contenido» | ⬜     |
-| T-06 | `prefers-reduced-motion`                                           | Animaciones reducidas a fundidos o desactivadas                                         | ⬜     |
-| T-07 | Sin errores en consola                                             | 0 errores                                                                               | ⬜     |
-| T-08 | Publicado en servicio gratuito                                     | URL pública                                                                             | ⬜     |
-| T-09 | Repositorio público en GitHub + README claro                       | URL pública                                                                             | ⬜     |
+| ID   | Requisito                              | Meta                    | Estado | Evidencia (sitio publicado)                                                                                             |
+| ---- | -------------------------------------- | ----------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------- |
+| T-01 | Experiencia completa a 375 px y táctil | Todo funciona en 375 px | ✔️     | e2e corre completo en 375 px con pantalla táctil; 0 px de desbordamiento                                                |
+| T-02 | Lighthouse móvil Performance           | ≥ 80                    | ✔️     | **100** en 3 corridas (Lighthouse 12.3); CI falla si baja de 80                                                         |
+| T-03 | Imágenes comprimidas, carga diferida   | —                       | ✔️     | WebP responsivo (logo 83 kB → 3 kB); `loading="lazy"` fuera del primer pantallazo; GSAP y canvas en diferido; sin video |
+| T-04 | Contraste suficiente                   | WCAG 2.1 AA             | ✔️     | axe-core sin infracciones graves; Lighthouse Accesibilidad 100                                                          |
+| T-05 | Navegación con teclado                 | —                       | ✔️     | «Saltar al contenido», foco visible, pestañas con flechas; e2e «teclado»                                                |
+| T-06 | `prefers-reduced-motion`               | —                       | ✔️     | Sin animaciones, hero fijo que sigue respondiendo; e2e «movimiento reducido»                                            |
+| T-07 | Sin errores en consola                 | 0                       | ✔️     | e2e «estabilidad» en local y en línea                                                                                   |
+| T-08 | Publicado en servicio gratuito         | URL pública             | ✔️     | GitHub Pages con HTTPS, publicado por GitHub Actions                                                                    |
+| T-09 | Repositorio público + README           | —                       | ✔️     | README con cómo correrlo, stack, estructura y uso de IA                                                                 |
 
 ## F. Reglas
 
-| ID   | Regla                                                                                   | Estado |
-| ---- | --------------------------------------------------------------------------------------- | ------ |
-| R-01 | Sin plantillas compradas ni temas prearmados (librerías abiertas sí)                    | ⬜     |
-| R-02 | Imágenes: logo y recursos del manual; fotos de personas de bancos libres si hacen falta | ⬜     |
-| R-03 | Uso de IA permitido y declarado (README)                                                | ⬜     |
-
-## G. Rúbrica oficial
-
-| Criterio                  | Peso |
-| ------------------------- | ---- |
-| Experiencia interactiva   | 35   |
-| Fidelidad a la marca      | 20   |
-| Diseño visual y jerarquía | 15   |
-| Calidad técnica           | 20   |
-| Móvil y accesibilidad     | 10   |
-
-**Descalificación**: sitio que no carga, sin repositorio o sin manual de marca.
+| ID   | Regla                                                    | Estado | Evidencia                                                  |
+| ---- | -------------------------------------------------------- | ------ | ---------------------------------------------------------- |
+| R-01 | Sin plantillas compradas ni temas prearmados             | ✔️     | Componentes propios; solo librerías abiertas (Astro, GSAP) |
+| R-02 | Logo y recursos del manual                               | ✔️     | Logos y Max extraídos del PDF oficial                      |
+| R-03 | Uso de IA permitido y declarado                          | ✔️     | README, sección «Uso de IA»                                |
+| —    | Fuera de evaluación si: no carga / sin repo / sin manual | ✔️     | Carga (HTTP 200), repo público, manual aplicado            |
