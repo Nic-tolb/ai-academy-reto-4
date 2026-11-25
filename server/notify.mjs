@@ -9,13 +9,25 @@ import { PROGRAMS } from './validate.mjs';
 
 export const MAX_ATTEMPTS = 5;
 
-export function createNotifier({ db, webhookUrl, secret, publicUrl, timeoutMs = 10_000, log = console }) {
+export function createNotifier({
+  db,
+  webhookUrl,
+  secret,
+  publicUrl,
+  timeoutMs = 10_000,
+  log = console,
+}) {
   const inFlight = new Set();
 
   async function notify(lead) {
-    if (!lead || lead.notify_status === 'enviado' || inFlight.has(lead.id)) return { skipped: true };
+    if (!lead || lead.notify_status === 'enviado' || inFlight.has(lead.id))
+      return { skipped: true };
     if (!webhookUrl || !secret) {
-      db.markNotification(lead.id, false, 'n8n no está configurado (N8N_WEBHOOK_URL / N8N_WEBHOOK_SECRET)');
+      db.markNotification(
+        lead.id,
+        false,
+        'n8n no está configurado (N8N_WEBHOOK_URL / N8N_WEBHOOK_SECRET)',
+      );
       return { ok: false };
     }
     inFlight.add(lead.id);
@@ -44,7 +56,8 @@ export function createNotifier({ db, webhookUrl, secret, publicUrl, timeoutMs = 
       db.markNotification(lead.id, true);
       return { ok: true };
     } catch (err) {
-      const message = err?.name === 'TimeoutError' ? 'n8n no respondió a tiempo' : err?.message || String(err);
+      const message =
+        err?.name === 'TimeoutError' ? 'n8n no respondió a tiempo' : err?.message || String(err);
       db.markNotification(lead.id, false, message);
       log.warn?.(`[aviso] ${lead.id}: ${message}`);
       return { ok: false, error: message };

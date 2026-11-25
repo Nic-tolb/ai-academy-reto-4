@@ -100,7 +100,9 @@ export function createApp({
     const isJson = typeof body !== 'string' && !Buffer.isBuffer(body);
     res.writeHead(status, {
       ...SECURITY_HEADERS,
-      ...(isJson ? { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } : {}),
+      ...(isJson
+        ? { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }
+        : {}),
       ...headers,
     });
     res.end(isJson ? JSON.stringify(body) : body);
@@ -108,7 +110,8 @@ export function createApp({
 
   async function serveFile(res, baseDir, relPath, cache = 'no-cache') {
     const target = normalize(join(baseDir, relPath));
-    if (!target.startsWith(baseDir + sep) && target !== baseDir) throw new HttpError(404, 'No encontrado.');
+    if (!target.startsWith(baseDir + sep) && target !== baseDir)
+      throw new HttpError(404, 'No encontrado.');
     let file = target;
     try {
       if ((await stat(file)).isDirectory()) file = join(file, 'index.html');
@@ -165,7 +168,8 @@ export function createApp({
     if (path === '/api/health') return send(res, 200, { ok: true });
 
     if (path === '/api/leads' && req.method === 'POST') {
-      if (!leadLimit(ip(req))) throw new HttpError(429, 'Demasiadas solicitudes. Intenta de nuevo en un minuto.');
+      if (!leadLimit(ip(req)))
+        throw new HttpError(429, 'Demasiadas solicitudes. Intenta de nuevo en un minuto.');
       const body = await readJson(req);
       // Trampa para bots: un campo oculto que una persona nunca llena.
       if (typeof body.website === 'string' && body.website.trim()) {
@@ -176,29 +180,47 @@ export function createApp({
       const key = isUuid(body.idempotencyKey) ? body.idempotencyKey : null;
       const { lead, duplicate } = db.createLead({ ...result.data, idempotencyKey: key });
       // Responder primero (el registro ya está guardado) y avisar después.
-      send(res, duplicate ? 200 : 201, { ok: true, id: lead.id, status: lead.status, createdAt: lead.created_at });
+      send(res, duplicate ? 200 : 201, {
+        ok: true,
+        id: lead.id,
+        status: lead.status,
+        createdAt: lead.created_at,
+      });
       if (!duplicate) notifier.notify(lead).catch((e) => log.error('[aviso]', e));
       return;
     }
 
     // ---------- API del panel ----------
     if (path === '/api/admin/login' && req.method === 'POST') {
-      if (!loginLimit(ip(req))) throw new HttpError(429, 'Demasiados intentos. Espera unos minutos.');
+      if (!loginLimit(ip(req)))
+        throw new HttpError(429, 'Demasiados intentos. Espera unos minutos.');
       const { email, password } = await readJson(req);
       const admin = typeof email === 'string' ? db.adminByEmail(email.trim()) : null;
-      const valid = admin ? verifyPassword(String(password ?? ''), admin.password_hash) : verifyAgainstDummy(String(password ?? ''));
+      const valid = admin
+        ? verifyPassword(String(password ?? ''), admin.password_hash)
+        : verifyAgainstDummy(String(password ?? ''));
       if (!admin || !valid) throw new HttpError(401, 'Correo o contraseña incorrectos.');
       const token = newToken();
       db.createSession(tokenHash(token), admin.id, SESSION_TTL_MS);
-      return send(res, 200, { ok: true, admin: { name: admin.name, email: admin.email } }, {
-        'set-cookie': sessionCookie(token, { secure: secureCookies }),
-      });
+      return send(
+        res,
+        200,
+        { ok: true, admin: { name: admin.name, email: admin.email } },
+        {
+          'set-cookie': sessionCookie(token, { secure: secureCookies }),
+        },
+      );
     }
 
     if (path === '/api/admin/logout' && req.method === 'POST') {
       const token = parseCookies(req.headers.cookie)[SESSION_COOKIE];
       if (token) db.deleteSession(tokenHash(token));
-      return send(res, 200, { ok: true }, { 'set-cookie': sessionCookie('', { secure: secureCookies, maxAgeMs: 0 }) });
+      return send(
+        res,
+        200,
+        { ok: true },
+        { 'set-cookie': sessionCookie('', { secure: secureCookies, maxAgeMs: 0 }) },
+      );
     }
 
     // «¿Hay sesión?» no es un error: responde admin = null en vez de 401.
@@ -245,18 +267,27 @@ export function createApp({
           const { status } = await readJson(req);
           if (!STATUSES.includes(status)) throw new HttpError(422, 'Estado no válido.');
           db.changeStatus(id, admin.id, status);
-          return send(res, 200, { ok: true, lead: serializeLead(db.lead(id)), events: db.events(id) });
+          return send(res, 200, {
+            ok: true,
+            lead: serializeLead(db.lead(id)),
+            events: db.events(id),
+          });
         }
         if (action === '/notes' && req.method === 'POST') {
           const { body } = await readJson(req);
           const text = typeof body === 'string' ? body.trim() : '';
-          if (text.length < 2 || text.length > 2000) throw new HttpError(422, 'La nota debe tener entre 2 y 2000 caracteres.');
+          if (text.length < 2 || text.length > 2000)
+            throw new HttpError(422, 'La nota debe tener entre 2 y 2000 caracteres.');
           db.addNote(id, admin.id, text);
           return send(res, 201, { ok: true, notes: db.notes(id), events: db.events(id) });
         }
         if (action === '/notify' && req.method === 'POST') {
           const result = await notifier.notify(db.lead(id));
-          return send(res, 200, { ok: Boolean(result.ok || result.skipped), lead: serializeLead(db.lead(id)), events: db.events(id) });
+          return send(res, 200, {
+            ok: Boolean(result.ok || result.skipped),
+            lead: serializeLead(db.lead(id)),
+            events: db.events(id),
+          });
         }
       }
       throw new HttpError(404, 'Ruta no encontrada.');
@@ -265,11 +296,24 @@ export function createApp({
     if (path.startsWith('/api/')) throw new HttpError(404, 'Ruta no encontrada.');
 
     // ---------- Archivos ----------
-    if (req.method !== 'GET' && req.method !== 'HEAD') throw new HttpError(405, 'Método no permitido.');
+    if (req.method !== 'GET' && req.method !== 'HEAD')
+      throw new HttpError(405, 'Método no permitido.');
     if (path === '/admin') return send(res, 301, '', { location: '/admin/' });
-    if (path.startsWith('/admin/fonts/')) return serveFile(res, fontsDir, path.slice('/admin/fonts/'.length), 'public, max-age=31536000, immutable');
-    if (path.startsWith('/admin/brand/')) return serveFile(res, brandDir, path.slice('/admin/brand/'.length), 'public, max-age=86400');
-    if (path.startsWith('/admin/')) return serveFile(res, adminDir, decodeURIComponent(path.slice('/admin/'.length)) || 'index.html');
+    if (path.startsWith('/admin/fonts/'))
+      return serveFile(
+        res,
+        fontsDir,
+        path.slice('/admin/fonts/'.length),
+        'public, max-age=31536000, immutable',
+      );
+    if (path.startsWith('/admin/brand/'))
+      return serveFile(res, brandDir, path.slice('/admin/brand/'.length), 'public, max-age=86400');
+    if (path.startsWith('/admin/'))
+      return serveFile(
+        res,
+        adminDir,
+        decodeURIComponent(path.slice('/admin/'.length)) || 'index.html',
+      );
     const cache = path.startsWith('/_astro/') ? 'public, max-age=31536000, immutable' : 'no-cache';
     return serveFile(res, distDir, decodeURIComponent(path), cache);
   }
@@ -277,7 +321,8 @@ export function createApp({
   return createServer((req, res) => {
     route(req, res).catch((err) => {
       if (res.headersSent) return;
-      if (err instanceof HttpError) return send(res, err.status, { ok: false, message: err.message, ...err.extra });
+      if (err instanceof HttpError)
+        return send(res, err.status, { ok: false, message: err.message, ...err.extra });
       log.error('[servidor]', err);
       send(res, 500, { ok: false, message: 'Ocurrió un error inesperado.' });
     });

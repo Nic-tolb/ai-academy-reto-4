@@ -10,7 +10,12 @@ import { openDb } from './db.mjs';
 import { hashPassword } from './auth.mjs';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const { ADMIN_EMAIL: email, ADMIN_NAME: name, ADMIN_PASSWORD: password, DATABASE_FILE } = process.env;
+const {
+  ADMIN_EMAIL: email,
+  ADMIN_NAME: name,
+  ADMIN_PASSWORD: password,
+  DATABASE_FILE,
+} = process.env;
 
 if (!email || !name || !password) {
   console.error('Faltan ADMIN_EMAIL, ADMIN_NAME o ADMIN_PASSWORD.');

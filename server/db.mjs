@@ -96,7 +96,9 @@ export function openDb(file) {
     insertAdmin: db.prepare(
       'INSERT INTO admins (email, name, password_hash, created_at) VALUES (?, ?, ?, ?)',
     ),
-    updateAdminPassword: db.prepare('UPDATE admins SET name = ?, password_hash = ? WHERE email = ?'),
+    updateAdminPassword: db.prepare(
+      'UPDATE admins SET name = ?, password_hash = ? WHERE email = ?',
+    ),
     insertSession: db.prepare(
       'INSERT INTO sessions (token_hash, admin_id, created_at, expires_at) VALUES (?, ?, ?, ?)',
     ),
@@ -156,7 +158,12 @@ export function openDb(file) {
     createSession(tokenHash, adminId, ttlMs) {
       const created = new Date();
       q.purgeSessions.run(created.toISOString());
-      q.insertSession.run(tokenHash, adminId, created.toISOString(), new Date(created.getTime() + ttlMs).toISOString());
+      q.insertSession.run(
+        tokenHash,
+        adminId,
+        created.toISOString(),
+        new Date(created.getTime() + ttlMs).toISOString(),
+      );
     },
     sessionAdmin: (tokenHash) => q.sessionAdmin.get(tokenHash, now()) ?? null,
     deleteSession: (tokenHash) => q.deleteSession.run(tokenHash),
@@ -172,7 +179,15 @@ export function openDb(file) {
         const id = randomUUID();
         const ts = now();
         q.insertLead.run(id, name, email, program, phone ?? null, ts, ts, idempotencyKey ?? null);
-        q.insertEvent.run(id, null, 'creado', null, 'Nuevo', 'Solicitud recibida desde la landing', ts);
+        q.insertEvent.run(
+          id,
+          null,
+          'creado',
+          null,
+          'Nuevo',
+          'Solicitud recibida desde la landing',
+          ts,
+        );
         return { lead: q.lead.get(id), duplicate: false };
       });
     },
@@ -237,14 +252,21 @@ export function openDb(file) {
     markNotification(leadId, ok, error) {
       const ts = now();
       tx(() => {
-        q.markNotify.run(ok ? 'enviado' : 'fallido', ok ? ts : null, ok ? null : String(error).slice(0, 300), leadId);
+        q.markNotify.run(
+          ok ? 'enviado' : 'fallido',
+          ok ? ts : null,
+          ok ? null : String(error).slice(0, 300),
+          leadId,
+        );
         q.insertEvent.run(
           leadId,
           null,
           'aviso',
           null,
           null,
-          ok ? 'Aviso enviado a Telegram' : `Falló el aviso a Telegram: ${String(error).slice(0, 200)}`,
+          ok
+            ? 'Aviso enviado a Telegram'
+            : `Falló el aviso a Telegram: ${String(error).slice(0, 200)}`,
           ts,
         );
       });

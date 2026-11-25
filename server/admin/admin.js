@@ -7,7 +7,11 @@ const el = (tag, props = {}, ...children) => {
 };
 const fmt = (iso) =>
   iso
-    ? new Date(iso).toLocaleString('es-CO', { timeZone: 'America/Bogota', dateStyle: 'medium', timeStyle: 'short' })
+    ? new Date(iso).toLocaleString('es-CO', {
+        timeZone: 'America/Bogota',
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
     : '—';
 const statusClass = (s) => `badge s-${String(s).replace(/\s+/g, '-')}`;
 const NOTIFY_LABEL = { enviado: 'Enviado', fallido: 'Falló', pendiente: 'Pendiente' };
@@ -88,9 +92,11 @@ async function loadList() {
     const node = document.getElementById(`m-${k}`);
     if (node) node.textContent = v;
   }
-  document.querySelectorAll('[data-filter-status]').forEach((b) =>
-    b.setAttribute('aria-pressed', String(b.dataset.filterStatus === state.status)),
-  );
+  document
+    .querySelectorAll('[data-filter-status]')
+    .forEach((b) =>
+      b.setAttribute('aria-pressed', String(b.dataset.filterStatus === state.status)),
+    );
   const rows = $('#rows');
   rows.replaceChildren(
     ...data.leads.map((l) => {
@@ -98,11 +104,23 @@ async function loadList() {
       return el(
         'tr',
         {},
-        el('td', { className: 'who-cell' }, link, el('span', { className: 'sub', textContent: l.email })),
+        el(
+          'td',
+          { className: 'who-cell' },
+          link,
+          el('span', { className: 'sub', textContent: l.email }),
+        ),
         el('td', { textContent: l.programName }),
         el('td', {}, el('span', { className: statusClass(l.status), textContent: l.status })),
         el('td', { textContent: fmt(l.createdAt) }),
-        el('td', {}, el('span', { className: `notify n-${l.notifyStatus}`, textContent: NOTIFY_LABEL[l.notifyStatus] })),
+        el(
+          'td',
+          {},
+          el('span', {
+            className: `notify n-${l.notifyStatus}`,
+            textContent: NOTIFY_LABEL[l.notifyStatus],
+          }),
+        ),
       );
     }),
   );
@@ -113,7 +131,9 @@ let filtersFilled = false;
 function fillFilters() {
   if (filtersFilled) return;
   filtersFilled = true;
-  $('#status-filter').append(...state.statuses.map((s) => el('option', { value: s, textContent: s })));
+  $('#status-filter').append(
+    ...state.statuses.map((s) => el('option', { value: s, textContent: s })),
+  );
   $('#program-filter').append(
     ...Object.entries(state.programs).map(([v, t]) => el('option', { value: v, textContent: t })),
   );
@@ -199,7 +219,12 @@ function renderNotes(notes) {
   $('#d-notes').replaceChildren(
     ...(notes.length
       ? notes.map((n) =>
-          el('li', {}, el('p', { textContent: n.body }), el('p', { className: 'meta', textContent: `${n.author} · ${fmt(n.created_at)}` })),
+          el(
+            'li',
+            {},
+            el('p', { textContent: n.body }),
+            el('p', { className: 'meta', textContent: `${n.author} · ${fmt(n.created_at)}` }),
+          ),
         )
       : [el('li', { className: 'muted', textContent: 'Aún no hay notas.' })]),
   );
@@ -208,7 +233,12 @@ function renderNotes(notes) {
 function renderEvents(events) {
   $('#d-events').replaceChildren(
     ...events.map((e) =>
-      el('li', {}, el('p', { className: 'what', textContent: eventText(e) }), el('p', { className: 'meta', textContent: `${e.author} · ${fmt(e.created_at)}` })),
+      el(
+        'li',
+        {},
+        el('p', { className: 'what', textContent: eventText(e) }),
+        el('p', { className: 'meta', textContent: `${e.author} · ${fmt(e.created_at)}` }),
+      ),
     ),
   );
 }
@@ -228,9 +258,14 @@ async function changeStatus(status) {
   const msg = $('#status-msg');
   msg.textContent = 'Guardando…';
   try {
-    const data = await api(`/api/admin/leads/${current.id}/status`, { method: 'PATCH', body: { status } });
+    const data = await api(`/api/admin/leads/${current.id}/status`, {
+      method: 'PATCH',
+      body: { status },
+    });
     current = data.lead;
-    document.querySelectorAll('#d-status [role=radio]').forEach((b) => (b.ariaChecked = String(b.textContent === status)));
+    document
+      .querySelectorAll('#d-status [role=radio]')
+      .forEach((b) => (b.ariaChecked = String(b.textContent === status)));
     renderEvents(data.events);
     msg.textContent = `Estado guardado: ${status}.`;
     loadList();
@@ -251,7 +286,10 @@ $('#note-form').addEventListener('submit', async (e) => {
   btn.disabled = true;
   msg.textContent = 'Guardando…';
   try {
-    const data = await api(`/api/admin/leads/${current.id}/notes`, { method: 'POST', body: { body } });
+    const data = await api(`/api/admin/leads/${current.id}/notes`, {
+      method: 'POST',
+      body: { body },
+    });
     $('#note-body').value = '';
     renderNotes(data.notes);
     renderEvents(data.events);

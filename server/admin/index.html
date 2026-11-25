@@ -12,13 +12,20 @@
     <!-- Inicio de sesión -->
     <main class="login" id="login-view" hidden>
       <form class="login-card" id="login-form" novalidate>
-        <img src="/admin/brand/logo-horizontal-blanca.png" alt="Campuslands AI Academy" width="200" height="45" />
+        <img
+          src="/admin/brand/logo-horizontal-blanca.png"
+          alt="Campuslands AI Academy"
+          width="200"
+          height="45"
+        />
         <p class="eyebrow">Control de misión</p>
         <h1>Seguimiento de interesados</h1>
-        <label>Correo
+        <label
+          >Correo
           <input type="email" name="email" autocomplete="username" required />
         </label>
-        <label>Contraseña
+        <label
+          >Contraseña
           <input type="password" name="password" autocomplete="current-password" required />
         </label>
         <p class="form-error" id="login-error" role="alert"></p>
@@ -31,7 +38,12 @@
     <div class="app" id="app-view" hidden>
       <header class="topbar">
         <a class="brand" href="#/">
-          <img src="/admin/brand/logo-horizontal-blanca.png" alt="Campuslands AI Academy" width="160" height="36" />
+          <img
+            src="/admin/brand/logo-horizontal-blanca.png"
+            alt="Campuslands AI Academy"
+            width="160"
+            height="36"
+          />
           <span>Control de misión</span>
         </a>
         <div class="who">
@@ -41,11 +53,21 @@
       </header>
 
       <section class="metrics" aria-label="Resumen">
-        <button class="metric" data-filter-status="" type="button"><span>Total</span><strong id="m-total">0</strong></button>
-        <button class="metric" data-filter-status="Nuevo" type="button"><span>Nuevos</span><strong id="m-Nuevo">0</strong></button>
-        <button class="metric" data-filter-status="Contactado" type="button"><span>Contactados</span><strong id="m-Contactado">0</strong></button>
-        <button class="metric" data-filter-status="En seguimiento" type="button"><span>En seguimiento</span><strong id="m-En seguimiento">0</strong></button>
-        <button class="metric" data-filter-status="Cerrado" type="button"><span>Cerrados</span><strong id="m-Cerrado">0</strong></button>
+        <button class="metric" data-filter-status="" type="button">
+          <span>Total</span><strong id="m-total">0</strong>
+        </button>
+        <button class="metric" data-filter-status="Nuevo" type="button">
+          <span>Nuevos</span><strong id="m-Nuevo">0</strong>
+        </button>
+        <button class="metric" data-filter-status="Contactado" type="button">
+          <span>Contactados</span><strong id="m-Contactado">0</strong>
+        </button>
+        <button class="metric" data-filter-status="En seguimiento" type="button">
+          <span>En seguimiento</span><strong id="m-En seguimiento">0</strong>
+        </button>
+        <button class="metric" data-filter-status="Cerrado" type="button">
+          <span>Cerrados</span><strong id="m-Cerrado">0</strong>
+        </button>
       </section>
 
       <section class="toolbar" aria-label="Filtros">
@@ -55,11 +77,15 @@
         </label>
         <label>
           <span class="sr-only">Estado</span>
-          <select id="status-filter"><option value="">Todos los estados</option></select>
+          <select id="status-filter">
+            <option value="">Todos los estados</option>
+          </select>
         </label>
         <label>
           <span class="sr-only">Programa</span>
-          <select id="program-filter"><option value="">Todos los programas</option></select>
+          <select id="program-filter">
+            <option value="">Todos los programas</option>
+          </select>
         </label>
         <button class="btn btn--ghost btn--sm" id="refresh" type="button">Actualizar</button>
       </section>
@@ -88,17 +114,40 @@
             <p class="eyebrow" id="d-program"></p>
             <h2 id="d-name"></h2>
             <dl class="facts">
-              <div><dt>Correo</dt><dd><a id="d-email"></a></dd></div>
-              <div><dt>Teléfono</dt><dd id="d-phone"></dd></div>
-              <div><dt>Recibido</dt><dd id="d-created"></dd></div>
-              <div><dt>ID</dt><dd><code id="d-id"></code></dd></div>
-              <div><dt>Aviso Telegram</dt><dd><span id="d-notify"></span> <button class="link" id="d-retry" type="button" hidden>Reintentar aviso</button></dd></div>
+              <div>
+                <dt>Correo</dt>
+                <dd><a id="d-email"></a></dd>
+              </div>
+              <div>
+                <dt>Teléfono</dt>
+                <dd id="d-phone"></dd>
+              </div>
+              <div>
+                <dt>Recibido</dt>
+                <dd id="d-created"></dd>
+              </div>
+              <div>
+                <dt>ID</dt>
+                <dd><code id="d-id"></code></dd>
+              </div>
+              <div>
+                <dt>Aviso Telegram</dt>
+                <dd>
+                  <span id="d-notify"></span>
+                  <button class="link" id="d-retry" type="button" hidden>Reintentar aviso</button>
+                </dd>
+              </div>
             </dl>
           </header>
 
           <section class="block">
             <h3>Estado</h3>
-            <div class="status-picker" role="radiogroup" aria-label="Estado del seguimiento" id="d-status"></div>
+            <div
+              class="status-picker"
+              role="radiogroup"
+              aria-label="Estado del seguimiento"
+              id="d-status"
+            ></div>
             <p class="form-msg" id="status-msg" role="status"></p>
           </section>
 
@@ -106,7 +155,12 @@
             <h3>Notas</h3>
             <form id="note-form" novalidate>
               <label class="sr-only" for="note-body">Nueva nota</label>
-              <textarea id="note-body" rows="3" maxlength="2000" placeholder="Qué se habló, próximos pasos, acuerdos…"></textarea>
+              <textarea
+                id="note-body"
+                rows="3"
+                maxlength="2000"
+                placeholder="Qué se habló, próximos pasos, acuerdos…"
+              ></textarea>
               <div class="row">
                 <p class="form-msg" id="note-msg" role="status"></p>
                 <button class="btn btn--primary btn--sm" type="submit">Añadir nota</button>
