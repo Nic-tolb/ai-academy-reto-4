@@ -1,0 +1,173 @@
+---
+/**
+ * Reto 4 · Formulario «Solicita información».
+ * Nombre, correo y programa obligatorios; teléfono opcional.
+ * Envía a /api/leads (mismo servidor). La confirmación solo aparece si el registro se guardó.
+ */
+import { MISSIONS } from '../data/missions';
+import { LINKS } from '../data/links';
+
+const programs = Object.values(MISSIONS);
+---
+
+<div class="lead" data-lead-form-root>
+  <div class="lead-copy">
+    <p class="eyebrow">Solicita información</p>
+    <h3>Cuéntanos quién eres y te contactamos.</h3>
+    <p>Un especialista de AI Academy te escribe para ayudarte a elegir tu misión.</p>
+  </div>
+
+  <form class="lead-form" data-lead-form novalidate>
+    <div class="field">
+      <label for="lead-name">Nombre <span aria-hidden="true">*</span></label>
+      <input id="lead-name" name="name" type="text" autocomplete="name" maxlength="80" required aria-describedby="err-name" />
+      <p class="error" id="err-name" data-error="name"></p>
+    </div>
+    <div class="field">
+      <label for="lead-email">Correo <span aria-hidden="true">*</span></label>
+      <input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120" required aria-describedby="err-email" />
+      <p class="error" id="err-email" data-error="email"></p>
+    </div>
+    <div class="field">
+      <label for="lead-program">Programa de interés <span aria-hidden="true">*</span></label>
+      <select id="lead-program" name="program" required aria-describedby="err-program">
+        <option value="">Elige una misión</option>
+        {programs.map((m) => <option value={m.id}>{m.name} · {m.duration}</option>)}
+      </select>
+      <p class="error" id="err-program" data-error="program"></p>
+    </div>
+    <div class="field">
+      <label for="lead-phone">Teléfono <span class="opt">(opcional)</span></label>
+      <input id="lead-phone" name="phone" type="tel" autocomplete="tel" maxlength="20" inputmode="tel" aria-describedby="err-phone" />
+      <p class="error" id="err-phone" data-error="phone"></p>
+    </div>
+    <!-- Trampa para bots: oculta para personas y lectores de pantalla -->
+    <div class="hp" aria-hidden="true">
+      <label>Sitio web <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <p class="form-error" data-form-error role="alert"></p>
+    <button class="btn btn--primary" type="submit" data-submit>Enviar solicitud</button>
+    <p class="note">* Obligatorio. Usamos tus datos solo para contactarte sobre AI Academy.</p>
+  </form>
+
+  <div class="success" data-lead-success tabindex="-1" hidden>
+    <p class="eyebrow">Solicitud recibida</p>
+    <h3>¡Gracias, <span data-success-name></span>!</h3>
+    <p>Guardamos tu solicitud. Un especialista te contactará pronto. Si prefieres, escríbenos ya por <a href={LINKS.whatsapp} target="_blank" rel="noopener">WhatsApp</a>.</p>
+    <button class="btn btn--secondary" type="button" data-lead-again>Enviar otra solicitud</button>
+  </div>
+</div>
+
+<style lang="scss">
+  .lead {
+    margin-top: 24px;
+    display: grid;
+    gap: 24px;
+    padding: 28px 24px;
+    border-radius: 28px;
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+    background: linear-gradient(180deg, rgb(183 131 255 / 0.06), transparent 70%);
+    @include up(lg) {
+      grid-template-columns: 4fr 7fr;
+      padding: 40px;
+      gap: 40px;
+    }
+  }
+  .eyebrow {
+    @include label;
+    color: var(--soft);
+  }
+  .lead-copy {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    h3 {
+      font-size: var(--fs-h3);
+    }
+  }
+  .lead-form {
+    display: grid;
+    gap: 14px 16px;
+    @include up(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  label {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+  .opt {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  input,
+  select {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: rgb(255 255 255 / 0.03);
+    color: var(--white);
+    font: inherit;
+    &:focus {
+      outline: none;
+      border-color: var(--soft);
+      box-shadow: 0 0 0 3px rgb(183 131 255 / 0.25);
+    }
+    &[aria-invalid='true'] {
+      border-color: #ffb3c1;
+    }
+  }
+  select option {
+    background: var(--black);
+  }
+  .error,
+  .form-error {
+    min-height: 1.2em;
+    font-size: 0.8125rem;
+    color: #ffb3c1;
+  }
+  .form-error,
+  .note,
+  [data-submit] {
+    @include up(md) {
+      grid-column: 1 / -1;
+    }
+  }
+  [data-submit] {
+    justify-self: start;
+    &[disabled] {
+      opacity: 0.7;
+      cursor: progress;
+    }
+  }
+  .note {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .success {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    justify-items: start;
+    h3 {
+      font-size: var(--fs-h3);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+</style>

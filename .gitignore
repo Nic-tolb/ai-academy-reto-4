@@ -25,3 +25,10 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .claude/settings.local.json
+
+# Reto 4: secretos y datos locales
+.env
+.env.*
+!.env.example
+.credentials.local
+data/

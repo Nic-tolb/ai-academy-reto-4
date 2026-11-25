@@ -12,6 +12,7 @@ import { initCases } from './features/cases';
 import { initTools } from './features/tools';
 import { initRecommender } from './features/recommender';
 import { initMotion } from './features/motion';
+import { initLeadForm } from './features/lead-form';
 
 type Init = () => void | Promise<void>;
 
@@ -37,4 +38,5 @@ export function boot(): void {
   safe('cases', initCases);
   safe('tools', initTools);
   safe('motion', initMotion);
+  safe('lead-form', initLeadForm);
 }

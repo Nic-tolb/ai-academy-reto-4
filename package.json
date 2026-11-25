@@ -1,9 +1,9 @@
 {
-  "name": "landing-ai-academy",
+  "name": "ai-academy-reto-4",
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Nueva landing de Campuslands AI Academy, reto de ingreso (noviembre 2026).",
+  "description": "Reto 4 · Registro de interesados, aviso por Telegram con n8n y panel de seguimiento (sobre la landing del Reto 3).",
   "engines": {
     "node": ">=22.23.4"
   },
@@ -12,11 +12,15 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "vitest run",
+    "test": "vitest run && node --test server/*.test.mjs",
     "test:e2e": "playwright test",
     "verify": "npm run format:check && npm test && npm run build && npm run test:e2e",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "start": "node --env-file-if-exists=.env server/index.mjs",
+    "serve": "npm run build && npm start",
+    "admin:create": "node --env-file-if-exists=.env server/create-admin.mjs",
+    "test:server": "node --test server/*.test.mjs"
   },
   "dependencies": {
     "@fontsource/poppins": "5.3.0",

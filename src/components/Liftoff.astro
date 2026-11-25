@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Section from './Section.astro';
 import Icon from './Icon.astro';
+import LeadForm from './LeadForm.astro';
 import maxPresentando from '../assets/brand/max-pose-presentando.png';
 import { LINKS } from '../data/links';
 import { phase } from '../data/phases';
@@ -29,6 +30,7 @@ const p = phase('despegue');
     </div>
     <Image src={maxPresentando} alt="" width={260} densities={[1, 2]} format="webp" class="max" />
   </div>
+  <LeadForm />
 </Section>
 
 <style lang="scss">

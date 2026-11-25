@@ -1,0 +1,119 @@
+{
+  "id": "AiAcademyLeadTg1",
+  "versionId": "3c9e2f6a-8b1d-4a7e-9f2c-5d6e7a8b9c01",
+  "name": "AI Academy · Nuevo interesado → Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-academy-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "5b0d7c1e-1f1a-4c5e-9a0b-2a1d3c4e5f60",
+      "name": "Webhook · registro guardado",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 300],
+      "webhookId": "8a4f5d2c-7b1e-4e6a-9c3d-1f2e3a4b5c6d"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1) Verifica el secreto compartido (el servidor lo envía en la cabecera x-webhook-secret).\n// 2) Arma el mensaje para Telegram escapando HTML.\nconst item = $input.first().json;\nconst secret = $env.N8N_WEBHOOK_SECRET || '';\nconst received = (item.headers && item.headers['x-webhook-secret']) || '';\nconst authorized = secret.length >= 16 && received === secret;\nconst b = item.body || {};\nconst esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nconst when = b.createdAt ? new Date(b.createdAt).toLocaleString('es-CO', { timeZone: 'America/Bogota', dateStyle: 'medium', timeStyle: 'short' }) : '';\nconst lines = [\n  '🚀 <b>Nuevo interesado · AI Academy</b>',\n  '',\n  `<b>Nombre:</b> ${esc(b.name)}`,\n  `<b>Correo:</b> ${esc(b.email)}`,\n  `<b>Programa:</b> ${esc(b.programName || b.program)}`,\n];\nif (b.phone) lines.push(`<b>Teléfono:</b> ${esc(b.phone)}`);\nlines.push('', `<b>Estado:</b> ${esc(b.status || 'Nuevo')}`, `<b>Recibido:</b> ${esc(when)} (hora de Colombia)`, `<b>ID:</b> <code>${esc(b.id)}</code>`);\nif (b.adminUrl && /^https:\\/\\//.test(b.adminUrl)) lines.push('', `<a href=\"${esc(b.adminUrl)}\">Abrir en el panel</a>`);\nconst valid = Boolean(b.id && b.name && b.email && (b.programName || b.program));\nreturn [{ json: { authorized: authorized && valid, leadId: b.id || null, text: lines.join('\\n') } }];"
+      },
+      "id": "6c1e8d2f-2a2b-4d6f-8b1c-3b2e4d5f6a71",
+      "name": "Verificar secreto y armar mensaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.authorized }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "7d2f9e3a-3b3c-4e7a-9c2d-4c3f5e6a7b82",
+      "name": "¿Solicitud autorizada?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: $env.TELEGRAM_CHAT_ID, text: $json.text, parse_mode: 'HTML', disable_web_page_preview: true }) }}",
+        "options": {
+          "timeout": 8000
+        }
+      },
+      "id": "8e3a0f4b-4c4d-4f8b-8d3e-5d4a6f7b8c93",
+      "name": "Telegram · enviar aviso",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, telegramMessageId: $json.result ? $json.result.message_id : null }) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "9f4b1a5c-5d5e-4a9c-9e4f-6e5b7a8c9da4",
+      "name": "Responder · aviso enviado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 200]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\":false,\"message\":\"No autorizado\"}",
+        "options": {
+          "responseCode": 401
+        }
+      },
+      "id": "a05c2b6d-6e6f-4bad-8f5a-7f6c8b9daeb5",
+      "name": "Responder · no autorizado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [720, 400]
+    }
+  ],
+  "connections": {
+    "Webhook · registro guardado": {
+      "main": [[{ "node": "Verificar secreto y armar mensaje", "type": "main", "index": 0 }]]
+    },
+    "Verificar secreto y armar mensaje": {
+      "main": [[{ "node": "¿Solicitud autorizada?", "type": "main", "index": 0 }]]
+    },
+    "¿Solicitud autorizada?": {
+      "main": [
+        [{ "node": "Telegram · enviar aviso", "type": "main", "index": 0 }],
+        [{ "node": "Responder · no autorizado", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram · enviar aviso": {
+      "main": [[{ "node": "Responder · aviso enviado", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}
