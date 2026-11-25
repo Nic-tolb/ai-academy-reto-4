@@ -1,98 +1,126 @@
-# Campuslands AI Academy · Nueva landing «Plan de vuelo»
+# Campuslands AI Academy · Reto 4 — Registro, aviso por Telegram y seguimiento
 
-**Sitio publicado:** https://nic-tolb.github.io/landing-ai-academy/
-**Repositorio:** https://github.com/Nic-tolb/landing-ai-academy
+Cuando alguien pide información desde la landing, el registro se guarda, el equipo recibe un aviso en Telegram (vía **n8n**) y cualquier administrador puede continuar el seguimiento desde un panel con estados, notas e historial.
 
-Cumplimiento del reto: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) · Autoevaluación: [`docs/SELF_ASSESSMENT.md`](docs/SELF_ASSESSMENT.md) · Pruebas y rendimiento: [`docs/QA_REPORT.md`](docs/QA_REPORT.md)
+> **Relación con el Reto 3.** Este proyecto parte de una **copia** de la landing entregada en el Reto 3 (etiqueta `reto-3-final` del repositorio [`Nic-tolb/landing-ai-academy`](https://github.com/Nic-tolb/landing-ai-academy)). El Reto 3 no se modificó: tiene su propio repositorio, documentación y despliegue (https://nic-tolb.github.io/landing-ai-academy/). Este repositorio solo añade lo del Reto 4.
 
-Rediseño de la landing de Campuslands AI Academy con la nueva identidad visual (manual de marca v1.0). Reto de ingreso al equipo, noviembre de 2026.
+## Recorrido
 
-La narrativa espacial de la marca es la estructura de la página: el recorrido es una cuenta regresiva de nueve fases (T−8 → T−0), las misiones son etapas que se apilan y el despegue (T−0) es la inscripción.
+```mermaid
+flowchart LR
+  V[Visitante] -->|formulario| L[Landing · T−0 Despegue]
+  L -->|POST /api/leads| S[Servidor Node]
+  S -->|valida y guarda · estado Nuevo| DB[(SQLite)]
+  S -->|después de guardar · secreto en cabecera| N[n8n · webhook]
+  N -->|Bot API| T[Telegram · chat privado]
+  A[Administrador] -->|sesión| P[Panel /admin]
+  P -->|estado · notas| S
+  S -->|historial: qué, quién, cuándo| DB
+```
 
-## Piezas interactivas
+| Requisito oficial                                                         | Dónde                                                                  |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Formulario: nombre, correo, programa (obligatorios) y teléfono (opcional) | `src/components/LeadForm.astro`, `src/client/features/lead-form.ts`    |
+| Validación, registro con fecha y estado **Nuevo**, confirmación           | `server/validate.mjs`, `server/db.mjs`, `POST /api/leads`              |
+| Aviso por Telegram con n8n (nombre, correo, programa, teléfono si existe) | `automation/workflow-n8n.json`, `server/notify.mjs`                    |
+| Panel con acceso de administrador                                         | `server/admin/`, `server/auth.mjs`                                     |
+| Estados Nuevo, Contactado, En seguimiento, Cerrado + notas                | `PATCH /api/admin/leads/:id/status`, `POST /api/admin/leads/:id/notes` |
+| Historial: qué cambió, quién y cuándo                                     | tabla `events`; el autor sale de la sesión, nunca del cliente          |
+| Dato obligatorio inválido → sin registro ni aviso                         | validación en servidor (422) antes de guardar; pruebas QA-10/11        |
 
-| Pieza               | Dónde                                                                                 | Qué hace                                                                                                                                                                                                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero que reacciona  | `src/components/Hero.astro`, `src/client/field/`                                      | Campo de trayectorias en canvas: el cursor o el dedo desvían las partículas, un toque lanza una onda. Al elegir _Empresa, Líder de equipo o Independiente_, la trayectoria se dibuja hasta la misión sugerida y el texto y el CTA se adaptan. El scroll acelera el despegue. |
-| Recorrido narrativo | `src/components/PhaseRail.astro`, `src/client/features/phases.ts`, `motion.ts`        | Cuenta regresiva T−8 → T−0 en un riel (escritorio) o una barra segmentada (móvil) que indica y permite saltar entre fases; revelado con GSAP ScrollTrigger; las etapas se apilan y sus horas se encienden.                                                                   |
-| Recomendador        | `src/components/Recommender.astro`, `src/lib/recommend.ts`, `src/data/recommender.ts` | Hasta 3 preguntas → misión recomendada, razones literales del plan, alternativa y CTA real. Lógica pura cubierta con Vitest.                                                                                                                                                 |
-| Exploración libre   | `src/components/Cases.astro`, `Tools.astro`                                           | Antes/después por perfil con barrido (botones o gesto) y constelación de las 14 herramientas filtrable por objetivo.                                                                                                                                                         |
+## Stack y decisiones
 
-## Stack
+- **Landing:** Astro 7 + TypeScript (la del Reto 3) con el formulario añadido en la fase **T−0 · Despegue**. Los programas son las cinco misiones reales.
+- **Servidor:** Node 24 con `node:http`, sin frameworks. **Base de datos:** SQLite con `node:sqlite` (incluido en Node; persistente en `data/`). Sin dependencias nuevas que instalar ni servicios de pago.
+- **Seguridad:** contraseñas con `scrypt`; sesión en cookie `HttpOnly` + `SameSite=Strict` (en la base solo se guarda el hash del token); cabecera propia obligatoria en mutaciones (CSRF); límite de peticiones por IP en el registro y el acceso; validación en servidor; trampa anti-bots; consultas parametrizadas; el panel inserta texto con `textContent` (sin HTML del usuario).
+- **Automatización:** n8n 1.123 en Docker. Webhook protegido con secreto compartido; token y chat de Telegram como variables de entorno de n8n (el JSON exportado no contiene secretos).
+- **Fallos:** el aviso se envía **después** de guardar. Si n8n o Telegram fallan, el registro se conserva con aviso «fallido» (visible en el panel y en el historial), se reintenta al arrancar el servidor y con el botón «Reintentar aviso». El servidor solo da por enviado un aviso si n8n confirma `{ "ok": true }`. No se reenvía un aviso ya enviado, y un doble envío del formulario no crea dos registros (clave de idempotencia).
 
-| Capa              | Herramienta                                          | Por qué                                                                      |
-| ----------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Sitio             | [Astro 7](https://astro.build) + TypeScript estricto | HTML estático con todo el contenido; JavaScript solo para las interacciones. |
-| Estilos           | Sass (tokens + mixins)                               | Paleta y escalas del manual en un solo lugar.                                |
-| Movimiento        | GSAP + ScrollTrigger (carga diferida)                | Animaciones ligadas al scroll sin bloquearlo.                                |
-| Hero              | Canvas 2D propio                                     | Más liviano y estable en celulares que WebGL.                                |
-| Tipografía        | Poppins vía Fontsource                               | Autoalojada, sin depender de terceros.                                       |
-| Imágenes          | `astro:assets` + sharp                               | WebP responsivo (logo: 83 kB → 3 kB).                                        |
-| Recursos de marca | Python (PyMuPDF, Pillow)                             | Extrae del manual los archivos originales sin redibujarlos.                  |
-| Pruebas           | Vitest, Playwright + axe-core, Lighthouse CI         | Lógica, navegador real a 375 / 1440 px, accesibilidad y rendimiento.         |
-| Integración       | GitHub Actions                                       | Cada push verifica formato, pruebas, build, navegador y Lighthouse.          |
+## Requisitos previos
 
-## Estabilidad
+- Node ≥ 22.23.4 (probado con Node 24) y npm.
+- Docker (para n8n).
+- Un bot de Telegram propio (creado con @BotFather) y un chat privado con él.
 
-- El HTML trae todo el contenido: sin JavaScript la página se lee completa.
-- Cada módulo del navegador arranca aislado (`src/client/main.ts`): si uno falla, el resto sigue.
-- Los módulos no se importan entre sí: se comunican por un bus de eventos tipado (`src/client/core/events.ts`).
-- Los elementos que un módulo necesita se resuelven al iniciar con `required()`: si falta uno, el error dice cuál.
-- El campo del hero se pausa fuera de pantalla o con la pestaña oculta, limita la densidad de píxeles, reduce partículas si el equipo va lento y se congela si aun así no da abasto.
-- Si GSAP no carga, nada queda oculto: la clase que oculta los elementos a revelar se añade solo cuando la librería está lista, y una red de seguridad muestra cualquier bloque visible que haya quedado oculto.
-- `prefers-reduced-motion`: sin animaciones; el hero muestra una trayectoria fija que igual responde a la elección.
-
-## Cómo correrlo
-
-Requisitos: Node ≥ 22.23.4 y npm.
+## Instalación y ejecución
 
 ```bash
 npm install
-npm run dev        # http://localhost:4321
-npm run build      # verificación de tipos + compilación en dist/
-npm run preview    # sirve dist/
-npm test           # pruebas unitarias (Vitest)
-npm run test:e2e   # pruebas de navegador sobre el build (Playwright + axe-core)
-npm run verify     # todo lo anterior, como en la integración continua
+cp .env.example .env     # completa N8N_WEBHOOK_SECRET con un valor aleatorio (≥ 16 caracteres)
 ```
 
-Las pruebas de navegador usan el Chromium de Playwright (`npx playwright install chromium`). Para usar otro navegador instalado: `PW_CHANNEL=msedge npm run test:e2e`.
+**1 · Telegram.** Crea el bot con @BotFather, escríbele cualquier mensaje desde tu cuenta y guarda el token en `.env.telegram` (no se sube al repositorio):
 
-### Regenerar los recursos de marca (opcional)
-
-Requiere Python 3.12+ y el PDF del manual.
+```
+TELEGRAM_BOT_TOKEN=123456:ABC...
+```
 
 ```bash
-python -m venv .venv && .venv/Scripts/activate      # Windows (en macOS/Linux: source .venv/bin/activate)
-pip install -r scripts/requirements.txt
-python scripts/extract_brand_assets.py "<ruta>/manual-de-marca-ai-academy-v1.pdf" .cache/brand-raw
-python scripts/prepare_brand_assets.py .cache/brand-raw src/assets/brand
-python scripts/make_favicons.py src/assets/brand/casco-blanco.png public
+node scripts/n8n.mjs telegram-chat   # detecta tu chat privado y guarda TELEGRAM_CHAT_ID
+node scripts/n8n.mjs test-telegram   # (opcional) mensaje de prueba directo
 ```
+
+**2 · n8n.**
+
+```bash
+node scripts/n8n.mjs start           # contenedor en http://localhost:5690 con los secretos como variables
+```
+
+Abre http://localhost:5690, crea la cuenta de propietario, **importa** `automation/workflow-n8n.json` (menú ⋯ → _Import from file_), guárdalo y **actívalo**. El webhook de producción queda en `http://localhost:5690/webhook/ai-academy-lead` (el valor de `N8N_WEBHOOK_URL`).
+
+**3 · Administradores** (la contraseña va por variable de entorno, nunca en el código):
+
+```bash
+ADMIN_EMAIL=evaluador@aiacademy.test ADMIN_NAME="Evaluador AI Academy" ADMIN_PASSWORD='una-clave-larga' npm run admin:create
+```
+
+**4 · Servidor.**
+
+```bash
+npm run serve            # compila la landing y arranca en http://localhost:8787
+```
+
+- Landing: http://localhost:8787 (formulario en la sección **T−0 · Despegue**).
+- Panel: http://localhost:8787/admin/
+
+## Verificación (guion de la demo oficial)
+
+1. Abre la landing, llena el formulario con datos ficticios y envía → aparece «¡Gracias…! Guardamos tu solicitud».
+2. En Telegram llega «Nuevo interesado · AI Academy» con nombre, correo, programa y teléfono (si se dio).
+3. Entra al panel, localiza el registro (búsqueda o métrica «Nuevos»), ábrelo, márcalo **Contactado** y añade una nota.
+4. Vuelve a la lista y ábrelo de nuevo (o recarga, o cierra sesión y vuelve a entrar): el estado, la nota y el historial —con autor y hora— siguen ahí.
+5. Caso inválido: correo `nombre@correo` → el formulario muestra el error, el servidor responde 422, **no** aparece en el panel y **no** llega aviso.
+
+Pruebas automáticas:
+
+```bash
+npm run test:server      # servidor: registro, validación, idempotencia, fallo de Telegram, sesión, estados, notas, historial, persistencia, límite por IP
+npm test                 # además, las pruebas unitarias heredadas de la landing
+```
+
+## Problemas frecuentes
+
+| Síntoma                                  | Causa y solución                                                                                                                         |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Aviso «Falló · n8n no confirmó el envío» | Token o chat de Telegram vacíos o incorrectos en n8n. Revisa `.env.telegram`, ejecuta `node scripts/n8n.mjs start` y «Reintentar aviso». |
+| Aviso «Falló · n8n respondió HTTP 404»   | El workflow no está activo en n8n. Actívalo.                                                                                             |
+| Aviso «Falló · HTTP 401»                 | El secreto de `.env` y el del contenedor de n8n no coinciden. Ejecuta de nuevo `node scripts/n8n.mjs start`.                             |
+| Puerto 5690 u 8787 ocupado               | Cambia `PORT` en `.env` o el puerto en `scripts/n8n.mjs` (y `N8N_WEBHOOK_URL`).                                                          |
+
+## Limitaciones conocidas
+
+- La demo corre en un equipo con Node y Docker; el enlace público, si existe, es un túnel temporal (ver «Enlaces y accesos» en la carpeta de entrega).
+- El límite de peticiones vive en la memoria del proceso (suficiente para una instancia).
+- Sin recuperación de contraseña: los administradores se crean con `npm run admin:create`.
 
 ## Estructura
 
 ```
-src/
-  assets/brand/     logos y Max extraídos del manual
-  components/       una fase = un componente Astro (Section.astro las envuelve)
-  data/             ÚNICA fuente del contenido: misiones, perfiles, preguntas, enlaces, fases
-  lib/              lógica pura (recomendador) + pruebas
-  client/
-    core/           utilidades del DOM y bus de eventos tipado
-    features/       un módulo por comportamiento (hero, fases, recomendador, movimiento…)
-    field/          canvas del hero: geometría, simulación, monitor, render y controlador
-  styles/
-    abstracts/      variables y mixins (no emiten CSS)
-    base/ layout/   tokens, reinicio, tipografía, secciones
-    components/     botón, píldora, chip, tarjeta
-tests/e2e/          pruebas de navegador (Playwright + axe-core)
-scripts/            utilidades Python para los recursos de marca
-docs/               auditoría, requisitos, marca, estrategia, decisiones y QA
+server/          servidor, base de datos, autenticación, avisos y panel (server/admin/)
+automation/      workflow de n8n exportado (JSON)
+scripts/         utilidades de n8n/Telegram (y de recursos de marca heredadas del Reto 3)
+src/             landing (Reto 3) + formulario del Reto 4
+docs/            documentación heredada del Reto 3 (diseño de la landing)
 ```
 
-Cualquier dato de una misión (nombre, duración, contenido) se cambia solo en `src/data/missions.ts`: el hero, el recomendador, la trayectoria y los botones se actualizan solos.
-
-## Uso de IA
-
-Este proyecto se hizo con Claude (Anthropic) como asistente de diseño y desarrollo, dirigido y revisado en cada fase. Las decisiones están documentadas en [`docs/DECISIONS.md`](docs/DECISIONS.md).
+Proyecto hecho con Claude (Anthropic) como asistente de desarrollo, dirigido y revisado en cada paso.
