@@ -1,11 +1,12 @@
 /**
  * Enlaces reales de la landing actual (docs/RESEARCH.md §2.2).
- * El reto prohíbe cambiarlos: cualquier ajuste requiere aprobación (R7).
+ * Destinos y número de WhatsApp sin cambios. El mensaje prellenado solo corrige
+ * el nombre de la marca («IA Academy» → «AI Academy»), aprobado en D-18.
  */
 const ORIGIN = 'https://campuslands.aiacademy.com.co';
 
 const WHATSAPP_NUMBER = '573052105674';
-const WHATSAPP_TEXT = 'Hola, quiero información del curso de IA de Campuslands IA Academy';
+const WHATSAPP_TEXT = 'Hola, quiero información del curso de IA de Campuslands AI Academy';
 
 export const LINKS = {
   inscripcion: `${ORIGIN}/inscripcion`,

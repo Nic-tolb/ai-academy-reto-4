@@ -91,6 +91,12 @@ test.describe('marca (manual v1.0)', () => {
     const text = await page.locator('body').innerText();
     expect(text).toContain('Campuslands AI Academy');
     expect(text).not.toMatch(/\bIA Academy\b/);
+    // Tampoco en los enlaces (p. ej. el mensaje prellenado de WhatsApp).
+    const hrefs = await page
+      .locator('a[href]')
+      .evaluateAll((as) => as.map((a) => decodeURIComponent(a.getAttribute('href') ?? '')));
+    expect(hrefs.filter((h) => /\bIA Academy\b/.test(h))).toEqual([]);
+    expect(hrefs.some((h) => h.includes('wa.me/573052105674'))).toBe(true);
   });
 });
 
