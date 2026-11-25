@@ -201,12 +201,14 @@ export function createApp({
       return send(res, 200, { ok: true }, { 'set-cookie': sessionCookie('', { secure: secureCookies, maxAgeMs: 0 }) });
     }
 
+    // «¿Hay sesión?» no es un error: responde admin = null en vez de 401.
+    if (path === '/api/admin/me' && req.method === 'GET') {
+      const admin = currentAdmin(req);
+      return send(res, 200, { admin: admin ? { name: admin.name, email: admin.email } : null });
+    }
+
     if (path.startsWith('/api/admin/')) {
       const admin = requireAdmin(req);
-
-      if (path === '/api/admin/me' && req.method === 'GET') {
-        return send(res, 200, { admin: { name: admin.name, email: admin.email } });
-      }
 
       if (path === '/api/admin/leads' && req.method === 'GET') {
         const status = url.searchParams.get('status');

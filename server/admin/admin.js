@@ -292,5 +292,5 @@ window.addEventListener('hashchange', route);
 
 // ---------- Arranque ----------
 api('/api/admin/me')
-  .then(({ admin }) => showApp(admin))
+  .then(({ admin }) => (admin ? showApp(admin) : showLogin()))
   .catch(() => showLogin());

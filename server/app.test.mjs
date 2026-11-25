@@ -200,5 +200,6 @@ test('límite de registros por IP: el exceso recibe 429 sin crear registros', as
 test('cierre de sesión invalida la sesión en el servidor', async () => {
   const cookie = await login('ana@aiacademy.test', 'clave-de-prueba-123');
   await fetch(`${base}/api/admin/logout`, { method: 'POST', headers: { cookie } });
-  assert.equal((await fetch(`${base}/api/admin/me`, { headers: { cookie } })).status, 401);
+  assert.equal((await (await fetch(`${base}/api/admin/me`, { headers: { cookie } })).json()).admin, null);
+  assert.equal((await fetch(`${base}/api/admin/leads`, { headers: { cookie } })).status, 401);
 });
